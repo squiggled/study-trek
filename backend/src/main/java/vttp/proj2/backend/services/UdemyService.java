@@ -21,7 +21,10 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
+import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.CourseSearch;
+import vttp.proj2.backend.models.Curriculum;
 import vttp.proj2.backend.models.Platform;
 
 @Service
@@ -33,7 +36,7 @@ public class UdemyService {
     @Value("${udemy.client.secret}") 
     String udemySecret;
 
-    private final String UDEMY_SEARCH_URL ="https://www.udemy.com/api-2.0/courses/";
+    private final String UDEMY_COURSE_SEARCH_URL ="https://www.udemy.com/api-2.0/courses/";
     RestTemplate template = new RestTemplate();
     private HttpHeaders headers;
     //https://www.udemy.com/api-2.0/courses/?page=1&search=python&ratings=4
@@ -48,32 +51,30 @@ public class UdemyService {
     public List<CourseSearch> courseSearch(Map<String, String> paramMap){
         String query = paramMap.get("query");
     
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(UDEMY_SEARCH_URL)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(UDEMY_COURSE_SEARCH_URL)
                                     .queryParam("search", query)
                                     .queryParam("page_size", "20");
         
         paramMap.forEach((key, value) -> {
-            if (!key.equals("query")) { // Exclude the mandatory 'query' parameter
+            if (!key.equals("query")) { 
                 builder.queryParam(key, value);
             }
         });
     
         String uri = builder.toUriString();
         HttpEntity<String> request = new HttpEntity<>(headers);
-        
         ResponseEntity<String> response = template.exchange(uri, HttpMethod.GET, request, String.class);
         String searchString = response.getBody();
-        System.out.println("url string " + uri);
+
         Reader reader = new StringReader(searchString);
         JsonReader jsonReader = Json.createReader(reader);
         JsonObject searchObj = jsonReader.readObject();
-
         JsonArray resultArray = searchObj.getJsonArray("results");
         List<CourseSearch> foundCourses = new ArrayList<>();
         for (JsonObject courseObj : resultArray.getValuesAs(JsonObject.class)){
             CourseSearch cs = new CourseSearch();
             cs.setPlatform(Platform.UDEMY);
-            cs.setHeadline(courseObj.getString("headline"));
+            cs.setHeadline(courseObj.getString("headline", ""));
             cs.setTitle(courseObj.getString("title"));
             cs.setId(courseObj.getInt("id"));
             cs.setPrice(courseObj.getString("price"));
@@ -81,11 +82,70 @@ public class UdemyService {
             JsonArray instArray = courseObj.getJsonArray("visible_instructors");
             if (instArray != null && !instArray.isEmpty()) {
                 JsonObject firstInstructor = instArray.getJsonObject(0);
-                String displayName = firstInstructor.getString("display_name");
+                String displayName = firstInstructor.getString("display_name", "");
                 cs.setInstructor(displayName);
             }
             foundCourses.add(cs);
         }
         return foundCourses;
+    }
+
+    public CourseDetails getCourseById(String courseId) {
+        String url = UDEMY_COURSE_SEARCH_URL + courseId;
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        ResponseEntity<String> response = template.exchange(url, HttpMethod.GET, request, String.class);
+        String searchString = response.getBody();
+        Reader reader = new StringReader(searchString);
+        JsonReader jsonReader = Json.createReader(reader);
+        JsonObject searchObj = jsonReader.readObject();
+
+        CourseDetails cd = new CourseDetails();
+        cd.setPlatform(Platform.UDEMY);
+        cd.setHeadline(searchObj.getString("headline", ""));
+        cd.setId(searchObj.getInt("id"));
+        cd.setTitle(searchObj.getString("title"));
+        cd.setImageUrl("image_480x270");
+        cd.setUrlToCourse("https://www.udemy.com"+searchObj.getString("url"));
+        cd.setPaid(searchObj.getBoolean("is_paid"));
+        cd.setPrice(searchObj.getString("price"));
+        JsonArray instArray = searchObj.getJsonArray("visible_instructors");
+            if (instArray != null && !instArray.isEmpty()) {
+                JsonObject firstInstructor = instArray.getJsonObject(0);
+                String displayName = firstInstructor.getString("display_name", "");
+                cd.setInstructor(displayName);
+            }
+        System.out.println("is enrolled, "+ cd.isEnrolled());
+        cd.setCurriculum(getCurriculumByCourseId(courseId, cd.isEnrolled()));
+    
+        return cd;
+    }
+    
+    public List<Curriculum> getCurriculumByCourseId(String courseId, boolean isEnrolled){
+        String url = UDEMY_COURSE_SEARCH_URL + courseId + "/public-curriculum-items/?page_size=50";
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        ResponseEntity<String> response = template.exchange(url, HttpMethod.GET, request, String.class);
+        String searchString = response.getBody();
+
+        Reader reader = new StringReader(searchString);
+        JsonReader jsonReader = Json.createReader(reader);
+        JsonObject currObj = jsonReader.readObject();
+
+        List<Curriculum> curriculumList = new ArrayList<>();
+        JsonArray results = currObj.getJsonArray("results");
+        int lectureNum = 1;
+        for (JsonValue value : results) {
+            JsonObject courseObject = value.asJsonObject();
+            Curriculum curriculum = new Curriculum();
+            
+            curriculum.setLectureNumber(lectureNum);
+            lectureNum++;
+            curriculum.setTitle(courseObject.getString("title"));
+            curriculumList.add(curriculum);
+            
+            if (curriculumList.size() == 50) {
+                break;
+            }
+        }
+        return curriculumList;
     }
 }

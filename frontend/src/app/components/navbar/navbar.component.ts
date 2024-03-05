@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,5 +8,13 @@ import { Component } from '@angular/core';
 })
 
 export class NavbarComponent {
+  themeSvc = inject(ThemeService);
 
+  get isDarkMode(): boolean {
+    return document.body.classList.contains('dark');
+  }
+
+  toggleTheme(): void {
+    this.themeSvc.toggleTheme();
+  }
 }

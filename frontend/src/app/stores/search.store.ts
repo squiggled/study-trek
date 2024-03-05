@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CourseSearch, CourseSearchSlice } from "./models";
+import { CourseSearch, CourseSearchSlice } from "../models";
 import { ComponentStore } from "@ngrx/component-store";
 
 const INIT_STATE: CourseSearchSlice = {

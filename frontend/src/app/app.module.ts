@@ -8,15 +8,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchService } from './services/search.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { SearchResultsComponent } from './components/search-results.component';
-import { CourseSearchStore } from './search.store';
+import { SearchResultsComponent } from './components/course-search-and-details/search-results.component';
+import { CourseSearchStore } from './stores/search.store';
+import { CourseDetailsComponent } from './components/course-search-and-details/course-details.component';
+import { CourseDetailsStore } from './stores/course-details.store';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
     NavbarComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    CourseDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,7 @@ import { CourseSearchStore } from './search.store';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [SearchService, CourseSearchStore],
+  providers: [SearchService, CourseSearchStore, CourseDetailsStore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

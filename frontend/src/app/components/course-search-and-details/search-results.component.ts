@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CourseSearchStore } from '../search.store';
+import { CourseSearchStore } from '../../stores/search.store';
 import { Observable } from 'rxjs';
-import { CourseSearch, Platform } from '../models';
-import { ActivatedRoute } from '@angular/router';
-import { SearchService } from '../services/search.service';
+import { CourseSearch, Platform } from '../../models';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-search-results',
@@ -17,6 +17,7 @@ export class SearchResultsComponent implements OnInit {
   private searchStore = inject(CourseSearchStore);
   private activatedRoute = inject(ActivatedRoute);
   private searchSvc =  inject(SearchService);
+  private router =  inject(Router);
 
   private lastQuery: string | null = null;
   private lastPage: number | null = null;
@@ -54,6 +55,10 @@ export class SearchResultsComponent implements OnInit {
       default:
         return ''; 
     }
+  }
+  getCourseDetails(courseId: number, platform:Platform){
+    this.searchSvc.getCourseById(courseId, platform);
+    this.router.navigate(['/course', platform.toString().toLowerCase(), courseId]);
   }
 
 

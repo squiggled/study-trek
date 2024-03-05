@@ -1,14 +1,16 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { firstValueFrom } from "rxjs";
-import { CourseSearchStore } from "../search.store";
-import { CourseSearch, Platform } from "../models";
+import { CourseSearchStore } from "../stores/search.store";
+import { CourseDetails, CourseSearch, Platform } from "../models";
 import { Router } from "@angular/router";
+import { CourseDetailsStore } from "../stores/course-details.store";
 
 @Injectable()
 export class SearchService{
     private httpClient = inject(HttpClient);
     private searchStore = inject(CourseSearchStore);
+    private courseDetailsStore = inject(CourseDetailsStore);
     private router = inject(Router);
 
     currentPage:number = 0;
@@ -32,7 +34,15 @@ export class SearchService{
             });
     }
 
-    getCourseById(courseId: string, platform:Platform){
+    getCourseById(courseId: number, platform:Platform):void{
+        let params = new HttpParams().set("courseId", courseId).append("platform", platform.toString());
+        firstValueFrom(this.httpClient.get<CourseDetails>('/api/course', {params}))
+            .then (response => {
+                this.courseDetailsStore.storeCourseDetails(response);
+            })
+            .catch(error => {
+                console.error('Error fetching course details:', error);
+            });
 
     }
     

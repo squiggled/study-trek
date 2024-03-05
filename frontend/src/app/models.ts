@@ -1,7 +1,8 @@
 export enum Platform {
     UDEMY = 'UDEMY',
     EDX = 'EDX',
-    COURSERA = 'COURSERA'
+    COURSERA = 'COURSERA',
+    OTHER = 'OTHER'
 }
 
 export interface CourseSearch {
@@ -28,14 +29,24 @@ export interface CourseDetails {
 
 }
 
+export const defaultCourseDetails: CourseDetails = {
+    platform: Platform.OTHER,
+    id: -1, 
+    title: 'No Course Selected',
+    headline: 'Please select a course to see details.',
+    urlToCourse: '',
+    imageUrl: '',
+    isPaid: false,
+    price: 0,
+    instructor: '',
+    curriculum:[]
+
+  };
+
 export interface Curriculum {
     lectureNumber: number,
     title: string,
     completed: boolean
-}
-
-export interface CourseSearchSlice{
-	courseListing:CourseSearch[]
 }
 
 export interface AccountDetails {
@@ -55,4 +66,14 @@ export interface AccountDetails {
     friendIds: string[]
     
     roles: string[],
+}
+
+export interface CourseSearchSlice{
+	courseListing:CourseSearch[]
+}
+
+export interface CourseDetailsSlice{
+    courseDetails: CourseDetails;
+    currentCourseId: number,
+    currentPlatform: Platform,
 }
