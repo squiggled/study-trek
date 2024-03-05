@@ -5,6 +5,7 @@ public class CourseSearch {
     private Integer id;
     private String title;
     private String headline;
+    private String imageUrl;
     // private Float price;
     private String price;
     private String instructor;
@@ -46,6 +47,12 @@ public class CourseSearch {
     }
     public void setInstructor(String instructor) {
         this.instructor = instructor;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
     
     

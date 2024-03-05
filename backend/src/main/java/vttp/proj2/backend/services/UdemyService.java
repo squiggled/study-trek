@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.json.Json;
@@ -21,7 +23,6 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import vttp.proj2.backend.models.CourseSearch;
 import vttp.proj2.backend.models.Platform;
-import vttp.proj2.backend.models.SearchResult;
 
 @Service
 public class UdemyService {
@@ -44,19 +45,29 @@ public class UdemyService {
         headers.add(HttpHeaders.AUTHORIZATION, "Basic " + encodedCredentials);
     }
 
-    public SearchResult courseSearch(String query){
+    public List<CourseSearch> courseSearch(Map<String, String> paramMap){
+        String query = paramMap.get("query");
+    
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(UDEMY_SEARCH_URL)
+                                    .queryParam("search", query)
+                                    .queryParam("page_size", "20");
+        
+        paramMap.forEach((key, value) -> {
+            if (!key.equals("query")) { // Exclude the mandatory 'query' parameter
+                builder.queryParam(key, value);
+            }
+        });
+    
+        String uri = builder.toUriString();
         HttpEntity<String> request = new HttpEntity<>(headers);
-        ResponseEntity<String> response = template.exchange(UDEMY_SEARCH_URL + "?search=" + query, HttpMethod.GET, request, String.class);
+        
+        ResponseEntity<String> response = template.exchange(uri, HttpMethod.GET, request, String.class);
         String searchString = response.getBody();
-        System.out.println("search string " + searchString);
+        System.out.println("url string " + uri);
         Reader reader = new StringReader(searchString);
         JsonReader jsonReader = Json.createReader(reader);
         JsonObject searchObj = jsonReader.readObject();
 
-        SearchResult searchResult = new SearchResult();
-        searchResult.setPrevPageUrl(searchObj.getString("previous", ""));
-        searchResult.setNextPageUrl(searchObj.getString("next", ""));
-        
         JsonArray resultArray = searchObj.getJsonArray("results");
         List<CourseSearch> foundCourses = new ArrayList<>();
         for (JsonObject courseObj : resultArray.getValuesAs(JsonObject.class)){
@@ -66,6 +77,7 @@ public class UdemyService {
             cs.setTitle(courseObj.getString("title"));
             cs.setId(courseObj.getInt("id"));
             cs.setPrice(courseObj.getString("price"));
+            cs.setImageUrl(courseObj.getString("image_480x270"));
             JsonArray instArray = courseObj.getJsonArray("visible_instructors");
             if (instArray != null && !instArray.isEmpty()) {
                 JsonObject firstInstructor = instArray.getJsonObject(0);
@@ -74,7 +86,6 @@ public class UdemyService {
             }
             foundCourses.add(cs);
         }
-        searchResult.setFoundCourses(foundCourses);
-        return searchResult;
+        return foundCourses;
     }
 }

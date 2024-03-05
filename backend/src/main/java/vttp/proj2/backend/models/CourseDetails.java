@@ -7,7 +7,8 @@ public class CourseDetails {
     private Integer id;
     private String title;
     private String headline;
-    private String url;
+    private String imageUrl;
+    private String urlToCourse;
     private boolean isPaid; 
     private Float price;
     private String instructor;

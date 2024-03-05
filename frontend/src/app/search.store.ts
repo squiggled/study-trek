@@ -1,19 +1,29 @@
 import { Injectable } from "@angular/core";
-import { CourseSearchSlice } from "./models";
+import { CourseSearch, CourseSearchSlice } from "./models";
+import { ComponentStore } from "@ngrx/component-store";
+
+const INIT_STATE: CourseSearchSlice = {
+    courseListing: []
+}
 
 @Injectable()
-export class CourseSearchStore {
+export class CourseSearchStore extends ComponentStore<CourseSearchSlice>{
+    constructor(){super(INIT_STATE)}
 
-
-    const INIT_STATE: CourseSearchSlice = {
-        courseListing: []
+    storeCourses(foundCourses: CourseSearch[]) {
+        this.storeCourseSearchResults(foundCourses); 
     }
-constructor(){super(INIT_STATE)}
 
+    readonly storeCourseSearchResults = this.updater<CourseSearch[]>( 
+        (state: CourseSearchSlice, searchResults: CourseSearch[]) => {
+            const newSlice: CourseSearchSlice = {
+                courseListing: [...searchResults]
+            };
+        return newSlice;
+    }) 
 
-
-    storeCourses(foundCourses: import("./models").CourseSearch[]) {
-        throw new Error("Method not implemented.");
-    }
+    readonly getCourseSearchResults = this.select<CourseSearch[]>( 
+        (slice: CourseSearchSlice) => slice.courseListing
+    )
     
 }

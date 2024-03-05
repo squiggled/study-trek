@@ -1,5 +1,9 @@
 package vttp.proj2.backend.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vttp.proj2.backend.models.CourseSearch;
-import vttp.proj2.backend.models.SearchResult;
 import vttp.proj2.backend.services.UdemyService;
 import vttp.proj2.backend.services.edXService;
 
@@ -25,11 +28,16 @@ public class CourseSearchController {
     private UdemyService udemyService;
 
     @GetMapping(path="search")
-    public ResponseEntity<?> search(@RequestParam String query){
-        SearchResult result = udemyService.courseSearch(query);
-        if (null==result){
+    public ResponseEntity<?> search(@RequestParam String query, @RequestParam(required=false) String page){
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("query", query);
+        if (page != null) {
+            paramMap.put("page", page);
+        }
+        List<CourseSearch> foundCourses = udemyService.courseSearch(paramMap);
+        if (null==foundCourses){
             return ResponseEntity.badRequest().body("Error - Bad Request");
         }
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(foundCourses);
     }
 }

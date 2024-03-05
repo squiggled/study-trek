@@ -1,30 +1,40 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { firstValueFrom } from "rxjs";
-import { SearchStore } from "../search.store";
-import { SearchResult } from "../models";
+import { CourseSearchStore } from "../search.store";
+import { CourseSearch, Platform } from "../models";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class SearchService{
     private httpClient = inject(HttpClient);
-    private searchStore = inject(SearchStore);
+    private searchStore = inject(CourseSearchStore);
+    private router = inject(Router);
 
-    nextPageUrl!: string;
-    prevPageUrl!: string;
+    currentPage:number = 0;
+    query!:string;
 
-    querySearch(query: string){
-        const params = new HttpParams().set('query', query);
-        firstValueFrom(this.httpClient.get<SearchResult>('/api/courses/search', {params}))
+
+    querySearch(query: string, page?: number){
+        this.query=query;
+        let params = new HttpParams().set('query', query);
+        if (page !== undefined) {
+            this.currentPage = page;
+            params = params.append('page', this.currentPage.toString());
+          }
+        firstValueFrom(this.httpClient.get<CourseSearch[]>('/api/courses/search', {params}))
             .then(response => {
-                // Process the response here
-                this.prevPageUrl = response.prevPageUrl;
-                this.nextPageUrl = response.nextPageUrl;
-                console.log('Next Page URL:', this.nextPageUrl);
-                this.searchStore.storeCourses(response.foundCourses);
+                this.searchStore.storeCourses(response);
+                this.router.navigate(['/courses/search'], { queryParams: { query: query, page: this.currentPage } })
             })
             .catch(error => {
                 console.error('Error fetching courses:', error);
             });
     }
+
+    getCourseById(courseId: string, platform:Platform){
+
+    }
+    
 
 }

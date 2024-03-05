@@ -1,19 +1,15 @@
-enum Platform {
-    edX,
-    Udemy,
-    Coursera
-  }
-
-export interface SearchResult {
-    foundCourses: CourseSearch[];
-    prevPageUrl: string,
-    nextPageUrl: string
+export enum Platform {
+    UDEMY = 'UDEMY',
+    EDX = 'EDX',
+    COURSERA = 'COURSERA'
 }
+
 export interface CourseSearch {
     platform: Platform,
     id: number,
     title: string,
     headline: string,
+    imageUrl: string,
     price: number,
     instructor: string
 }
@@ -23,7 +19,8 @@ export interface CourseDetails {
     id: number,
     title: string,
     headline: string,
-    url: string, 
+    urlToCourse: string, 
+    imageUrl: string,
     isPaid: boolean,
     price: number,
     instructor: string,
@@ -38,6 +35,24 @@ export interface Curriculum {
 }
 
 export interface CourseSearchSlice{
-	courseListing:CourseSearchSlice[]
+	courseListing:CourseSearch[]
 }
 
+export interface AccountDetails {
+    userId: string,
+    username: string,
+    passwordHash: string,
+    lastPasswordResetDate: Date,
+   
+    firstName: string,
+    lastName: string, 
+    email: string, 
+    profilePicUrl: string,
+
+    interests: string[],
+    courseNotes: string[],
+    registeredCourses: CourseDetails[],
+    friendIds: string[]
+    
+    roles: string[],
+}
