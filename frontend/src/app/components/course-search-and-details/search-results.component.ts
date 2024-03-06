@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CourseSearch, Platform } from '../../models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../../services/search.service';
+import { CommonUtilsService } from '../../services/common.utils.service';
 
 @Component({
   selector: 'app-search-results',
@@ -17,6 +18,7 @@ export class SearchResultsComponent implements OnInit {
   private searchStore = inject(CourseSearchStore);
   private activatedRoute = inject(ActivatedRoute);
   private searchSvc =  inject(SearchService);
+  private utilsSvc = inject(CommonUtilsService)
   private router =  inject(Router);
 
   private lastQuery: string | null = null;
@@ -43,19 +45,9 @@ export class SearchResultsComponent implements OnInit {
   }
 
   getPlatformLogo(platform: Platform): string {
-    console.log("platform ", platform);
-    
-    switch(platform) {
-      case Platform.UDEMY:
-        return 'logo-udemy.png'; 
-      case Platform.EDX:
-        return 'logo-edX.png'; 
-        case Platform.COURSERA:
-        return 'logo-coursera.png';
-      default:
-        return ''; 
-    }
+    return this.utilsSvc.displayPlatformLogo(platform);
   }
+  
   getCourseDetails(courseId: number, platform:Platform){
     this.searchSvc.getCourseById(courseId, platform);
     this.router.navigate(['/course', platform.toString().toLowerCase(), courseId]);

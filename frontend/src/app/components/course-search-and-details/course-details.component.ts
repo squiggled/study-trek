@@ -4,6 +4,8 @@ import { CourseDetails, Platform } from '../../models';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { CourseDetailsStore } from '../../stores/course-details.store';
+import { CommonUtilsService } from '../../services/common.utils.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-course-details',
@@ -16,6 +18,7 @@ export class CourseDetailsComponent implements OnInit{
   private activatedRoute = inject(ActivatedRoute);
   private searchSvc =  inject(SearchService);
   private courseDetailsStore =  inject(CourseDetailsStore);
+  private utilsSvc = inject(CommonUtilsService)
   
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -40,17 +43,16 @@ export class CourseDetailsComponent implements OnInit{
   }
 
   getPlatformLogo(platform: Platform): string {
-    console.log("platform ", platform);
-    
-    switch(platform) {
-      case Platform.UDEMY:
-        return 'logo-udemy.png'; 
-      case Platform.EDX:
-        return 'logo-edX.png'; 
-        case Platform.COURSERA:
-        return 'logo-coursera.png';
-      default:
-        return ''; 
+    return this.utilsSvc.displayPlatformLogo(platform);
+  }
+
+  displayPlatformName(platform: Platform){
+    return this.utilsSvc.convertPlatformToStringFormatter(platform);
+  }
+
+  visitExternalUrl(url: string): void {
+    if(url) {
+      window.location.href = url;
     }
   }
 }

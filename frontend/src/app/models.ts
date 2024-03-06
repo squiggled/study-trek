@@ -32,8 +32,8 @@ export interface CourseDetails {
 export const defaultCourseDetails: CourseDetails = {
     platform: Platform.OTHER,
     id: -1, 
-    title: 'No Course Selected',
-    headline: 'Please select a course to see details.',
+    title: 'Loading course details',
+    headline: '',
     urlToCourse: '',
     imageUrl: '',
     isPaid: false,
@@ -51,13 +51,12 @@ export interface Curriculum {
 
 export interface AccountDetails {
     userId: string,
-    username: string,
+    email: string, 
     passwordHash: string,
     lastPasswordResetDate: Date,
    
     firstName: string,
     lastName: string, 
-    email: string, 
     profilePicUrl: string,
 
     interests: string[],

@@ -12,6 +12,11 @@ import { SearchResultsComponent } from './components/course-search-and-details/s
 import { CourseSearchStore } from './stores/search.store';
 import { CourseDetailsComponent } from './components/course-search-and-details/course-details.component';
 import { CourseDetailsStore } from './stores/course-details.store';
+import { CommonUtilsService } from './services/common.utils.service';
+import { LoginComponent } from './components/login/login.component';
+import { AuthService } from './services/auth.service';
+import { HomeComponent } from './components/home/home.component';
+import { RegisterComponent } from './components/register/register/register.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +24,10 @@ import { CourseDetailsStore } from './stores/course-details.store';
     SearchComponent,
     NavbarComponent,
     SearchResultsComponent,
-    CourseDetailsComponent
+    CourseDetailsComponent,
+    LoginComponent,
+    HomeComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +35,13 @@ import { CourseDetailsStore } from './stores/course-details.store';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [SearchService, CourseSearchStore, CourseDetailsStore],
+  providers: [
+    SearchService, 
+    CourseSearchStore, 
+    CourseDetailsStore, 
+    CommonUtilsService,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

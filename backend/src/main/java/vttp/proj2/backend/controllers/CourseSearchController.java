@@ -20,7 +20,7 @@ import vttp.proj2.backend.services.edXService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class CourseSearchController {
     
     @Autowired

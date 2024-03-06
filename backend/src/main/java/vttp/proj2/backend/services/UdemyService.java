@@ -104,7 +104,7 @@ public class UdemyService {
         cd.setHeadline(searchObj.getString("headline", ""));
         cd.setId(searchObj.getInt("id"));
         cd.setTitle(searchObj.getString("title"));
-        cd.setImageUrl("image_480x270");
+        cd.setImageUrl(searchObj.getString("image_480x270"));
         cd.setUrlToCourse("https://www.udemy.com"+searchObj.getString("url"));
         cd.setPaid(searchObj.getBoolean("is_paid"));
         cd.setPrice(searchObj.getString("price"));
@@ -114,7 +114,6 @@ public class UdemyService {
                 String displayName = firstInstructor.getString("display_name", "");
                 cd.setInstructor(displayName);
             }
-        System.out.println("is enrolled, "+ cd.isEnrolled());
         cd.setCurriculum(getCurriculumByCourseId(courseId, cd.isEnrolled()));
     
         return cd;

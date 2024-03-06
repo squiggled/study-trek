@@ -7,13 +7,13 @@ import java.util.UUID;
 
 public class AccountInfo {
     private String userId;
-    private String username;
+
+    private String email;
     private String passwordHash;
     private Date lastPasswordResetDate;
 
     private String firstName;
     private String lastName;
-    private String email;
     private String profilePicUrl;
     
     private List<String> interests;
@@ -30,14 +30,6 @@ public class AccountInfo {
 
     public String getUserId() {
         return userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPasswordHash() {

@@ -21,7 +21,8 @@ export class SearchComponent implements OnInit{
     })
   }
 
-  search(){
+  search(event: Event){
+    event.preventDefault(); 
     console.log("search query: ", this.searchForm.value.query);
     if (this.searchForm.valid){
       this.searchSvc.querySearch(this.searchForm.value.query);
