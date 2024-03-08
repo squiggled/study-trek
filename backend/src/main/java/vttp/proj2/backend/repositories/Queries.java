@@ -10,7 +10,12 @@ public class Queries {
 
     public static final String SQL_GET_HASHED_PASSWORD_BY_EMAIL = """
                 SELECT passwordHash
-                FROM accountInfo
+                FROM user_info
                 WHERE email = ?
+            """;
+
+    public static final String SQL_CREATE_NEW_USER = """
+                INSERT into user_info(userId, email, passwordHash, lastPasswordResetDate, firstName, lastName, profilePicUrl)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
 }

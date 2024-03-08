@@ -9,10 +9,11 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent implements OnInit{
 
-  constructor (private fb:FormBuilder){}
-  private authSvc = inject(AuthService);
   loginForm!:FormGroup;
+  constructor (private fb:FormBuilder){}
 
+  private authSvc = inject(AuthService);
+ 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: this.fb.control<string>('', [Validators.required, Validators.email]),
@@ -26,6 +27,14 @@ export class LoginComponent implements OnInit{
       this.authSvc.processLogin(this.loginForm.value.email, this.loginForm.value.password)
     }
     
+  }
+
+  getLoginFailed(): boolean {
+    return this.authSvc.loginFailed;
+  }
+
+  getLoginAttempted(): boolean {
+    return this.authSvc.loginAttempted;
   }
 
 

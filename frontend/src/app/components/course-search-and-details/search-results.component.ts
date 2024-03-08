@@ -23,6 +23,8 @@ export class SearchResultsComponent implements OnInit {
 
   private lastQuery: string | null = null;
   private lastPage: number | null = null;
+  currentPage: number = 1;
+  totalPages:number = 100;
 
   ngOnInit(): void {
     this.courseSearchResults$ = this.searchStore.getCourseSearchResults;
@@ -41,17 +43,37 @@ export class SearchResultsComponent implements OnInit {
 
   }
   performSearch(query: string, page: number): void {
+    this.currentPage=page;
     this.searchSvc.querySearch(query, page);
   }
 
   getPlatformLogo(platform: Platform): string {
     return this.utilsSvc.displayPlatformLogo(platform);
   }
-  
+
   getCourseDetails(courseId: number, platform:Platform){
     this.searchSvc.getCourseById(courseId, platform);
     this.router.navigate(['/course', platform.toString().toLowerCase(), courseId]);
   }
 
+  navigateToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return; //make sure no invalid page number
+    this.performSearch(this.lastQuery || '', page);
+    this.currentPage=page;
+    //update URL without navigating
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { query: this.lastQuery, page: page },
+      queryParamsHandling: 'merge',
+    });
+  }
+  
+  nextPage(): void {
+    this.navigateToPage(this.currentPage + 1);
+  }
+  
+  previousPage(): void {
+    this.navigateToPage(this.currentPage - 1);
+  }
 
 }

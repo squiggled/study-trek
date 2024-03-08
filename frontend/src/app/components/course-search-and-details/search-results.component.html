@@ -19,6 +19,36 @@
             <img [src]="'assets/' + getPlatformLogo(course.platform)" alt="{{ course.platform }}" class="mt-2 max-h-8 ">
           </div>
         </div>
+        <div class="container mx-auto px-4 py-8">
+          <!-- Existing content -->
+        
+          <!-- Pagination Controls -->
+          <div class="flex justify-center items-center space-x-4 mt-4">
+            <button (click)="previousPage()" class="rounded-full w-10 h-10 flex justify-center items-center border border-black bg-transparent"> &lt; </button>
+            <div class="flex space-x-2">
+            <div>
+              <span *ngIf="currentPage > 3" (click)="navigateToPage(1)" class="cursor-pointer">1 ... </span>
+              
+              <span *ngIf="currentPage - 1 > 0" (click)="navigateToPage(currentPage - 1)" class="cursor-pointer text-purple-600 hover:text-purple-800">
+                {{ currentPage - 1 }}
+              </span>
+              <div *ngIf="currentPage" class="text-purple-600 relative inline-block">
+                {{ currentPage }}
+                <span class="underline-custom"></span>
+              </div>
+              <span *ngIf="currentPage + 1 <= totalPages" (click)="navigateToPage(currentPage + 1)" class="cursor-pointer text-purple-600 hover:text-purple-800">
+                {{currentPage + 1}}
+              </span>
+              
+              <span *ngIf="totalPages > currentPage + 1" class="cursor-pointer text-purple-600 hover:text-purple-800">
+                 ... {{totalPages}}
+              </span>
+            </div>
+            </div>
+            <button (click)="nextPage()" class="rounded-full w-10 h-10 flex justify-center items-center border border-black bg-transparent"> &gt; </button>
+          </div>
+          
+        </div>
     </div>
   </div>
   

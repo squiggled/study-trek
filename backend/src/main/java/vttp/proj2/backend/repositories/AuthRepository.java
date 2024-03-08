@@ -14,7 +14,7 @@ public class AuthRepository {
 	private JdbcTemplate template;
 
     public boolean createNewUser(AccountInfo userInfo){
-        return false;
+        return template.update(Queries.SQL_CREATE_NEW_USER, userInfo.getUserId(), userInfo.getEmail(), userInfo.getPasswordHash(), userInfo.getLastPasswordResetDate(), userInfo.getFirstName(), userInfo.getLastName(), userInfo.getProfilePicUrl()) > 0;
     }
 
     public boolean checkEmailExists(String email){

@@ -16,7 +16,7 @@ import { CommonUtilsService } from './services/common.utils.service';
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
 import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register/register.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
