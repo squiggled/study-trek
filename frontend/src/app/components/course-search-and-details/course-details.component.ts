@@ -23,7 +23,7 @@ export class CourseDetailsComponent implements OnInit{
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       const platform = params['platform'];
-      const courseId = +params['courseId']; // Ensure courseId is a number
+      const courseId = params['courseId'];
   
       //check if the requested course is already being viewed
       this.courseDetailsStore.getCurrentCourseId.pipe(
@@ -31,12 +31,12 @@ export class CourseDetailsComponent implements OnInit{
         withLatestFrom(this.courseDetailsStore.getCurrentPlatform.pipe(take(1)))
       ).subscribe(([currentCourseId, currentPlatform]) => {
         if (currentCourseId !== courseId || currentPlatform !== platform) {
-          //if requested course differs from the current one fetch new details
+          //if requested course differs from the current one, fetch new details
           this.searchSvc.getCourseById(courseId, platform);
-          //update the store with the new current course ID and platform
+          //update store with the new current course id and platform
           this.courseDetailsStore.updateCurrentCourse({ courseId, platform });
         }
-        //Subscribe to the course details observable
+        //sub to the course details obs
         this.courseDetails$ = this.courseDetailsStore.getCourseDetails;
       });
     });

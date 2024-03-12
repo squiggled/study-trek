@@ -7,7 +7,7 @@
             <h1 class="text-4xl font-bold">{{ courseDetails.title }}</h1>
             <h2 class="text-2xl">{{ courseDetails.headline }}</h2>
             <div class="flex justify-between items-center mt-4">
-              <p class="text-lg">Taught by: {{ courseDetails.instructor }}</p>
+              <p class="text-lg">Instructor: {{ courseDetails.instructor }}</p>
               <img [src]="'assets/' + getPlatformLogo(courseDetails.platform)" alt="{{ courseDetails.platform }}" class="max-h-8">
             </div>
             
@@ -23,8 +23,8 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of courseDetails.curriculum">
-                    <td>{{ item.lectureNumber }} {{ item.title }}</td>
-                    <td></td>
+                    <td>{{ item.lectureNumber }} </td>
+                    <td>{{ item.title }}</td>
                   </tr>
                 </tbody>
               </table>

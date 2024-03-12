@@ -7,17 +7,18 @@ export enum Platform {
 
 export interface CourseSearch {
     platform: Platform,
-    id: number,
+    platformId: string,
     title: string,
     headline: string,
     imageUrl: string,
     price: number,
-    instructor: string
+    instructor: string,
+    rating?: number
 }
 
 export interface CourseDetails {
     platform: Platform,
-    id: number,
+    platformId: string,
     title: string,
     headline: string,
     urlToCourse: string, 
@@ -31,7 +32,7 @@ export interface CourseDetails {
 
 export const defaultCourseDetails: CourseDetails = {
     platform: Platform.OTHER,
-    id: -1, 
+    platformId: "-1", 
     title: 'Loading course details',
     headline: '',
     urlToCourse: '',
@@ -73,6 +74,6 @@ export interface CourseSearchSlice{
 
 export interface CourseDetailsSlice{
     courseDetails: CourseDetails;
-    currentCourseId: number,
+    currentCourseId: string,
     currentPlatform: Platform,
 }

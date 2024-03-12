@@ -21,10 +21,11 @@ export class SearchResultsComponent implements OnInit {
   private utilsSvc = inject(CommonUtilsService)
   private router =  inject(Router);
 
-  private lastQuery: string | null = null;
+  lastQuery: string | null = null;
   private lastPage: number | null = null;
   currentPage: number = 1;
   totalPages:number = 100;
+  currentSort: string = 'Most relevant';
 
   ngOnInit(): void {
     this.courseSearchResults$ = this.searchStore.getCourseSearchResults;
@@ -42,16 +43,34 @@ export class SearchResultsComponent implements OnInit {
     });
 
   }
-  performSearch(query: string, page: number): void {
+  performSearch(query: string, page: number, platform?: Platform, byRating?:string): void {
     this.currentPage=page;
-    this.searchSvc.querySearch(query, page);
+    this.searchSvc.querySearch(query, this.currentPage, platform, byRating);
   }
 
+  filterBy(sortCriteria?: string) {
+    
+    
+    if (this.lastQuery) {
+      let platform: Platform | undefined;
+      let byRating: string | undefined;
+
+      if (sortCriteria === 'UDEMY' || sortCriteria === 'COURSERA') {
+          platform = sortCriteria as Platform;
+      } else if (sortCriteria === 'rating') {
+          byRating = 'byRating';
+      }
+      this.lastPage=1;
+      this.performSearch(this.lastQuery, 1, platform as Platform, byRating);
+    }
+  }
   getPlatformLogo(platform: Platform): string {
     return this.utilsSvc.displayPlatformLogo(platform);
   }
 
-  getCourseDetails(courseId: number, platform:Platform){
+  getCourseDetails(courseId: string, platform:Platform){
+    console.log("course id in result comp ", courseId);
+    
     this.searchSvc.getCourseById(courseId, platform);
     this.router.navigate(['/course', platform.toString().toLowerCase(), courseId]);
   }
@@ -75,5 +94,6 @@ export class SearchResultsComponent implements OnInit {
   previousPage(): void {
     this.navigateToPage(this.currentPage - 1);
   }
+
 
 }

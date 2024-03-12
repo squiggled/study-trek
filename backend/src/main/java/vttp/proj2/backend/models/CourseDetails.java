@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CourseDetails {
     private Platform platform;
-    private Integer id;
+    private String platformId;
     private String title;
     private String headline;
     private String imageUrl;
@@ -23,11 +23,11 @@ public class CourseDetails {
     public void setPlatform(Platform platform) {
         this.platform = platform;
     }
-    public Integer getId() {
-        return id;
+    public String getPlatformId() {
+        return platformId;
     }
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPlatformId(String platformId) {
+        this.platformId = platformId;
     }
     public String getTitle() {
         return title;

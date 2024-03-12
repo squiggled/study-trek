@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.CourseSearch;
-import vttp.proj2.backend.services.CourseraService;
-import vttp.proj2.backend.services.UdemyService;
+import vttp.proj2.backend.services.CourseSearchService;
 import vttp.proj2.backend.services.edXService;
 
 @RestController
@@ -24,22 +23,23 @@ import vttp.proj2.backend.services.edXService;
 public class CourseSearchController {
     
     @Autowired
-    private edXService edXSvc;
-
-    @Autowired
-    private CourseraService courseraSvc;
-
-    @Autowired
-    private UdemyService udemySvc;
+    private CourseSearchService searchSvc;
 
     @GetMapping(path="/courses/search")
-    public ResponseEntity<?> search(@RequestParam String query, @RequestParam(required=false) String page){
+    public ResponseEntity<?> search(@RequestParam String query, @RequestParam(required=false) String page, @RequestParam(required=false) String platform, 
+                    @RequestParam(required=false) boolean byRating){
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("query", query);
         if (page != null) {
             paramMap.put("page", page);
         }
-        List<CourseSearch> foundCourses = udemySvc.courseSearch(paramMap);
+        if (platform!=null){
+            paramMap.put("platform", platform);
+        }
+        if (byRating){
+            paramMap.put("byRating", "byRating");
+        }
+        List<CourseSearch> foundCourses = searchSvc.courseSearch(paramMap);
         if (null==foundCourses){
             return ResponseEntity.badRequest().body("Error - Bad Request");
         }
@@ -48,14 +48,16 @@ public class CourseSearchController {
 
     @GetMapping(path="/course")
     public ResponseEntity<?> getCourseById(@RequestParam String courseId, @RequestParam String platform){
+        System.out.println("course id" + courseId);
         Object courseFound = null;
         switch (platform.toUpperCase()) {
             case "UDEMY":
-                courseFound = udemySvc.getCourseById(courseId);
+                courseFound = searchSvc.getUdemyCourseById(courseId);
                 break;
             case "EDX":
                 break;
             case "COURSERA":
+                courseFound = searchSvc.getCourseraCourseById(courseId);
                 break;
         }
         if (courseFound != null) {

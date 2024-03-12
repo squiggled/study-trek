@@ -4,7 +4,7 @@ import { ComponentStore } from "@ngrx/component-store";
 
 const INIT_STATE: CourseDetailsSlice = {
     courseDetails: defaultCourseDetails,
-    currentCourseId: -1,
+    currentCourseId: "-1",
     currentPlatform: Platform.OTHER,
 }
 
@@ -20,7 +20,7 @@ export class CourseDetailsStore extends ComponentStore<CourseDetailsSlice>{
     readonly storeCourseDetailsResult = this.updater<CourseDetails>(
         (_state: CourseDetailsSlice, newCourse: CourseDetails): CourseDetailsSlice => ({
           courseDetails: newCourse,
-          currentCourseId: newCourse.id,
+          currentCourseId: newCourse.platformId,
           currentPlatform: newCourse.platform
         })
       );
@@ -29,7 +29,7 @@ export class CourseDetailsStore extends ComponentStore<CourseDetailsSlice>{
       (slice: CourseDetailsSlice) => slice.courseDetails
     );
 
-    readonly updateCurrentCourse = this.updater((state, { courseId, platform }: { courseId: number; platform: Platform }) => ({
+    readonly updateCurrentCourse = this.updater((state, { courseId, platform }: { courseId: string; platform: Platform }) => ({
       ...state,
       currentCourseId: courseId,
       currentPlatform: platform,

@@ -1,6 +1,24 @@
 <div class="container mx-auto px-4 py-8">
+  <div class="mb-4">
+    <h2 class="text-3xl mb-2">Search results for "{{lastQuery}}"</h2>
+    <div class="group inline-block relative w-full lg:w-1/5">
+        <button class="inline-flex w-full px-4 py-2 bg-white border border-black text-sm font-medium text-gray-700">
+          Sort by: {{ currentSort }}
+          <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+        <ul class="dropdown-menu absolute hidden text-gray-700 pt-1 group-hover:block">
+            <li><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" >Most relevant</a></li>
+            <li (click)="filterBy('UDEMY')"><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Udemy</a></li>
+            <li (click)="filterBy('COURSERA')"><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Coursera</a></li>
+            <li (click)="filterBy('rating')"><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" >Rating</a></li>
+        </ul>
+    </div>
+  </div>
+    <!-- Main column: search results -->
     <div class="grid gap-4">
-      <div *ngFor="let course of courseSearchResults$ | async" class="flex border-b border-gray-200 py-4" (click)="getCourseDetails(course.id, course.platform)">
+      <div *ngFor="let course of courseSearchResults$ | async" class="flex border-b border-gray-200 py-4" (click)="getCourseDetails(course.platformId, course.platform)">
            <!-- Left Column: Course Image -->
           <div class="flex-none w-1/5">
             <img src="{{ course.imageUrl }}" alt="Course Image" class="w-full h-auto max-h-32">

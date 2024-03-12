@@ -17,13 +17,19 @@ export class SearchService{
     query!:string;
 
 
-    querySearch(query: string, page?: number){
+    querySearch(query: string, page?: number, platform?: Platform, byRating?:string){
         this.query=query;
         let params = new HttpParams().set('query', query);
         if (page !== undefined) {
             this.currentPage = page;
             params = params.append('page', this.currentPage.toString());
-          }
+        }
+        if (platform) {
+            params = params.append('platform', platform.toString());
+        }
+        if (byRating){
+            params = params.append('byRating', true);
+        }
         firstValueFrom(this.httpClient.get<CourseSearch[]>('/api/courses/search', {params}))
             .then(response => {
                 this.searchStore.storeCourses(response);
@@ -34,7 +40,9 @@ export class SearchService{
             });
     }
 
-    getCourseById(courseId: number, platform:Platform):void{
+    getCourseById(courseId: string, platform:Platform):void{
+        console.log("courseid ", courseId);
+        
         let params = new HttpParams().set("courseId", courseId).append("platform", platform.toString());
         firstValueFrom(this.httpClient.get<CourseDetails>('/api/course', {params}))
             .then (response => {
