@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.CourseSearch;
 import vttp.proj2.backend.services.CourseSearchService;
-import vttp.proj2.backend.services.edXService;
 
 @RestController
 @CrossOrigin

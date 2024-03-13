@@ -21,7 +21,7 @@ public class AccountInfo {
     private List<CourseDetails> registeredCourses;
     private List<String> friendIds = new ArrayList<>();
     
-    private List<String> roles;
+    private String role;
 
     public AccountInfo() {
         UUID uuid = UUID.randomUUID();
@@ -48,12 +48,12 @@ public class AccountInfo {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
-    public List<String> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getFirstName() {

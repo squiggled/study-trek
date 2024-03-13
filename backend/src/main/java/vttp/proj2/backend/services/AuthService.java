@@ -5,7 +5,9 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import vttp.proj2.backend.exceptions.UserRegistrationException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.repositories.AuthRepository;
 
@@ -39,7 +41,8 @@ public class AuthService {
         return isAuthenticated;
     }
 
-    public boolean registerNewUser(String firstName, String lastName, String email, String rawPassword) {
+    @Transactional(rollbackFor = UserRegistrationException.class)
+    public boolean registerNewUser(String firstName, String lastName, String email, String rawPassword) throws UserRegistrationException {
         AccountInfo newAcc = new AccountInfo();
         newAcc.setFirstName(firstName);
         newAcc.setLastName(lastName);
@@ -51,7 +54,18 @@ public class AuthService {
         newAcc.setProfilePicUrl("/assets/logo-defaultuser.png");
 
         boolean isRegistered = authRepo.createNewUser(newAcc);
-        return isRegistered;
+        if (!isRegistered) {
+            throw new UserRegistrationException("Cannot create new user: " + email);
+        }
+        boolean roleAssigned = authRepo.assignUserRole(newAcc.getUserId(), "ROLE_USER");
+        if (!roleAssigned){
+            throw new UserRegistrationException("Cannot assign role to new user: "+ email);
+        }
+        return roleAssigned;
+    }
+
+    public AccountInfo getUserByEmail(String email){
+        return authRepo.findUserByEmail(email);
     }
 
 

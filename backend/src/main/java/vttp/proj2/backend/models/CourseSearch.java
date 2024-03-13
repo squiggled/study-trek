@@ -9,6 +9,7 @@ public class CourseSearch {
     // private Float price;
     private String price;
     private String instructor;
+    private Double rating;
     
     public CourseSearch() {
     }
@@ -53,6 +54,12 @@ public class CourseSearch {
     }
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    public Double getRating() {
+        return rating;
+    }
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
     
     

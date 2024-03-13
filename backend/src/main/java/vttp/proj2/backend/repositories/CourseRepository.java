@@ -100,6 +100,8 @@ public class CourseRepository {
             courseSearch.setImageUrl(document.getString("imageUrl"));
             String price = document.containsKey("price") ? document.getString("price") : "Free trial";
             courseSearch.setPrice(price);
+            Double rating = document.containsKey("course_rating") ? document.getDouble("course_rating"): null;
+            courseSearch.setRating(rating);
             courseSearch.setInstructor(document.getString("instructor"));
             courseSearches.add(courseSearch);
             }
