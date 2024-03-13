@@ -9,29 +9,27 @@ import { CommonUtilsService } from '../../services/common.utils.service';
 @Component({
   selector: 'app-search-results',
   templateUrl: './search-results.component.html',
-  styleUrl: './search-results.component.css'
+  styleUrl: './search-results.component.css',
 })
-
 export class SearchResultsComponent implements OnInit {
-  
   courseSearchResults$!: Observable<CourseSearch[]>;
   private searchStore = inject(CourseSearchStore);
   private activatedRoute = inject(ActivatedRoute);
-  private searchSvc =  inject(SearchService);
-  private utilsSvc = inject(CommonUtilsService)
-  private router =  inject(Router);
+  private searchSvc = inject(SearchService);
+  private utilsSvc = inject(CommonUtilsService);
+  private router = inject(Router);
 
   lastQuery: string | null = null;
   private lastPage: number | null = null;
   currentPage: number = 1;
-  totalPages:number = 100;
+  totalPages: number = 100;
   currentSort: string = 'Most relevant';
 
   ngOnInit(): void {
     this.courseSearchResults$ = this.searchStore.getCourseSearchResults;
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe((params) => {
       const query = params['query'];
-      const page = +params['page'] || 1; //convert to number and default page 1 
+      const page = +params['page'] || 1; //convert to number and default page 1
 
       //search only if the params have changed
       if (query !== this.lastQuery || page !== this.lastPage) {
@@ -41,26 +39,31 @@ export class SearchResultsComponent implements OnInit {
         this.lastPage = page;
       }
     });
-
   }
-  performSearch(query: string, page: number, platform?: Platform, byRating?:string): void {
-    this.currentPage=page;
+  performSearch(
+    query: string,
+    page: number,
+    platform?: Platform,
+    byRating?: string
+  ): void {
+    this.currentPage = page;
     this.searchSvc.querySearch(query, this.currentPage, platform, byRating);
   }
 
   filterBy(sortCriteria?: string) {
-    
-    
     if (this.lastQuery) {
+      this.lastPage = 1;
       let platform: Platform | undefined;
       let byRating: string | undefined;
-
-      if (sortCriteria === 'UDEMY' || sortCriteria === 'COURSERA') {
-          platform = sortCriteria as Platform;
+      if (sortCriteria === 'mostRelevant') {
+        this.performSearch(this.lastQuery, 1);
+      } else if (sortCriteria === 'Udemy' || sortCriteria === 'Coursera') {
+        platform = sortCriteria as Platform;
+        this.currentSort = sortCriteria;
       } else if (sortCriteria === 'rating') {
-          byRating = 'byRating';
+        byRating = 'byRating';
+        this.currentSort = 'Rating';
       }
-      this.lastPage=1;
       this.performSearch(this.lastQuery, 1, platform as Platform, byRating);
     }
   }
@@ -68,17 +71,21 @@ export class SearchResultsComponent implements OnInit {
     return this.utilsSvc.displayPlatformLogo(platform);
   }
 
-  getCourseDetails(courseId: string, platform:Platform){
-    console.log("course id in result comp ", courseId);
-    
+  getCourseDetails(courseId: string, platform: Platform) {
+    console.log('course id in result comp ', courseId);
+
     this.searchSvc.getCourseById(courseId, platform);
-    this.router.navigate(['/course', platform.toString().toLowerCase(), courseId]);
+    this.router.navigate([
+      '/course',
+      platform.toString().toLowerCase(),
+      courseId,
+    ]);
   }
 
   navigateToPage(page: number): void {
     if (page < 1 || page > this.totalPages) return; //make sure no invalid page number
     this.performSearch(this.lastQuery || '', page);
-    this.currentPage=page;
+    this.currentPage = page;
     //update URL without navigating
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
@@ -86,14 +93,12 @@ export class SearchResultsComponent implements OnInit {
       queryParamsHandling: 'merge',
     });
   }
-  
+
   nextPage(): void {
     this.navigateToPage(this.currentPage + 1);
   }
-  
+
   previousPage(): void {
     this.navigateToPage(this.currentPage - 1);
   }
-
-
 }

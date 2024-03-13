@@ -66,9 +66,10 @@ public class AuthController {
                     userDetails.getAuthorities());
 
             String token = tokenSvc.generateToken(authentication);
+            System.out.println("Generated JWT: " + token);
 
             Map<String, Object> response = new HashMap<>();
-            response.put("token", token); // Include token in response
+            response.put("token", token); 
             response.put("message", "User " + email + " authenticated");
 
             return ResponseEntity.ok()

@@ -9,9 +9,9 @@
           </svg>
         </button>
         <ul class="dropdown-menu absolute hidden text-gray-700 pt-1 group-hover:block">
-            <li><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" >Most relevant</a></li>
-            <li (click)="filterBy('UDEMY')"><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Udemy</a></li>
-            <li (click)="filterBy('COURSERA')"><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Coursera</a></li>
+            <li (click)="filterBy('mostRelevant')"><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" >Most relevant</a></li>
+            <li (click)="filterBy('Udemy')"><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Udemy</a></li>
+            <li (click)="filterBy('Coursera')"><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Coursera</a></li>
             <li (click)="filterBy('rating')"><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" >Rating</a></li>
         </ul>
     </div>
@@ -29,6 +29,9 @@
             <div class="text-lg font-bold dark:text-white-800">{{ course.title }}</div>
             <div class="text-sm">{{ course.headline }}</div>
             <div class="text-xs text-gray-600">{{ course.instructor }}</div>
+            <div *ngIf="course.rating">
+              Rating: {{course.rating}}
+            </div>
           </div>
     
           <!-- Right Column: Price and Platform Logo -->
