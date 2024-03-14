@@ -35,7 +35,7 @@ public class CourseRepository {
         mongoTemplate.insert(allCourses, "udemy");
     }
 
-    //GET all courses fitting a criteria
+    // GET all courses fitting a criteria
     public List<CourseSearch> courseSearch(Map<String, String> paramMap) {
         String query = paramMap.get("query");
         int page = Integer.parseInt(paramMap.getOrDefault("page", "0"));
@@ -47,10 +47,9 @@ public class CourseRepository {
 
         if (query != null && !query.isEmpty()) {
             Criteria criteriaOr = new Criteria().orOperator(
-                Criteria.where("title").regex(query, "i"),
-                Criteria.where("headline").regex(query, "i"),
-                Criteria.where("instructor").regex(query, "i")
-            );
+                    Criteria.where("title").regex(query, "i"),
+                    Criteria.where("headline").regex(query, "i"),
+                    Criteria.where("instructor").regex(query, "i"));
             criteria.add(criteriaOr);
         }
 
@@ -83,8 +82,8 @@ public class CourseRepository {
         for (Document document : documents) {
             CourseSearch courseSearch = new CourseSearch();
             courseSearch.setPlatform(Platform.valueOf(document.getString("platform")));
-            Object platformIdObj = document.get("platformId"); 
-            String platformIdStr = null; 
+            Object platformIdObj = document.get("platformId");
+            String platformIdStr = null;
 
             if (platformIdObj != null) {
                 if (courseSearch.getPlatform().equals(Platform.COURSERA) && platformIdObj instanceof ObjectId) {
@@ -92,27 +91,40 @@ public class CourseRepository {
                 } else if (courseSearch.getPlatform().equals(Platform.UDEMY) && platformIdObj instanceof Integer) {
                     platformIdStr = String.valueOf(platformIdObj);
                 }
-            
-            courseSearch.setPlatformId(platformIdStr);
-            // System.out.println(courseSearch.getPlatformId());
-            courseSearch.setTitle(document.getString("title"));
-            courseSearch.setHeadline(document.getString("headline"));
-            courseSearch.setImageUrl(document.getString("imageUrl"));
-            String price = document.containsKey("price") ? document.getString("price") : "Free trial";
-            courseSearch.setPrice(price);
-            Double rating = document.containsKey("course_rating") ? document.getDouble("course_rating"): null;
-            courseSearch.setRating(rating);
-            courseSearch.setInstructor(document.getString("instructor"));
-            courseSearches.add(courseSearch);
+
+                courseSearch.setPlatformId(platformIdStr);
+                // System.out.println(courseSearch.getPlatformId());
+                courseSearch.setTitle(document.getString("title"));
+                courseSearch.setHeadline(document.getString("headline"));
+                courseSearch.setImageUrl(document.getString("imageUrl"));
+                String price = document.containsKey("price") ? document.getString("price") : "Free trial";
+                courseSearch.setPrice(price);
+                Double rating = null;
+                if (document.containsKey("course_rating")) {
+                    Object ratingObj = document.get("course_rating");
+                    if (ratingObj instanceof Double) {
+                        rating = (Double) ratingObj;
+                    } else if (ratingObj instanceof String) {
+                        try {
+                            rating = Double.parseDouble((String) ratingObj);
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                courseSearch.setRating(rating);
+                courseSearch.setInstructor(document.getString("instructor"));
+                courseSearches.add(courseSearch);
             }
-            
+
         }
         return courseSearches;
     }
 
-    //GET one coursera coursedetails
+    // GET one coursera coursedetails
     public Document getCourseraCourseById(String courseId) {
-       
+
         ObjectId objectId = new ObjectId(courseId);
         Query query = new Query(Criteria.where("platformId").is(objectId));
 
