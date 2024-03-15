@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { CourseDetailsStore } from '../../stores/course-details.store';
 import { CommonUtilsService } from '../../services/common.utils.service';
-import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-course-details',

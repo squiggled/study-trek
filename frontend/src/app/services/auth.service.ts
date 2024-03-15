@@ -1,16 +1,31 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { firstValueFrom } from "rxjs";
+import { BehaviorSubject, Observable, firstValueFrom } from "rxjs";
+import { UserSessionStore } from "../stores/user.store";
+import { UserService } from "./user.service";
 
 @Injectable()
 export class AuthService{
 
     private httpClient = inject(HttpClient);
     private router = inject(Router);
+    private userSessionStore = inject(UserSessionStore);
+    private userSvc = inject(UserService);
 
     loginFailed: boolean = false;
     loginAttempted: boolean = false;
+
+    private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+    
+    private hasToken(): boolean {
+        return !!localStorage.getItem('jwtToken');
+    }
+    
+    //expose the login state
+    get isLoggedIn$(): Observable<boolean> {
+    return this.isLoggedInSubject.asObservable();
+    }
 
     processLogin(email: any, password: any) {
         this.loginAttempted = true;
@@ -18,9 +33,18 @@ export class AuthService{
         this.httpClient.post<any>('/api/user/login', loginData, {headers: { 'Content-Type': 'application/json' }})
         .subscribe({
             next:((response: any) => {
-                console.log("login success");
                 this.loginFailed=false;
                 this.loginAttempted = false;
+                localStorage.setItem('jwtToken', response.token); //store jwt token
+                this.isLoggedInSubject.next(true);
+
+                //update user store
+                this.userSessionStore.loginSuccess({
+                    accountDetails: response.user, 
+                    isAuthenticated: true
+                });
+
+                console.log("userdetails" , response.user)
                 this.router.navigate(['/'])
             }),
             error:((error: any) => {
@@ -28,18 +52,29 @@ export class AuthService{
                 console.error(error);
             })
         })
-            
-        
     }
 
     processRegister(formData: FormData ){
-        console.log("registerdata in auth service", formData);
-        
         this.httpClient.post<any>('/api/user/register', formData , {headers: { 'Content-Type': 'application/json' }})
-        .subscribe(
-            response => console.log(response),
-            error => console.error(error)
-        );
+        .subscribe({
+            next:( (response:any) => {
+                console.log(response);
+                this.processLogin(formData.get('email'), formData.get('password'));
+            }),
+            error: ((error:any) => {
+
+            })
+        });
+    }
+
+    logout(): void {
+        localStorage.removeItem('jwtToken');
+        this.isLoggedInSubject.next(false);
+    }
+    
+    //initialise login state
+    checkTokenOnStartup(): void {
+        this.isLoggedInSubject.next(this.hasToken());
     }
 
 }

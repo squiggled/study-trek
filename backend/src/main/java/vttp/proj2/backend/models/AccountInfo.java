@@ -17,7 +17,6 @@ public class AccountInfo {
     private String profilePicUrl;
     
     private List<String> interests;
-    private List<String> courseNotes;
     private List<CourseDetails> registeredCourses;
     private List<String> friendIds = new ArrayList<>();
     
@@ -31,6 +30,7 @@ public class AccountInfo {
     public String getUserId() {
         return userId;
     }
+    
 
     public String getPasswordHash() {
         return passwordHash;
@@ -88,13 +88,7 @@ public class AccountInfo {
         this.interests = interests;
     }
 
-    public List<String> getCourseNotes() {
-        return courseNotes;
-    }
-
-    public void setCourseNotes(List<String> courseNotes) {
-        this.courseNotes = courseNotes;
-    }
+    
 
     public List<CourseDetails> getRegisteredCourses() {
         return registeredCourses;
@@ -118,6 +112,10 @@ public class AccountInfo {
 
     public void setFriendIds(List<String> friendIds) {
         this.friendIds = friendIds;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }

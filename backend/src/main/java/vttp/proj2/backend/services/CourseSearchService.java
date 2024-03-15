@@ -274,7 +274,6 @@ public class CourseSearchService {
             String currentItem = jsonArray.getString(i);
             if (!isNumeric(currentItem)) {
                 Curriculum curr = new Curriculum();
-                curr.setCompleted(false);
                 curr.setLectureNumber(lectureNumber);
                 curr.setTitle(currentItem);
                 lectureNumber++;

@@ -21,9 +21,18 @@
       </div>
       <app-search class="w-full md:w-3/5 mx-auto md:ml-8 md:mr-8"></app-search>
       <!-- Right content: Login/Signup buttons -->
+      <!-- if user is NOT logged in -->
       <div class="flex items-center space-x-4">
-        <button class="btn btn-outline btn-primary" (click)="login()">Login</button>
-        <button class="btn btn-primary" (click)="register()">Sign Up</button>
+        <button *ngIf="!(isLoggedIn$ | async)" class="btn btn-outline btn-primary" (click)="login()">Login</button>
+        <button *ngIf="!(isLoggedIn$ | async)" class="btn btn-primary" (click)="register()">Sign Up</button>
+        <!--if user is logged in -->
+        <div *ngIf="isLoggedIn$ | async" class="relative profile-dropdown">
+          <img *ngIf="userProfilePicUrl$ | async as userProfilePicUrl" [src]="userProfilePicUrl" alt="Profile" class="h-8 w-8 rounded-full cursor-pointer">
+          <div class="dropdown-content hidden absolute right-0 bg-white text-black mt-1 p-2 shadow-lg">
+            <a (click)="navigateToMyCourses()" class="block p-2">My Courses</a>
+            <a (click)="logout()" class="block p-2">Log Out</a>
+          </div>
+        </div>
         <button (click)="themeSvc.toggleTheme()" class="p-2">
             <svg *ngIf="!isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <!-- Moon icon for dark mode -->

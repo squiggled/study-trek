@@ -2,6 +2,8 @@ package vttp.proj2.backend.models;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,6 +33,42 @@ public class AccountInfoPrincipal implements UserDetails{
     @Override
     public String getUsername() {
         return accInfo.getEmail();
+    }
+
+    public String getEmail() {
+        return accInfo.getEmail();
+    }
+
+    public String getFirstName() {
+        return accInfo.getFirstName();
+    }
+
+    public String getLastName() {
+        return accInfo.getLastName();
+    }
+
+    public String getProfilePicUrl() {
+        return accInfo.getProfilePicUrl();
+    }
+
+    public List<String> getInterests() {
+        return accInfo.getInterests();
+    }
+
+    public List<CourseDetails> getRegisteredCourses() {
+        return accInfo.getRegisteredCourses();
+    }
+
+    public List<String> getFriendIds() {
+        return accInfo.getFriendIds();
+    }
+
+    public String getRole() {
+        return accInfo.getRole();
+    }
+
+    public Date getLastPasswordResetDate() {
+        return accInfo.getLastPasswordResetDate();
     }
 
     @Override

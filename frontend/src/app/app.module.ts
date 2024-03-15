@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchComponent } from './components/navbar/search.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchService } from './services/search.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -17,6 +17,10 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
+import { UserSessionStore } from './stores/user.store';
+import { UserService } from './services/user.service';
+import { AuthInterceptor } from './services/auth.interceptor';
+import { MyCoursesComponent } from './components/user-session/courses.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,8 @@ import { RegisterComponent } from './components/register/register.component';
     CourseDetailsComponent,
     LoginComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    MyCoursesComponent
   ],
   imports: [
     BrowserModule,
@@ -36,11 +41,14 @@ import { RegisterComponent } from './components/register/register.component';
     ReactiveFormsModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     SearchService, 
     CourseSearchStore, 
     CourseDetailsStore, 
     CommonUtilsService,
-    AuthService
+    AuthService,
+    UserSessionStore,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

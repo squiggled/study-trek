@@ -1,0 +1,16 @@
+<div class="container">
+    <h2>My Learning</h2>
+    <div *ngIf="(accountDetails$ | async) as accountDetails">
+      <div *ngIf="accountDetails.registeredCourses.length > 0; else noCourses">
+        <div *ngFor="let course of accountDetails.registeredCourses" class="course-card">
+          <img [src]="course.imageUrl" alt="Course Image">
+          <h3>{{ course.title }}</h3>
+          <p>Instructor: {{ course.instructor }}</p>
+        </div>
+      </div>
+      <ng-template #noCourses>
+        <p>No courses yet.</p>
+      </ng-template>
+    </div>
+  </div>
+  

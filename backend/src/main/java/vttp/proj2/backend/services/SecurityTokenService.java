@@ -30,9 +30,11 @@ public class SecurityTokenService {
                 .withIssuer("Study Trek")
                 .withIssuedAt(now)
                 .withSubject(String.valueOf(accPrincipal.getUsername()))
-                .withExpiresAt(now.plus(1, ChronoUnit.HOURS))
+                .withExpiresAt(now.plus(1, ChronoUnit.DAYS))
                 .withClaim("name", auth.getName())
                 .withClaim("scope", scope)
                 .sign(Algorithm.HMAC256(secretKey));
     }
+
+   
 }

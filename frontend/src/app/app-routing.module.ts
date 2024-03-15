@@ -5,6 +5,7 @@ import { CourseDetailsComponent } from './components/course-search-and-details/c
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
+import { MyCoursesComponent } from './components/user-session/courses.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'courses/search', component: SearchResultsComponent},
   { path: 'join/login', component: LoginComponent},
   { path: 'join/register', component: RegisterComponent},
+  { path: 'home/my-courses', component: MyCoursesComponent},
   { path: '**', redirectTo: '/', pathMatch: 'full'}
 ];
 

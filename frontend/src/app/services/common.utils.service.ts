@@ -37,4 +37,10 @@ export class CommonUtilsService {
       return !valid ? { invalidPassword: true } : null;
     };
   }
+
+  isTokenExpired(): boolean {
+    const expiration = localStorage.getItem('expiration');
+    const expiresAt = expiration ? parseInt(expiration, 10) : 0;
+    return Date.now() >= expiresAt * 1000;
+  }
 }

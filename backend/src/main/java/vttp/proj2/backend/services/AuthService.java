@@ -68,5 +68,11 @@ public class AuthService {
         return authRepo.findUserByEmail(email);
     }
 
+    public String getFirstNameByEmail(String email){
+        return authRepo.getFirstNameByEmail(email);
+    }
+
+
+
 
 }

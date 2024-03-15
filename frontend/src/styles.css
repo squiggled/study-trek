@@ -22,3 +22,24 @@ body {
     left: 0;
     bottom: -4px; /* Adjust the spacing from the text to the underline here */
   }
+  .profile-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    z-index: 1; 
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.profile-dropdown:hover .dropdown-content a:hover {
+    background-color: #ddd; 
+}

@@ -1,6 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +14,17 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   themeSvc = inject(ThemeService);
   private router = inject(Router);
+  private userSvc = inject(UserService);
+  private authSvc = inject(AuthService);
 
+
+  isLoggedIn$: Observable<boolean> = this.userSvc.isLoggedIn;
+  userProfilePicUrl$ = this.userSvc.userProfilePicUrl$;
+
+  ngOnInit(): void {
+    this.isLoggedIn$ = this.authSvc.isLoggedIn$;
+  }
+  
   get isDarkMode(): boolean {
     return document.body.classList.contains('dark');
   }
@@ -26,5 +39,14 @@ export class NavbarComponent {
 
   register(){
     this.router.navigate(['/join/register'])
+  }
+
+  logout() {
+    this.authSvc.logout(); 
+    this.router.navigate(['/']);
+  }
+
+  navigateToMyCourses(){
+    this.router.navigate(['/home/my-courses']);
   }
 }

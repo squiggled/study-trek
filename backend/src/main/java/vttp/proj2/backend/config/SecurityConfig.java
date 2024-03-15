@@ -1,5 +1,6 @@
 package vttp.proj2.backend.config;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -37,11 +38,11 @@ public class SecurityConfig{
 
      @Bean
      public JwtDecoder jwtDecoder() {
-        String sanitizedSecretKey = secretKey.replaceAll("\\s+", "");
-    
-        byte[] secretKeyBytes = Base64.getDecoder().decode(sanitizedSecretKey);
-    
-        return NimbusJwtDecoder.withSecretKey(new SecretKeySpec(secretKeyBytes, "HmacSHA256")).build();
+        // String sanitizedSecretKey = secretKey.replaceAll("\\s+", "");
+        // byte[] secretKeyBytes = Base64.getDecoder().decode(secretKey);
+        // return NimbusJwtDecoder.withSecretKey(new SecretKeySpec(secretKeyBytes, "HmacSHA256")).build();
+        return NimbusJwtDecoder.withSecretKey(new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA256")).build();
+
     }
 
     @Bean
@@ -49,7 +50,7 @@ public class SecurityConfig{
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/**").permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .userDetailsService(userDetailsSvc)
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))

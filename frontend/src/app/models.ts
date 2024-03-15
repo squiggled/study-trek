@@ -1,79 +1,99 @@
 export enum Platform {
-    UDEMY = 'UDEMY',
-    EDX = 'EDX',
-    COURSERA = 'COURSERA',
-    OTHER = 'OTHER'
+  UDEMY = 'UDEMY',
+  EDX = 'EDX',
+  COURSERA = 'COURSERA',
+  OTHER = 'OTHER',
 }
 
 export interface CourseSearch {
-    platform: Platform,
-    platformId: string,
-    title: string,
-    headline: string,
-    imageUrl: string,
-    price: number,
-    instructor: string,
-    rating?: number
+  platform: Platform;
+  platformId: string;
+  title: string;
+  headline: string;
+  imageUrl: string;
+  price: number;
+  instructor: string;
+  rating?: number;
 }
 
 export interface CourseDetails {
-    platform: Platform,
-    platformId: string,
-    title: string,
-    headline: string,
-    urlToCourse: string, 
-    imageUrl: string,
-    isPaid: boolean,
-    price: number,
-    instructor: string,
-    curriculum: Curriculum[];
-
+  platform: Platform;
+  platformId: string;
+  title: string;
+  headline: string;
+  urlToCourse: string;
+  imageUrl: string;
+  isPaid: boolean;
+  price: number;
+  instructor: string;
+  curriculum: Curriculum[];
 }
 
 export const defaultCourseDetails: CourseDetails = {
-    platform: Platform.OTHER,
-    platformId: "-1", 
-    title: 'Loading course details',
-    headline: '',
-    urlToCourse: '',
-    imageUrl: '',
-    isPaid: false,
-    price: 0,
-    instructor: '',
-    curriculum:[]
-
-  };
+  platform: Platform.OTHER,
+  platformId: '-1',
+  title: 'Loading course details',
+  headline: '',
+  urlToCourse: '',
+  imageUrl: '',
+  isPaid: false,
+  price: 0,
+  instructor: '',
+  curriculum: [],
+};
 
 export interface Curriculum {
-    lectureNumber: number,
-    title: string,
-    completed: boolean
+  lectureNumber: number;
+  title: string;
+  completed: boolean;
 }
 
 export interface AccountDetails {
-    userId: string,
-    email: string, 
-    passwordHash: string,
-    lastPasswordResetDate: Date,
-   
-    firstName: string,
-    lastName: string, 
-    profilePicUrl: string,
+  userId: string;
+  email: string;
+  passwordHash: string;
+  lastPasswordResetDate?: Date;
 
-    interests: string[],
-    courseNotes: string[],
-    registeredCourses: CourseDetails[],
-    friendIds: string[]
-    
-    roles: string[],
+  firstName: string;
+  lastName: string;
+  profilePicUrl: string;
+
+  interests: string[];
+  courseNotes: string[];
+  registeredCourses: CourseDetails[];
+  friendIds: string[];
+
+  role: string;
 }
 
-export interface CourseSearchSlice{
-	courseListing:CourseSearch[]
+export const defaultAccountDetails: AccountDetails = {
+    userId: '',
+    email: '',
+    passwordHash: '',
+  
+    firstName: '',
+    lastName: '',
+    profilePicUrl: '',
+  
+    interests: [],
+    courseNotes: [],
+    registeredCourses: [],
+    friendIds: [],
+  
+    role: ''
+};
+
+export interface CourseSearchSlice {
+  courseListing: CourseSearch[];
 }
 
-export interface CourseDetailsSlice{
-    courseDetails: CourseDetails;
-    currentCourseId: string,
-    currentPlatform: Platform,
+export interface CourseDetailsSlice {
+  courseDetails: CourseDetails;
+  currentCourseId: string;
+  currentPlatform: Platform;
+}
+
+export interface UserSessionSlice {
+  accountDetails: AccountDetails;
+  isAuthenticated: boolean;
 }
