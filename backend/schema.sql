@@ -44,7 +44,7 @@ CREATE TABLE curriculum (
     courseId INT, 
     lectureNumber INT,
     title VARCHAR(255),
-    FOREIGN KEY (courseId) REFERENCES registered_courses(courseId)
+    FOREIGN KEY (courseId) REFERENCES registered_courses(courseId) ON DELETE CASCADE
 );
 
 CREATE TABLE user_progress (
@@ -53,7 +53,7 @@ CREATE TABLE user_progress (
     curriculumId INT,
     completed BOOLEAN,
     FOREIGN KEY (userId) REFERENCES user_info(userId),
-    FOREIGN KEY (curriculumId) REFERENCES curriculum(curriculumId)
+    FOREIGN KEY (curriculumId) REFERENCES curriculum(curriculumId) ON DELETE CASCADE
 );
 
 CREATE TABLE course_notes (

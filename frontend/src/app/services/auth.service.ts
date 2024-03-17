@@ -30,7 +30,7 @@ export class AuthService{
     processLogin(email: any, password: any) {
         this.loginAttempted = true;
         const loginData = { email, password };
-        this.httpClient.post<any>('/api/user/login', loginData, {headers: { 'Content-Type': 'application/json' }})
+        this.httpClient.post<any>('/api/auth/login', loginData, {headers: { 'Content-Type': 'application/json' }})
         .subscribe({
             next:((response: any) => {
                 this.loginFailed=false;
@@ -55,7 +55,7 @@ export class AuthService{
     }
 
     processRegister(formData: FormData ){
-        this.httpClient.post<any>('/api/user/register', formData , {headers: { 'Content-Type': 'application/json' }})
+        this.httpClient.post<any>('/api/auth/register', formData , {headers: { 'Content-Type': 'application/json' }})
         .subscribe({
             next:( (response:any) => {
                 console.log(response);

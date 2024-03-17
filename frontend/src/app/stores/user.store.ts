@@ -1,30 +1,60 @@
-import { Injectable } from "@angular/core";
-import {  AccountDetails, UserSessionSlice, defaultAccountDetails } from "../models";
-import { ComponentStore } from "@ngrx/component-store";
+import { Injectable } from '@angular/core';
+import {
+  AccountDetails,
+  CourseDetails,
+  UserSessionSlice,
+  defaultAccountDetails,
+} from '../models';
+import { ComponentStore } from '@ngrx/component-store';
 
 const INIT_STATE: UserSessionSlice = {
-    accountDetails: defaultAccountDetails,
-    isAuthenticated: false
-}
+  accountDetails: defaultAccountDetails,
+  isAuthenticated: false,
+};
 @Injectable()
-export class UserSessionStore extends ComponentStore<UserSessionSlice>{
-    setAuthenticated(arg0: boolean) {
-      throw new Error('Method not implemented.');
-    }
-    constructor(){super(INIT_STATE)}
+export class UserSessionStore extends ComponentStore<UserSessionSlice> {
+  constructor() {
+    super(INIT_STATE);
+  }
 
-    //updater
-    readonly loginSuccess = this.updater((state, { accountDetails, isAuthenticated }: UserSessionSlice) => ({
-        ...state,
-        accountDetails,
-        isAuthenticated
-    }));
+  //updater
+  readonly loginSuccess = this.updater(
+    (state, { accountDetails, isAuthenticated }: UserSessionSlice) => ({
+      ...state,
+      accountDetails,
+      isAuthenticated,
+    })
+  );
 
-    readonly updateUserDetails = this.updater((state, accountDetails: AccountDetails) => ({
-        ...state,
-        accountDetails
-    }));
+  readonly updateUserDetails = this.updater(
+    (state, accountDetails: AccountDetails) => ({
+      ...state,
+      accountDetails,
+    })
+  );
 
-    readonly isLoggedIn$ = this.select(state => state.isAuthenticated);
+  readonly isLoggedIn$ = this.select((state) => state.isAuthenticated);
+  readonly firstName$ = this.select((state) => state.accountDetails.firstName);
+  readonly userId$ = this.select((state) => state.accountDetails.userId);
 
+  readonly addCourseToUser = this.updater((state, newCourse: CourseDetails) => {
+    return {
+      ...state,
+      accountDetails: {
+        ...state.accountDetails,
+        registeredCourses: [
+          ...state.accountDetails.registeredCourses,
+          newCourse,
+        ],
+      },
+    };
+  });
+
+  courseExists(newCourse: CourseDetails): boolean {
+    return this.get((state) =>
+      state.accountDetails.registeredCourses.some(
+        (course) => course.platformId === newCourse.platformId
+      )
+    );
+  }
 }

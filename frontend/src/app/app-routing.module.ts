@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SearchResultsComponent } from './components/course-search-and-details/search-results.component';
-import { CourseDetailsComponent } from './components/course-search-and-details/course-details.component';
+import { SearchResultsComponent } from './components/course-search/search-results.component';
+import { CourseDetailsComponent } from './components/course-search/course-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';

@@ -6,13 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,25 +25,27 @@ import jakarta.json.JsonReader;
 import jakarta.servlet.http.HttpServletResponse;
 import vttp.proj2.backend.exceptions.UserRegistrationException;
 import vttp.proj2.backend.models.AccountInfo;
-import vttp.proj2.backend.models.AccountInfoPrincipal;
 import vttp.proj2.backend.services.AuthService;
 import vttp.proj2.backend.services.AuthUserDetailsService;
 import vttp.proj2.backend.services.SecurityTokenService;
+import vttp.proj2.backend.services.UserService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
     AuthService authSvc;
     @Autowired
     AuthUserDetailsService authDetailsSvc;
+    @Autowired
+    UserService userSvc;
 
     @Autowired
     SecurityTokenService tokenSvc;
 
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody String payload, HttpServletResponse response) {
         Reader reader = new StringReader(payload);
         JsonReader jsonReader = Json.createReader(reader);
@@ -65,7 +64,7 @@ public class AuthController {
         boolean isAuthenticated = authSvc.authenticateLogin(email, rawPassword);
         if (isAuthenticated) {
             //get user info
-            AccountInfo user = authSvc.getUserByEmail(email);
+            AccountInfo user = userSvc.getUserByEmail(email);
 
             //create JWT
             UserDetails userDetails = authDetailsSvc.loadUserByUsername(email);
@@ -95,7 +94,7 @@ public class AuthController {
 
     }
 
-    @PostMapping("/user/register")
+    @PostMapping("/register")
     public ResponseEntity<?> registerNewUser(@RequestBody String payload) {
         System.out.println(payload);
 
@@ -132,7 +131,7 @@ public class AuthController {
         return ResponseEntity.ok("Successfully registered user: " + email);
     }
 
-    @GetMapping("/user/loaduser")
+    @GetMapping("/loaduser")
     public ResponseEntity<?> getUserDetails(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -140,7 +139,7 @@ public class AuthController {
         if (authentication.getPrincipal() instanceof Jwt) {
             Jwt jwt = (Jwt) authentication.getPrincipal();
             String email = jwt.getClaimAsString("sub"); // Example: get the subject claim to use as username
-            AccountInfo acc = authSvc.getUserByEmail(email);
+            AccountInfo acc = userSvc.getUserByEmail(email);
             if (acc==null){
                 return ResponseEntity.badRequest().body("User not found");
             }

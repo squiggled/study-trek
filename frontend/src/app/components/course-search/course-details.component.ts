@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { CourseDetailsStore } from '../../stores/course-details.store';
 import { CommonUtilsService } from '../../services/common.utils.service';
+import { UserSessionStore } from '../../stores/user.store';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-course-details',
@@ -14,10 +16,13 @@ import { CommonUtilsService } from '../../services/common.utils.service';
 export class CourseDetailsComponent implements OnInit{
   
   courseDetails$!: Observable<CourseDetails>;
+  userId!: string;
   private activatedRoute = inject(ActivatedRoute);
   private searchSvc =  inject(SearchService);
   private courseDetailsStore =  inject(CourseDetailsStore);
   private utilsSvc = inject(CommonUtilsService)
+  private userSessionStore = inject(UserSessionStore)
+  private userSvc = inject(UserService);
   
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -39,6 +44,10 @@ export class CourseDetailsComponent implements OnInit{
         this.courseDetails$ = this.courseDetailsStore.getCourseDetails;
       });
     });
+    this.userSessionStore.userId$.subscribe(userId => {
+      this.userId = userId;
+      console.log("User ID from store:", this.userId);
+    });
   }
 
   getPlatformLogo(platform: Platform): string {
@@ -53,5 +62,22 @@ export class CourseDetailsComponent implements OnInit{
     if(url) {
       window.location.href = url;
     }
+  }
+
+  addCourseToList(courseDetails: CourseDetails) {
+    let isCoursePresent = this.userSessionStore.courseExists(courseDetails);
+    if (isCoursePresent){
+      console.log("course already exists"); 
+    } else {
+      this.userSvc.addRegisteredCourseToUser(this.userId, courseDetails).subscribe({
+        next: (response:any) => {
+          this.userSessionStore.addCourseToUser(response);
+        },
+        error: (error:any) => {
+          console.error('Failed to add the course', error);
+        }
+      });
+    }
+    
   }
 }

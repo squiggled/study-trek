@@ -20,6 +20,7 @@ export class NavbarComponent {
 
   isLoggedIn$: Observable<boolean> = this.userSvc.isLoggedIn;
   userProfilePicUrl$ = this.userSvc.userProfilePicUrl$;
+  firstName$ = this.userSvc.firstName;
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authSvc.isLoggedIn$;
@@ -28,7 +29,9 @@ export class NavbarComponent {
   get isDarkMode(): boolean {
     return document.body.classList.contains('dark');
   }
-
+  get userFirstName(){
+    return 
+  }
   toggleTheme(): void {
     this.themeSvc.toggleTheme();
   }

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { UserSessionStore } from '../stores/user.store';
-import { AccountDetails } from '../models';
+import { AccountDetails, CourseDetails } from '../models';
 
 export class UserService {
   logout() {
@@ -17,7 +17,7 @@ export class UserService {
   }
 
   fetchUserDetails(): Observable<AccountDetails> {
-    return this.httpClient.get<AccountDetails>('/api/user/loaduser', { headers: this.addTokenToHeader() })
+    return this.httpClient.get<AccountDetails>('/api/auth/loaduser', { headers: this.addTokenToHeader() })
       .pipe(tap(userDetails => this.userSessionStore.loginSuccess({
         accountDetails: userDetails,
         isAuthenticated: true
@@ -28,7 +28,15 @@ export class UserService {
     return this.userSessionStore.isLoggedIn$;
   }
 
+  get firstName():Observable<string>{
+    return this.userSessionStore.firstName$;
+  }
+
   get userProfilePicUrl$(): Observable<string> {
     return this.userSessionStore.select(state => state.accountDetails?.profilePicUrl);
+  }
+
+  addRegisteredCourseToUser(userId: string, courseDetails: CourseDetails): Observable<any> {
+    return this.httpClient.post(`/api/user/${userId}/courses`, courseDetails, { headers: this.addTokenToHeader() });
   }
 }

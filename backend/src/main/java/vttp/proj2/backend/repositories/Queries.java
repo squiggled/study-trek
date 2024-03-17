@@ -70,4 +70,21 @@ public class Queries {
                 FROM friends
                 WHERE friendUserId = ?
             """;
+    //for updating user progress + user adding new courses
+    public static final String SQL_USER_ADD_REGISTERED_COURSE = """
+                INSERT INTO registered_courses(userId, platform, platformId, title, headline, imageUrl, urlToCourse, isPaid, price, instructor, isEnrolled) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """;
+    public static final String SQL_USER_ADD_CURRICULUM_FOR_COURSE = """
+                INSERT INTO curriculum (courseId, lectureNumber, title) 
+                VALUES (?, ?, ?)
+            """;
+    public static final String SQL_USER_UPDATE_COURSE_PROGRESS = """
+                INSERT INTO user_progress (userId, curriculumId, completed) 
+                VALUES (?, ?, ?)
+            """;
+    public static final String SQL_USER_GET_NEW_REGISTERED_COURSE = """
+                SELECT * FROM registered_courses 
+                WHERE courseId = ?
+            """;
 }

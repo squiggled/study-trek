@@ -10,12 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 import vttp.proj2.backend.exceptions.UserRegistrationException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.repositories.AuthRepository;
+import vttp.proj2.backend.repositories.UserRepository;
 
 @Service
 public class AuthService {
     
     @Autowired
     AuthRepository authRepo;
+
+    @Autowired
+    UserRepository userRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -63,16 +67,5 @@ public class AuthService {
         }
         return roleAssigned;
     }
-
-    public AccountInfo getUserByEmail(String email){
-        return authRepo.findUserByEmail(email);
-    }
-
-    public String getFirstNameByEmail(String email){
-        return authRepo.getFirstNameByEmail(email);
-    }
-
-
-
 
 }

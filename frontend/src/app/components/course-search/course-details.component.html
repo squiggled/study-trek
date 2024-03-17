@@ -34,7 +34,7 @@
           <!-- Right Column -->
           <div class="w-1/3">
             <img [src]="courseDetails.imageUrl" alt="Course Image" class="w-auto max-h-64">
-            <button class="mt-4 w-full btn btn-accent text-base-100 py-2 rounded-md">Add to Course List</button>
+            <button (click)="addCourseToList(courseDetails)" class="mt-4 w-full btn btn-accent text-base-100 py-2 rounded-md">Add to Course List</button>
             <a [href]="courseDetails.urlToCourse" target="_blank" rel="noopener noreferrer"
                 class="mt-4 w-full inline-block text-center btn btn-secondary text-white py-2 rounded-md"
                 style="padding-top: 15px; padding-bottom: 10px;"

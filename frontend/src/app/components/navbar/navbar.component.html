@@ -29,6 +29,7 @@
         <div *ngIf="isLoggedIn$ | async" class="relative profile-dropdown">
           <img *ngIf="userProfilePicUrl$ | async as userProfilePicUrl" [src]="userProfilePicUrl" alt="Profile" class="h-8 w-8 rounded-full cursor-pointer">
           <div class="dropdown-content hidden absolute right-0 bg-white text-black mt-1 p-2 shadow-lg">
+            <div class="block p-2">{{ firstName$ | async }}</div>
             <a (click)="navigateToMyCourses()" class="block p-2">My Courses</a>
             <a (click)="logout()" class="block p-2">Log Out</a>
           </div>
