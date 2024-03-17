@@ -24,6 +24,9 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailSenderService mailSenderService; 
+
     public void UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
@@ -65,6 +68,18 @@ public class AuthService {
         if (!roleAssigned){
             throw new UserRegistrationException("Cannot assign role to new user: "+ email);
         }
+
+        String subject = "Welcome to Study Trek!";
+        String body = "<html>" +
+                        "<body>" +
+                        "<p>Hi " + firstName + ",</p>" +
+                        "<p>Welcome to Study Trek. We're glad to have you on board!</p>" +
+                        "<p>Click on the button below to embark on your journey.</p>" +
+                        "<p><a href='https://study-trek.up.railway.app' style='display: inline-block; background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Start learning</a></p>" +
+                        "<p>Best Regards,<br>The Study Trek Team</p>" +
+                        "</body>" +
+                        "</html>";
+        mailSenderService.sendNewMail(email, subject, body);
         return roleAssigned;
     }
 
