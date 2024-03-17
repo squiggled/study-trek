@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonUtilsService } from '../../services/common.utils.service';
 
@@ -37,7 +37,12 @@ export class RegisterComponent implements OnInit{
   processRegistration(){
     if (this.registerForm.valid){
       let formData = this.registerForm.value;
-      this.authSvc.processRegister(formData);
+      console.log(formData);
+      let firstName:string = formData.firstName;
+      let lastName:string = formData.lastName;
+      let email:string = formData.email;
+      let password:string = formData.password;
+      this.authSvc.processRegister(firstName, lastName, email, password);
     }
   }
 

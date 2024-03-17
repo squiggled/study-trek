@@ -54,15 +54,17 @@ export class AuthService{
         })
     }
 
-    processRegister(formData: FormData ){
-        this.httpClient.post<any>('/api/auth/register', formData , {headers: { 'Content-Type': 'application/json' }})
+    processRegister(firstName: string, lastName:string, email:string, password:string){
+        const registrationData = { firstName, lastName, email, password };
+        this.httpClient.post<any>('/api/auth/register', registrationData , {headers: { 'Content-Type': 'application/json' }})
         .subscribe({
             next:( (response:any) => {
                 console.log(response);
-                this.processLogin(formData.get('email'), formData.get('password'));
+                this.processLogin(email, password);
+                this.router.navigate(['/'])
             }),
             error: ((error:any) => {
-
+                console.error('Registration or Login Error', error);
             })
         });
     }
