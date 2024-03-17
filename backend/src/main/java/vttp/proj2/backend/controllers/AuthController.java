@@ -120,15 +120,18 @@ public class AuthController {
             rawPassword = authObj.getString("password");
         }
 
-        boolean isRegistered = false;
         try {
-            isRegistered = authSvc.registerNewUser(firstName, lastName, email, rawPassword);
-
+            authSvc.registerNewUser(firstName, lastName, email, rawPassword);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Successfully registered user: " + email);
+            return ResponseEntity.ok(response);
         } catch (UserRegistrationException e) {
             System.out.println("Registration failed: " + e.getMessage());
-            return ResponseEntity.badRequest().body("Registration failed");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Registration failed");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
-        return ResponseEntity.ok("Successfully registered user: " + email);
+        
     }
 
     @GetMapping("/loaduser")

@@ -59,7 +59,10 @@ public class AuthService {
         System.out.println("userid test " + newAcc.getUserId());
         newAcc.setLastPasswordResetDate(new Date());
         newAcc.setProfilePicUrl("/assets/logo-defaultuser.png");
-
+        boolean doesEmailExist = authRepo.checkEmailExists(email);
+        if (doesEmailExist){
+            throw new UserRegistrationException("Email already exists: " + email);
+        }
         boolean isRegistered = authRepo.createNewUser(newAcc);
         if (!isRegistered) {
             throw new UserRegistrationException("Cannot create new user: " + email);
