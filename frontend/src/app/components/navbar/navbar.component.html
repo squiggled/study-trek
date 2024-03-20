@@ -1,10 +1,9 @@
-<!-- Navbar -->
 <nav class="bg-gray-800 text-white p-4">
     <div class="container mx-auto flex justify-between items-center">
-  
+
       <!-- Logo on the left -->
       <a href="/" class="flex items-center space-x-4">
-        <img src="/assets/logo-studytrek.png" alt="Logo" class="h-8"> <!-- Adjust the logo path and size as needed -->
+        <img src="/assets/logo-studytrek.png" alt="Logo" class="h-8"> 
         <span class="font-bold text-ml"><code>STUDY TREK</code></span>
       </a>
   
@@ -25,6 +24,26 @@
       <div class="flex items-center space-x-4">
         <button *ngIf="!(isLoggedIn$ | async)" class="btn btn-outline btn-primary" (click)="login()">Login</button>
         <button *ngIf="!(isLoggedIn$ | async)" class="btn btn-primary" (click)="register()">Sign Up</button>
+
+        <!--  bell and user profile dropdown if user is logged in -->
+      <div *ngIf="isLoggedIn$ | async" class="relative profile-dropdown flex items-center space-x-2">
+        <!-- bell -->
+        <div class="dropdown dropdown-hover">
+          <button class="btn btn-square btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V8a6 6 0 00-12 0v6c0 .217.021.431.063.639L5 17h5m4 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </button>
+          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li *ngFor="let notification of (notifications$ | async)">
+              <a (click)="onNotificationClick(notification)">
+                {{ notification.message }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        </div>
+
         <!--if user is logged in -->
         <div *ngIf="isLoggedIn$ | async" class="relative profile-dropdown">
           <img *ngIf="userProfilePicUrl$ | async as userProfilePicUrl" [src]="userProfilePicUrl" (click)="goToProfile()" alt="Profile" class="h-8 w-8 rounded-full cursor-pointer">

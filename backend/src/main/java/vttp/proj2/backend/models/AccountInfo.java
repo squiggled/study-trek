@@ -19,6 +19,7 @@ public class AccountInfo {
     private List<String> interests;
     private List<CourseDetails> registeredCourses;
     private List<String> friendIds = new ArrayList<>();
+    private List<Notification> notifications = new ArrayList<>();
     
     private String role;
 
@@ -113,6 +114,14 @@ public class AccountInfo {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
 }

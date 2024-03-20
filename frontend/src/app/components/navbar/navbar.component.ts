@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
+import { UserSessionStore } from '../../stores/user.store';
 
 @Component({
   selector: 'app-navbar',
@@ -11,18 +13,34 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './navbar.component.css'
 })
 
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy{
+  
   themeSvc = inject(ThemeService);
   private router = inject(Router);
   private userSvc = inject(UserService);
   private authSvc = inject(AuthService);
+  private notificationSvc = inject(NotificationService);
+  private userSessionStore = inject(UserSessionStore);
 
   isLoggedIn$: Observable<boolean> = this.userSvc.isLoggedIn;
+  notifications$!: Observable<Notification[]>;
   userProfilePicUrl$ = this.userSvc.userProfilePicUrl$;
   firstName$ = this.userSvc.firstName;
+  userId!: string; 
+  private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authSvc.isLoggedIn$;
+    this.subscription.add(
+      this.userSessionStore.userId$.subscribe((id) => {
+        this.userId = id;
+      })
+    );
+    this.notifications$ = this.notificationSvc.getNotifications(this.userId);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
   
   get isDarkMode(): boolean {
@@ -52,5 +70,9 @@ export class NavbarComponent {
 
   goToProfile(){
     this.router.navigate(['/home/profile']);
+  }
+  
+  onNotificationClick(notification: Notification): void {
+    // Handle click, e.g., navigate to a page or mark as read
   }
 }

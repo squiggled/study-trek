@@ -53,7 +53,6 @@ export class FriendsComponent implements OnInit, OnDestroy{
   }
 
   toggleSearchPopUp(): void {
-    console.log("toggle pop up");
     this.showSearchPopUp = !this.showSearchPopUp;
   }
 

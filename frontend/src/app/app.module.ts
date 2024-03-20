@@ -30,6 +30,7 @@ import { FriendsComponent } from './components/user-profile/contents/friends.com
 import { PhotoComponent } from './components/user-profile/contents/photo.component';
 import { SubscriptionComponent } from './components/user-profile/contents/subscription.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotificationService } from './services/notification.service';
 
 
 @NgModule({
@@ -49,7 +50,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EditAccountComponent,
     FriendsComponent,
     PhotoComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +65,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CourseSearchStore, 
     CourseDetailsStore, 
     CommonUtilsService,
+    NotificationService,
     AuthService,
     UserSessionStore,
     UserService,
