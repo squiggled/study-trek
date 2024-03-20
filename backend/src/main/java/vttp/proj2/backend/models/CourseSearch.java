@@ -10,6 +10,7 @@ public class CourseSearch {
     private String price;
     private String instructor;
     private Double rating;
+    private String category;
     
     public CourseSearch() {
     }
@@ -61,6 +62,11 @@ public class CourseSearch {
     public void setRating(Double rating) {
         this.rating = rating;
     }
-    
-    
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }

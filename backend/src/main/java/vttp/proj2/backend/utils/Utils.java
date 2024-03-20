@@ -1,8 +1,12 @@
 package vttp.proj2.backend.utils;
 
+import java.util.Optional;
+
+import org.bson.Document;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import vttp.proj2.backend.models.CourseDetails;
+import vttp.proj2.backend.models.CourseSearch;
 import vttp.proj2.backend.models.Platform;
 
 public class Utils {
@@ -30,4 +34,25 @@ public class Utils {
         course.setEnrolled(rs.getBoolean("isEnrolled"));
         return course;
     }
+
+    public static CourseSearch documentToCourseSearch(Document document) {
+        if (document==null) return null;
+        CourseSearch courseSearch = new CourseSearch();
+        courseSearch.setPlatform(Platform.valueOf(document.getString("platform").toUpperCase()));
+        Object platformIdObj = document.get("platformId");
+        String platformIdStr = Optional.ofNullable(platformIdObj)
+                                       .map(Object::toString)
+                                       .orElse(null);
+        courseSearch.setPlatformId(platformIdStr);
+
+        courseSearch.setTitle(document.getString("title"));
+        courseSearch.setHeadline(document.getString("headline"));
+        courseSearch.setImageUrl(document.getString("imageUrl"));
+        courseSearch.setPrice(document.getString("price"));
+        courseSearch.setInstructor(document.getString("instructor"));
+
+        return courseSearch;
+    }
+
+    
 }

@@ -17,7 +17,6 @@ export class NavbarComponent {
   private userSvc = inject(UserService);
   private authSvc = inject(AuthService);
 
-
   isLoggedIn$: Observable<boolean> = this.userSvc.isLoggedIn;
   userProfilePicUrl$ = this.userSvc.userProfilePicUrl$;
   firstName$ = this.userSvc.firstName;
@@ -29,9 +28,7 @@ export class NavbarComponent {
   get isDarkMode(): boolean {
     return document.body.classList.contains('dark');
   }
-  get userFirstName(){
-    return 
-  }
+  
   toggleTheme(): void {
     this.themeSvc.toggleTheme();
   }
@@ -51,5 +48,9 @@ export class NavbarComponent {
 
   navigateToMyCourses(){
     this.router.navigate(['/home/my-courses']);
+  }
+
+  goToProfile(){
+    this.router.navigate(['/home/profile']);
   }
 }

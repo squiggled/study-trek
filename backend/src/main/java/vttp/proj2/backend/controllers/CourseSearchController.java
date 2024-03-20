@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.CourseSearch;
+import vttp.proj2.backend.services.CourseHomepageService;
 import vttp.proj2.backend.services.CourseSearchService;
 
 @RestController
@@ -22,8 +22,12 @@ import vttp.proj2.backend.services.CourseSearchService;
 public class CourseSearchController {
     
     @Autowired
-    private CourseSearchService searchSvc;
+    private CourseSearchService courseSearchSvc;
 
+    @Autowired
+    private CourseHomepageService courseHomepageSvc;
+
+    //for search
     @GetMapping(path="/courses/search")
     public ResponseEntity<?> search(@RequestParam String query, @RequestParam(required=false) String page, @RequestParam(required=false) String platform, 
                     @RequestParam(required=false) boolean byRating){
@@ -38,7 +42,7 @@ public class CourseSearchController {
         if (byRating){
             paramMap.put("byRating", "byRating");
         }
-        List<CourseSearch> foundCourses = searchSvc.courseSearch(paramMap);
+        List<CourseSearch> foundCourses = courseSearchSvc.courseSearch(paramMap);
         if (null==foundCourses){
             return ResponseEntity.badRequest().body("Error - Bad Request");
         }
@@ -51,12 +55,12 @@ public class CourseSearchController {
         Object courseFound = null;
         switch (platform.toUpperCase()) {
             case "UDEMY":
-                courseFound = searchSvc.getUdemyCourseById(courseId);
+                courseFound = courseSearchSvc.getUdemyCourseById(courseId);
                 break;
             case "EDX":
                 break;
             case "COURSERA":
-                courseFound = searchSvc.getCourseraCourseById(courseId);
+                courseFound = courseSearchSvc.getCourseraCourseById(courseId);
                 break;
         }
         if (courseFound != null) {
@@ -64,5 +68,12 @@ public class CourseSearchController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    //for home page
+    @GetMapping(path="/courses/loadhomepage")
+    public ResponseEntity<?> getHomepageCourses(){
+        List<CourseSearch> homepageCourses = courseHomepageSvc.loadCoursesForHomepage();
+        return ResponseEntity.ok(homepageCourses);
     }
 }

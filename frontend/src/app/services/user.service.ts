@@ -1,15 +1,16 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserSessionStore } from '../stores/user.store';
-import { AccountDetails, CourseDetails } from '../models';
+import { AccountDetails, CourseDetails, FriendInfo } from '../models';
 
 export class UserService {
-  logout() {
-    throw new Error('Method not implemented.');
-  }
+  
   private httpClient = inject(HttpClient);
   private userSessionStore = inject(UserSessionStore);
+  // foundFriend!: Observable<FriendInfo>;
+  private foundFriendSubject = new BehaviorSubject<FriendInfo | null>(null);
+  public foundFriend$ = this.foundFriendSubject.asObservable();
 
   private addTokenToHeader(): HttpHeaders {
     const token = localStorage.getItem('jwtToken');
@@ -22,6 +23,17 @@ export class UserService {
         accountDetails: userDetails,
         isAuthenticated: true
       })));
+  }
+
+  searchForFriendByEmail(userId: string, email: string) {
+    const params = new HttpParams()
+        .set('userId', userId)
+        .set('email', email);
+    this.httpClient.get<FriendInfo>(`/api/user/friend-search`, { headers: this.addTokenToHeader(), params })
+      .subscribe({
+        next: (data) => { this.foundFriendSubject.next(data);},
+        error: (error ) => { console.error(error) },
+      });
   }
 
   get isLoggedIn(): Observable<boolean> {

@@ -9,6 +9,7 @@ public class CourseDetails {
     private String platformId;
     private String title;
     private String headline;
+    private String category;
     private String imageUrl;
     private String urlToCourse;
     private boolean isPaid;
@@ -17,6 +18,7 @@ public class CourseDetails {
     private List<String> courseNotes;
     private List<Curriculum> curriculum;
     private boolean isEnrolled = false;
+    
 
     public CourseDetails() {
     }
@@ -132,5 +134,7 @@ public class CourseDetails {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    
 
 }

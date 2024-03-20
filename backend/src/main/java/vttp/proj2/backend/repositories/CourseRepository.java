@@ -88,6 +88,7 @@ public class CourseRepository {
             if (platformIdObj != null) {
                 if (courseSearch.getPlatform().equals(Platform.COURSERA) && platformIdObj instanceof ObjectId) {
                     platformIdStr = ((ObjectId) platformIdObj).toHexString();
+                    System.out.println("platform id string " + platformIdStr);
                 } else if (courseSearch.getPlatform().equals(Platform.UDEMY) && platformIdObj instanceof Integer) {
                     platformIdStr = String.valueOf(platformIdObj);
                 }
@@ -108,6 +109,7 @@ public class CourseRepository {
                         try {
                             rating = Double.parseDouble((String) ratingObj);
                         } catch (NumberFormatException e) {
+                            // Handle the case where the string cannot be parsed as a double
                             e.printStackTrace();
                         }
                     }
@@ -129,6 +131,11 @@ public class CourseRepository {
         Query query = new Query(Criteria.where("platformId").is(objectId));
 
         return mongoTemplate.findOne(query, Document.class, "allCoursesListing");
+    }
 
+    // GET one udemy coursesearch
+    public Document getUdemyCourseById(Integer platformId){
+        Query query = new Query(Criteria.where("platformId").is(platformId));
+        return mongoTemplate.findOne(query, Document.class, "allCoursesListing");
     }
 }

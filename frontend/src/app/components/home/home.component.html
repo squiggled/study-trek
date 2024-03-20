@@ -1,1 +1,108 @@
-<p>home works!</p>
+<div>
+  <!-- If user is logged in -->
+  <div *ngIf="accountDetails$ | async as userDetails">
+    <div class="container mx-auto px-4 py-8">
+      <h2 class="text-2xl font-semibold mb-4">
+        Hi {{ userDetails.firstName }}, let's start learning.
+      </h2>
+      <div class="carousel rounded-box w-full">
+        <!-- schedule card -->
+        <div class="carousel-item relative mr-2" *ngIf="showScheduleCard">
+          <div class="card bg-base-100 shadow-xl">
+            <button
+              class="btn btn-sm btn-circle absolute right-2 top-2"
+              (click)="dismissScheduleCard()"
+            >
+              ✕
+            </button>
+            <div class="card-body">
+              <h2 class="card-title text-white dark:text-white">
+                Schedule time to learn
+              </h2>
+              <p class="text-white dark:text-white">
+                Small progress adds up over time. Get reminders from Google
+                calendar.
+              </p>
+              <div class="card-actions justify-end">
+                <a href="#" class="btn btn-primary">Get started</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- user courses -->
+        <ng-container
+          *ngFor="let course of userDetails.registeredCourses; let i = index"
+        >
+          <div class="carousel-item mr-2 max-w-xs md:max-w-md lg:max-w-lg">
+            <div class="card bg-base-100 shadow-xl">
+              <figure>
+                <img
+                  src="{{ course.imageUrl }}"
+                  alt="Course Image"
+                  class="w-full h-48 object-cover"
+                />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title text-white dark:text-white">
+                  {{ course.title }}
+                </h2>
+                <p class="text-white dark:text-white">{{ course.headline }}</p>
+                <div class="card-actions justify-end">
+                  <p
+                    (click)="getCourseById(course.platformId, course.platform)"
+                    target="_blank"
+                    class="btn btn-primary"
+                  >
+                    Go to Course
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- carousel -->
+      <div class="flex justify-center gap-2 mt-4">
+        <a href="#scheduleLearning" class="btn btn-xs" *ngIf="showScheduleCard"
+          >1</a
+        >
+        <!-- more here -->
+      </div>
+    </div>
+  </div>
+  <!-- shown to all guests + logged in users -->
+  <div class="container mx-auto px-4 py-8">
+    <h2 class="text-xl font-semibold mb-4">Learners are viewing</h2>
+    <div class="flex gap-4 mb-4 overflow-auto">
+      <button *ngFor="let category of categories" (click)="selectCategory(category)" class="btn" [class.btn-primary]="category === selectedCategory">
+        {{ category }}
+      </button>
+    </div>
+
+    <!-- Carousel for selected category courses -->
+    <div *ngIf="homepageCourses$ | async as selectedCourses" class="carousel w-full">
+      <ng-container *ngFor="let course of selectedCourses">
+        <div class="carousel-item mr-2">
+          <div class="card bg-base-100 shadow-xl">
+            <figure class="px-10 pt-10">
+              <img src="{{ course.imageUrl }}" alt="Course image" class="rounded-xl">
+            </figure>
+            <div class="card-body items-center text-center">
+              <h2 class="card-title">{{ course.title }}</h2>
+              <p>{{ course.headline }}</p>
+              <div class="card-actions">
+                <!-- <a href="{{ course.urlToCourse }}" target="_blank" class="btn btn-primary">Explore Course</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Navigation for carousel -->
+      <div class="flex justify-center gap-4 mt-4">
+        <!-- Dynamic indicators based on the number of courses, for simplicity, not shown here -->
+      </div>
+    </div>
+  </div>
+</div>

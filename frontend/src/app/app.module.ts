@@ -20,7 +20,17 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserSessionStore } from './stores/user.store';
 import { UserService } from './services/user.service';
 import { AuthInterceptor } from './services/auth.interceptor';
-import { MyCoursesComponent } from './components/user-session/courses.component';
+import { MyCoursesComponent } from './components/user-courses/courses.component';
+import { HomePageCourseListingStore } from './stores/course-homepage.store';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { ProfileNavComponent } from './components/user-profile/profile-nav.component';
+import { ProfileContentBaseComponent } from './components/user-profile/profile-content-base.component';
+import { EditAccountComponent } from './components/user-profile/contents/edit-account.component';
+import { FriendsComponent } from './components/user-profile/contents/friends.component';
+import { PhotoComponent } from './components/user-profile/contents/photo.component';
+import { SubscriptionComponent } from './components/user-profile/contents/subscription.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -32,10 +42,18 @@ import { MyCoursesComponent } from './components/user-session/courses.component'
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    MyCoursesComponent
+    MyCoursesComponent,
+    UserProfileComponent,
+    ProfileNavComponent,
+    ProfileContentBaseComponent,
+    EditAccountComponent,
+    FriendsComponent,
+    PhotoComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule
@@ -48,7 +66,8 @@ import { MyCoursesComponent } from './components/user-session/courses.component'
     CommonUtilsService,
     AuthService,
     UserSessionStore,
-    UserService
+    UserService,
+    HomePageCourseListingStore
   ],
   bootstrap: [AppComponent]
 })

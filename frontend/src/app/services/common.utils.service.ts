@@ -11,6 +11,10 @@ export class CommonUtilsService {
     );
   }
 
+  capitaliseFirstLetterFormatter(s: string): string {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
   displayPlatformLogo(platform: Platform): string {
     // console.log("platform ", platform);
     switch (platform) {

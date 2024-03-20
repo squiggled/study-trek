@@ -5,12 +5,14 @@ import { CourseSearchStore } from "../stores/search.store";
 import { CourseDetails, CourseSearch, Platform } from "../models";
 import { Router } from "@angular/router";
 import { CourseDetailsStore } from "../stores/course-details.store";
+import { HomePageCourseListingStore } from "../stores/course-homepage.store";
 
 @Injectable()
 export class SearchService{
     private httpClient = inject(HttpClient);
     private searchStore = inject(CourseSearchStore);
     private courseDetailsStore = inject(CourseDetailsStore);
+    private homepageCourseStore = inject(HomePageCourseListingStore);
     private router = inject(Router);
 
     currentPage:number = 0;
@@ -52,6 +54,11 @@ export class SearchService{
                 console.error('Error fetching course details:', error);
             });
 
+    }
+
+    loadHomepageCourses(){
+        return this.httpClient.get<CourseSearch[]>('/api/courses/loadhomepage');
+            
     }
     
 

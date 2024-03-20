@@ -1,9 +1,10 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, Observable, firstValueFrom } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { UserSessionStore } from "../stores/user.store";
 import { UserService } from "./user.service";
+import { jwtDecode } from "jwt-decode";
 
 @Injectable()
 export class AuthService{
@@ -78,5 +79,14 @@ export class AuthService{
     checkTokenOnStartup(): void {
         this.isLoggedInSubject.next(this.hasToken());
     }
+
+    hasRole(expectedRole: string): boolean {
+        const token = localStorage.getItem('jwtToken');
+        if (!token) return false;
+        const decoded: any = jwtDecode(token);
+        const roles: string[] = decoded.scope || [];
+      
+        return roles.includes(expectedRole);
+      }
 
 }

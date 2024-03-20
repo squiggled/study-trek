@@ -1,0 +1,16 @@
+<!-- profile-nav.component.html -->
+<div class="flex flex-col items-center" *ngIf="(accountDetails$ | async) as accountDetails">
+    <img [src]="accountDetails.profilePicUrl" alt="Profile Image" class="rounded-full" />
+    <h2 class="font-bold">{{ accountDetails.firstName }} {{ accountDetails.lastName }}</h2>
+    <nav>
+      <ul>
+        <li><a routerLink="/home/profile/edit-account">Edit account</a></li>
+        <li><a routerLink="/home/my-courses">My courses</a></li>
+        <li><a routerLink="/home/profile/photo">Photo</a></li>
+        <li><a routerLink="/home/profile/friends">Friends</a></li>
+        <li><a routerLink="/home/profile/subscription">Subscription</a></li>
+        <!-- Add other links -->
+      </ul>
+    </nav>
+  </div>
+  

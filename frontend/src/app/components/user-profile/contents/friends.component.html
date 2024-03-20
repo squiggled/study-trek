@@ -1,0 +1,22 @@
+<!-- friends.component.html -->
+<div class="friends-content">
+    <p>My friends</p>
+    <input type="text" placeholder="Find your friends" (click)="toggleSearchPopUp()">
+  
+    <!-- Other content specific to friends -->
+  
+    <!-- Pop-up Search Form -->
+    <div *ngIf="showSearchPopUp" class="search-pop-up">
+      <form [formGroup]="friendSearchForm" (submit)="search($event)" class="flex items-center justify-between p-4">
+        <input type="text" formControlName="friendEmail" placeholder="Search by email" class="input flex-grow mr-4 text-white" />
+        <button type="button" class="cancel-btn " (click)="toggleSearchPopUp()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+      <div *ngIf="foundFriend$ | async as friend" class="flex items-center space-x-4 p-2">
+        <img [src]="friend.profilePicUrl" alt="Profile" class="h-8 w-8 rounded-full cursor-pointer">
+        <span>{{ friend.firstName }} {{ friend.lastName }}</span>
+        <button type="button" class="btn btn-secondary" (click)="addFriend(friend.userId)">Add Friend</button>
+      </div>
+    </div>
+  </div>
+  

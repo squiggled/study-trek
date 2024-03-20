@@ -9,6 +9,7 @@ import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.Curriculum;
+import vttp.proj2.backend.models.FriendInfo;
 import vttp.proj2.backend.repositories.UserRepository;
 
 @Service
@@ -21,10 +22,6 @@ public class UserService {
         return userRepo.findUserByEmail(email);
     }
 
-    public String getFirstNameByEmail(String email){
-        return userRepo.getFirstNameByEmail(email);
-    }
-
     public CourseDetails addCourseAndInitializeProgress(String userId, CourseDetails courseDetails,
             List<Curriculum> curriculumList) {
         try {
@@ -35,5 +32,13 @@ public class UserService {
             return null;
         }
         
+    }
+
+    public FriendInfo findFriendsByEmail(String userId , String friendEmail) {
+        FriendInfo friend = userRepo.friendSearchByEmail(friendEmail, userId);
+        if (null==friend){
+            return null;
+        }
+        return friend;
     }
 }

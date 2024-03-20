@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.Curriculum;
+import vttp.proj2.backend.models.FriendInfo;
 import vttp.proj2.backend.utils.Utils;
 
 @Repository
@@ -20,6 +22,7 @@ public class UserRepository {
     @Autowired
     private JdbcTemplate template;
 
+    //finding user for login
     public AccountInfo findUserByEmail(String email) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_USER_BY_EMAIL, email);
         if (rs.next()) {
@@ -45,6 +48,7 @@ public class UserRepository {
         }
     }
 
+    //retrieving user details
     public String getUserRole(String userId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_USER_ROLE_BY_ID, userId);
         if (rs.next()) {
@@ -52,7 +56,6 @@ public class UserRepository {
         }
         return null;
     }
-
     public List<String> getUserInterests(String userId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_USER_INTERESTS, userId);
         List<String> interests = new ArrayList<>();
@@ -61,7 +64,6 @@ public class UserRepository {
         }
         return interests;
     }
-
     public List<String> getUserCourseNotes(String userId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_USER_COURSE_NOTES, userId);
         List<String> courseNotes = new ArrayList<>();
@@ -70,7 +72,6 @@ public class UserRepository {
         }
         return courseNotes;
     }
-
     public List<CourseDetails> getAllRegisteredCoursesForUser(String userId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_USER_REGISTERED_COURSES, userId);
         List<CourseDetails> userCourses = new ArrayList<>();
@@ -80,7 +81,6 @@ public class UserRepository {
         }
         return userCourses;
     }
-
     public List<Curriculum> getCurriculumForCourse(String courseId, Integer curriculumId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_CURRICULUM_FOR_COURSE, courseId, curriculumId);
         List<Curriculum> curriculumList = new ArrayList<>();
@@ -94,7 +94,6 @@ public class UserRepository {
         }
         return curriculumList;
     }
-
     public List<String> getAllFriends(String userId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_FRIENDS_FOR_USER, userId, userId);
         List<String> friendIds = new ArrayList<>();
@@ -104,13 +103,7 @@ public class UserRepository {
         return friendIds;
     }
 
-    public String getFirstNameByEmail(String email) {
-        SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_FIRSTNAME_BY_EMAIL, email);
-        if (rs.next())
-            return rs.getString("firstName");
-        return null;
-    }
-
+    //adding course to user
     @Transactional(rollbackFor = UserAddCourseException.class)
     public CourseDetails addCourseAndInitializeProgress(String userId, CourseDetails courseDetails,
             List<Curriculum> curriculumList) throws UserAddCourseException{
@@ -145,5 +138,37 @@ public class UserRepository {
         template.update(Queries.SQL_USER_ADD_CURRICULUM_FOR_COURSE, courseId, curriculum.getLectureNumber(),
                 curriculum.getTitle());
         return template.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+    }
+
+    //friends feature
+    public FriendInfo convertRsToFriendInfo (SqlRowSet rs, String userId){
+        FriendInfo friend = new FriendInfo();
+        friend.setUserId(rs.getString("userId"));
+        friend.setEmail(rs.getString("email"));
+        friend.setFirstName(rs.getString("firstName"));
+        friend.setLastName(rs.getString("lastName"));
+        friend.setProfilePicUrl(rs.getString("profilePicUrl"));
+        friend.setInterests(getUserInterests(friend.getUserId()));
+        friend.setRegisteredCourses(getAllRegisteredCoursesForUser(friend.getUserId()));
+        boolean isFriend = isFriend(userId, friend.getUserId());
+        friend.setFriend(isFriend);
+        return friend;
+    }
+
+    public FriendInfo friendSearchByEmail(String friendEmail, String userId){
+        SqlRowSet rs = template.queryForRowSet(Queries.SQL_FIND_FRIENDS_BY_EMAIL, friendEmail);
+        if (rs.next()){
+            FriendInfo friend = convertRsToFriendInfo(rs, userId);
+            System.out.println("found friend");
+            return friend;
+        } else {
+            System.out.println("did not find friend");
+            return null;
+        }
+    }
+    public boolean isFriend(String userId, String friendId){
+        SqlRowSet rs = template.queryForRowSet(Queries.SQL_IS_ALREADY_FRIENDS, userId, friendId, userId, friendId);
+        if (rs.next()) return true;
+        return false;
     }
 }

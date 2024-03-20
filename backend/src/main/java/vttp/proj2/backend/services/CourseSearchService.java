@@ -250,11 +250,12 @@ public class CourseSearchService {
         if (platformIdObj instanceof ObjectId) {
             String platformIdStr = ((ObjectId) platformIdObj).toHexString();
             foundCourse.setPlatformId(platformIdStr);
+            System.out.println("platform id in course serach svc " + platformIdStr);
         }
         foundCourse.setTitle(foundDoc.getString("title"));
         String headline = foundDoc.getString("headline");
         foundCourse.setHeadline(headline.substring(1, headline.length() - 1).replace("'", "").trim());
-        System.out.println("headline in coursesvc line 249 " + foundCourse.getHeadline());
+        // System.out.println("headline in coursesvc line 249 " + foundCourse.getHeadline());
         foundCourse.setImageUrl(foundDoc.getString("imageUrl"));
         foundCourse.setUrlToCourse(foundDoc.getString("course_URL"));
         foundCourse.setPaid(false);

@@ -2,44 +2,40 @@ package vttp.proj2.backend.repositories;
 
 public class Queries {
 
+    //finding a user
     public static final String SQL_FIND_USER_BY_EMAIL = """
                 SELECT 1
                 FROM user_info
                 WHERE email = ?
             """;
-
     public static final String SQL_GET_USER_BY_EMAIL = """
                 SELECT *
                 FROM user_info
                 WHERE email = ?
             """;
-    public static final String SQL_GET_FIRSTNAME_BY_EMAIL = """
-                SELECT firstName
-                FROM user_info
-                WHERE email = ?
-            """;
-
     public static final String SQL_GET_USER_ROLE_BY_ID = """
                 SELECT role
                 FROM roles
                 WHERE userId = ?
             """;
 
+    //auth - retrieving password
     public static final String SQL_GET_HASHED_PASSWORD_BY_EMAIL = """
                 SELECT passwordHash
                 FROM user_info
                 WHERE email = ?
             """;
 
+    //auth - registering new user
     public static final String SQL_CREATE_NEW_USER = """
                 INSERT into user_info(userId, email, passwordHash, lastPasswordResetDate, firstName, lastName, profilePicUrl)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
-
     public static final String SQL_ASSIGN_ROLE_USER = """
                 INSERT INTO roles(userId, role) VALUES (?, ?);
             """;
 
+    //auth - login, retrieving user details
     public static final String SQL_GET_USER_INTERESTS = """
                 SELECT * 
                 FROM interests
@@ -70,7 +66,8 @@ public class Queries {
                 FROM friends
                 WHERE friendUserId = ?
             """;
-    //for updating user progress + user adding new courses
+            
+    //user - updating user progress + user adding new courses
     public static final String SQL_USER_ADD_REGISTERED_COURSE = """
                 INSERT INTO registered_courses(userId, platform, platformId, title, headline, imageUrl, urlToCourse, isPaid, price, instructor, isEnrolled) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -86,5 +83,21 @@ public class Queries {
     public static final String SQL_USER_GET_NEW_REGISTERED_COURSE = """
                 SELECT * FROM registered_courses 
                 WHERE courseId = ?
+            """;
+    
+    //finding friends
+    public static final String SQL_FIND_FRIENDS_BY_EMAIL = """
+                SELECT *
+                FROM user_info
+                WHERE email = ?
+            """;
+    public static final String SQL_IS_ALREADY_FRIENDS = """
+                SELECT EXISTS (
+                    SELECT 1 FROM friends 
+                    WHERE 
+                    (userId = ? AND friendUserId = ?) 
+                    OR 
+                    (userId = ? AND friendUserId = ?)
+                ) AS IsFriend;
             """;
 }

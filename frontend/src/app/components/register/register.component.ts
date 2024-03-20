@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit{
   processRegistration(){
     if (this.registerForm.valid){
       let formData = this.registerForm.value;
-      console.log(formData);
+      // console.log(formData);
       let firstName:string = formData.firstName;
       let lastName:string = formData.lastName;
       let email:string = formData.email;

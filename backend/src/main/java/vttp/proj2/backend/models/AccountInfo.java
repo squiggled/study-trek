@@ -31,7 +31,6 @@ public class AccountInfo {
         return userId;
     }
     
-
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -87,8 +86,6 @@ public class AccountInfo {
     public void setInterests(List<String> interests) {
         this.interests = interests;
     }
-
-    
 
     public List<CourseDetails> getRegisteredCourses() {
         return registeredCourses;

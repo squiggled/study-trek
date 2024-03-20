@@ -14,6 +14,7 @@ export interface CourseSearch {
   price: number;
   instructor: string;
   rating?: number;
+  category?: string;
 }
 
 export interface CourseDetails {
@@ -21,6 +22,7 @@ export interface CourseDetails {
   platformId: string;
   title: string;
   headline: string;
+  category: string;
   urlToCourse: string;
   imageUrl: string;
   isPaid: boolean;
@@ -34,6 +36,7 @@ export const defaultCourseDetails: CourseDetails = {
   platformId: '-1',
   title: 'Loading course details',
   headline: '',
+  category: '',
   urlToCourse: '',
   imageUrl: '',
   isPaid: false,
@@ -87,6 +90,11 @@ export interface CourseSearchSlice {
   courseListing: CourseSearch[];
 }
 
+export interface HomePageCourseListingSlice {
+  originalHomePageCourseListing: CourseSearch[];
+  homePageCourseListing: CourseSearch[];
+}
+
 export interface CourseDetailsSlice {
   courseDetails: CourseDetails;
   currentCourseId: string;
@@ -96,4 +104,21 @@ export interface CourseDetailsSlice {
 export interface UserSessionSlice {
   accountDetails: AccountDetails;
   isAuthenticated: boolean;
+}
+
+export interface FriendInfo{
+  userId: string;
+  email: string;
+
+  firstName: string;
+  lastName: string;
+  profilePicUrl: string;
+
+  interests: string[];
+  registeredCourses: CourseDetails[];
+  isFriend: boolean;
+}
+
+export interface FriendListSlice{
+  friendList: FriendInfo[]
 }
