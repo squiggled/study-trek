@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { UserSessionStore } from '../../stores/user.store';
+import { FriendRequest, Notification } from '../../models';
 
 @Component({
   selector: 'app-navbar',
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit, OnDestroy{
   userProfilePicUrl$ = this.userSvc.userProfilePicUrl$;
   firstName$ = this.userSvc.firstName;
   userId!: string; 
+  friendId!:string;
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
@@ -36,7 +38,18 @@ export class NavbarComponent implements OnInit, OnDestroy{
         this.userId = id;
       })
     );
-    this.notifications$ = this.notificationSvc.getNotifications(this.userId);
+    this.subscription.add(
+      this.userSvc.foundFriend$.subscribe((friendInfo) => {
+        if (friendInfo) {
+          console.log("Friend's ID:", friendInfo.userId);
+          this.friendId = friendInfo.userId;
+        }
+      })
+    );
+    this.notifications$ = this.notificationSvc.notifications$;
+    this.notifications$.subscribe(notifications => {
+      console.log('Notifications:', notifications);
+    });
   }
 
   ngOnDestroy(): void {
@@ -74,5 +87,9 @@ export class NavbarComponent implements OnInit, OnDestroy{
   
   onNotificationClick(notification: Notification): void {
     // Handle click, e.g., navigate to a page or mark as read
+  }
+
+  acceptFriendRequest(notification: Notification, friendReq: FriendRequest, accept: boolean){
+
   }
 }

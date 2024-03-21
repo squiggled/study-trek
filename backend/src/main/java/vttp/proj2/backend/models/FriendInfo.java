@@ -12,6 +12,7 @@ public class FriendInfo {
     private List<String> interests;
     private List<CourseDetails> registeredCourses;
     private boolean isFriend;
+    private String status; //e.g. if there is a pending request
 
     public FriendInfo() {
     }
@@ -78,6 +79,14 @@ public class FriendInfo {
 
     public void setFriend(boolean isFriend) {
         this.isFriend = isFriend;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

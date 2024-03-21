@@ -57,4 +57,11 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
       )
     );
   }
+
+  resetState(): void {
+    this.setState({
+      accountDetails: defaultAccountDetails, 
+      isAuthenticated: false,
+    });
+  }
 }

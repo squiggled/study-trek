@@ -18,6 +18,11 @@ public class Queries {
                 FROM roles
                 WHERE userId = ?
             """;
+    public static final String SQL_FIND_USER_BY_USERID = """
+                SELECT *
+                FROM user_info
+                WHERE userId = ?
+            """;
 
     //auth - retrieving password
     public static final String SQL_GET_HASHED_PASSWORD_BY_EMAIL = """
@@ -91,6 +96,7 @@ public class Queries {
                 FROM user_info
                 WHERE email = ?
             """;
+    
     public static final String SQL_IS_ALREADY_FRIENDS = """
                 SELECT EXISTS (
                     SELECT 1 FROM friends 
@@ -100,4 +106,48 @@ public class Queries {
                     (userId = ? AND friendUserId = ?)
                 ) AS IsFriend;
             """;
+    
+    //add friendrequest
+    public static final String SQL_FRIENDS_CREATE_NEW_FRIENDREQUEST = """
+                INSERT into friend_requests(senderId, receiverId, status, sentTimeStamp, responseTimeStamp)
+                VALUES (?, ?, ?, ?, ?)
+            """;                
+    //amend status of friend request
+    public static final String SQL_FRIENDS_UPDATE_FRIEND_REQUEST = """
+                UPDATE friend_requests
+                SET status = ?, responseTimeStamp = CURRENT_TIMESTAMP
+                WHERE senderId = ? AND recipientId = ?;
+            """;
+    public static final String SQL_FRIENDS_IS_PENDING = """
+                SELECT COUNT(*) 
+                FROM friend_requests
+                WHERE senderId = ? AND receiverId = ? AND status = 'PENDING';
+            """;
+    public static final String SQL_FRIENDS_FIND_REQUEST = """
+                SELECT * 
+                FROM friend_requests
+                WHERE requestId = ?
+            """;
+            
+    //notifications
+    public static final String SQL_NOTIF_ADD_NEW ="""
+                INSERT into notifications(userId, type, message, relatedId, readStatus, timestamp)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """;
+    public static final String SQL_NOTIF_DELETE ="""
+                DELETE from notifications
+                WHERE notificationId = ?
+            """;
+    public static final String SQL_NOTIF_GET_ALL ="""
+                SELECT * 
+                FROM notifications 
+                WHERE userId = ? 
+                ORDER BY timestamp DESC;
+            """;
+    public static final String SQL_NOTIF_MARK_AS_READ = """
+                UPDATE notifications 
+                SET readStatus = TRUE 
+                WHERE notificationId = ?;
+            """;
 }
+

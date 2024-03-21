@@ -4,7 +4,11 @@
     <input type="text" placeholder="Find your friends" (click)="toggleSearchPopUp()">
   
     <!-- Other content specific to friends -->
-  
+    <div *ngIf="accountDetails$ | async as accountDetails">
+      <div *ngFor="let friend of accountDetails.friendIds ">
+
+      </div>
+    </div>
     <!-- Pop-up Search Form -->
     <div *ngIf="showSearchPopUp" class="search-pop-up">
       <form [formGroup]="friendSearchForm" (submit)="search($event)" class="flex items-center justify-between p-4">
@@ -15,7 +19,10 @@
       <div *ngIf="foundFriend$ | async as friend" class="flex items-center space-x-4 p-2">
         <img [src]="friend.profilePicUrl" alt="Profile" class="h-8 w-8 rounded-full cursor-pointer">
         <span>{{ friend.firstName }} {{ friend.lastName }}</span>
-        <button type="button" class="btn btn-secondary" (click)="addFriend(friend.userId)">Add Friend</button>
+        <button *ngIf="friend.isFriend" type="button" class="btn btn-disabled" disabled>Friends</button>
+        <button *ngIf="!friend.isFriend && !friend.status" type="button" class="btn btn-secondary" (click)="addFriend(friend.userId)">Add Friend</button>
+        <button *ngIf="!friend.isFriend && friend.status === 'PENDING'" type="button" class="btn btn-info">Request Pending</button>
+        
       </div>
     </div>
   </div>

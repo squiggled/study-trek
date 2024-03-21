@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserSessionStore } from '../stores/user.store';
-import { AccountDetails, CourseDetails, FriendInfo } from '../models';
+import { AccountDetails, CourseDetails, FriendInfo, FriendRequest } from '../models';
 
 export class UserService {
   
@@ -36,6 +36,11 @@ export class UserService {
       });
   }
 
+  addFriend(friendRequest: FriendRequest): Observable<FriendInfo> {
+    console.log("got here in svc");
+    return this.httpClient.post<FriendInfo>(`/api/user/addfriend`, friendRequest,{ headers: this.addTokenToHeader()});
+  }
+
   get isLoggedIn(): Observable<boolean> {
     return this.userSessionStore.isLoggedIn$;
   }
@@ -51,4 +56,17 @@ export class UserService {
   addRegisteredCourseToUser(userId: string, courseDetails: CourseDetails): Observable<any> {
     return this.httpClient.post(`/api/user/${userId}/courses`, courseDetails, { headers: this.addTokenToHeader() });
   }
+
+  updateFoundFriendStatus(friendId: string, status: string) {
+    const currentFriendInfo = this.foundFriendSubject.value;
+  
+    if (currentFriendInfo && currentFriendInfo.userId === friendId) {
+      const updatedFriendInfo = { ...currentFriendInfo, status: status };
+  
+      console.log("updated status");
+      
+      this.foundFriendSubject.next(updatedFriendInfo);
+    }
+  }
+  
 }

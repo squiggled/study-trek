@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { UserSessionStore } from "../stores/user.store";
 import { UserService } from "./user.service";
 import { jwtDecode } from "jwt-decode";
+import { NotificationService } from "./notification.service";
 
 @Injectable()
 export class AuthService{
@@ -13,6 +14,7 @@ export class AuthService{
     private router = inject(Router);
     private userSessionStore = inject(UserSessionStore);
     private userSvc = inject(UserService);
+    private notificationSvc = inject(NotificationService);
 
     loginFailed: boolean = false;
     loginAttempted: boolean = false;
@@ -45,6 +47,8 @@ export class AuthService{
                     isAuthenticated: true
                 });
 
+                //set notifs
+                this.notificationSvc.setNotifications(response.notifications);
                 console.log("userdetails" , response.user)
                 this.router.navigate(['/'])
             }),
@@ -73,6 +77,7 @@ export class AuthService{
     logout(): void {
         localStorage.removeItem('jwtToken');
         this.isLoggedInSubject.next(false);
+        this.userSessionStore.resetState(); 
     }
     
     //initialise login state

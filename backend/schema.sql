@@ -81,5 +81,27 @@ CREATE TABLE roles (
     FOREIGN KEY (userId) REFERENCES user_info(userId)
 );
 
+CREATE TABLE notifications (
+    notificationId INT AUTO_INCREMENT PRIMARY KEY,
+    userId VARCHAR(8),
+    type VARCHAR(255), -- For example, 'FRIEND_REQUEST'
+    message VARCHAR(255),
+    relatedId VARCHAR(255), -- ID of the related entity, like a friend request ID
+    readStatus BOOLEAN DEFAULT FALSE,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES user_info(userId)
+);
+
+CREATE TABLE friend_requests (
+    requestId INT AUTO_INCREMENT PRIMARY KEY,
+    senderId VARCHAR(8),
+    receiverId VARCHAR(8),
+    status ENUM('PENDING', 'ACCEPTED', 'REJECTED') NOT NULL,
+    sentTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    responseTimestamp TIMESTAMP,
+    FOREIGN KEY (senderId) REFERENCES user_info(userId),
+    FOREIGN KEY (receiverId) REFERENCES user_info(userId)
+);
+
 grant all privileges on study_trek.* to 'newuser'@'%';
 flush privileges;

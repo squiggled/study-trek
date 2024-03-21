@@ -1,5 +1,7 @@
 package vttp.proj2.backend.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vttp.proj2.backend.exceptions.UserAddCourseException;
+import vttp.proj2.backend.exceptions.UserAddFriendException;
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.FriendInfo;
+import vttp.proj2.backend.models.FriendRequest;
+import vttp.proj2.backend.models.Notification;
 import vttp.proj2.backend.services.UserService;
 
 @RestController
@@ -38,6 +43,7 @@ public class UserController {
         }
     }
 
+    //FRIENDS
     //finding friends
     @GetMapping("/friend-search")
     public ResponseEntity<?> findFriendsByEmail(@RequestParam("userId") String userId, @RequestParam("email") String friendEmail){
@@ -46,6 +52,29 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(foundFriend);
+    }
+
+    //make friend request
+    @PostMapping("/addfriend")
+    public ResponseEntity<?> addFriend(@RequestBody FriendRequest friendRequest){
+        try {
+            FriendInfo updatedFriendInfo = userSvc.makeFriendRequest(friendRequest);
+            return ResponseEntity.ok(updatedFriendInfo);
+        } catch (UserAddFriendException e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    //ACCEPT/REJECT friend request
+    
+    @GetMapping("/notifications")
+    public ResponseEntity<?> loadNotifications(@RequestParam("userId") String userId){
+        List<Notification> notifs = userSvc.getNotifications(userId);
+        if (notifs==null){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return ResponseEntity.ok(notifs);
     }
 
 }

@@ -3,6 +3,7 @@ package vttp.proj2.backend.controllers;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import jakarta.json.JsonReader;
 import jakarta.servlet.http.HttpServletResponse;
 import vttp.proj2.backend.exceptions.UserRegistrationException;
 import vttp.proj2.backend.models.AccountInfo;
+import vttp.proj2.backend.models.Notification;
 import vttp.proj2.backend.services.AuthService;
 import vttp.proj2.backend.services.AuthUserDetailsService;
 import vttp.proj2.backend.services.SecurityTokenService;
@@ -74,13 +76,18 @@ public class AuthController {
                     userDetails.getAuthorities());
 
             String tokenDetails = tokenSvc.generateToken(authentication);
+
+            //get notifs
+            List<Notification> notifs = userSvc.getNotifications(user.getUserId());
+            
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("message", "🟢 User " + email + " authenticated successfully");
             responseMap.put("user", user);
+            responseMap.put("notifications", notifs);
+            System.out.println(notifs);
             responseMap.put("authenticated", true);
             responseMap.put("token", tokenDetails);
-            System.out.println("Generated JWT: " + tokenDetails);
-            // responseMap.put("token", token); 
+            System.out.println("Generated JWT: " + tokenDetails); 
 
             return ResponseEntity.ok(responseMap);
                     // .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
@@ -149,9 +156,6 @@ public class AuthController {
             return ResponseEntity.ok(acc);
         } else {
             return ResponseEntity.badRequest().body("JWT error");
-        }
-        // AccountInfoPrincipal principal = (AccountInfoPrincipal) authentication.getPrincipal();
-        
-        
+        }        
     }
 }

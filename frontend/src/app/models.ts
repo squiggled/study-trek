@@ -117,8 +117,27 @@ export interface FriendInfo{
   interests: string[];
   registeredCourses: CourseDetails[];
   isFriend: boolean;
+  status?: string
 }
 
 export interface FriendListSlice{
   friendList: FriendInfo[]
+}
+
+export interface FriendRequest{
+  requestId: string;
+  senderId: string;
+  receiverId: string;
+  status: string;
+}
+
+export interface Notification {
+  id: string;
+  type: string;
+  message: string;
+  relatedId: string;
+  read: boolean;
+  timestamp: Date;
+  friendRequest?: FriendRequest;
+  
 }
