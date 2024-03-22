@@ -2,6 +2,9 @@ package vttp.proj2.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.json.Json;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +20,7 @@ public class OpenAIController {
     @Autowired
     OpenAIService openAISvc;
 
-    public final String model = "gpt-3.5-turbo-instruct";
+    public final String model = "gpt-3.5-turbo";
 
     @GetMapping("/bot")
     public String chat(@RequestParam("prompt") String prompt) {
@@ -33,7 +36,7 @@ public class OpenAIController {
                 return content; 
             }
         }
-        return "Error or no content available"; // Fallback message
+        return "Error or no content available"; 
 
     }
 
