@@ -8,5 +8,4 @@ public class UserAddFriendException extends RuntimeException{
     public UserAddFriendException(String message) {
         super(message);
     }
-    
 }

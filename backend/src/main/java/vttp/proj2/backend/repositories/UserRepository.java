@@ -65,8 +65,9 @@ public class UserRepository {
             notif.setRelatedId(String.valueOf(rs.getInt("relatedId")));
             //look for friendreq with the id
             SqlRowSet rs1 = template.queryForRowSet(Queries.SQL_FRIENDS_FIND_REQUEST, notif.getRelatedId());
-            notif.setFriendRequest(convertRsToFriendRequest(rs1));
-
+            if (rs1.next()){
+                notif.setFriendRequest(convertRsToFriendRequest(rs1));
+            }   
             notif.setTimestamp(rs.getTimestamp("timestamp"));
             notif.setRead(rs.getBoolean("readStatus"));
             notifications.add(notif);
@@ -76,15 +77,12 @@ public class UserRepository {
     }
 
     public FriendRequest convertRsToFriendRequest (SqlRowSet rs){
-        if (rs.next()){
-            FriendRequest fr = new FriendRequest();
-            fr.setRequestId(Integer.toString(rs.getInt("requestId")));
-            fr.setReceiverId(rs.getString("receiverId"));
-            fr.setSenderId(rs.getString("senderId"));
-            fr.setStatus(rs.getString("status"));
-            return fr;
-        }
-        return null; 
+        FriendRequest fr = new FriendRequest();
+        fr.setRequestId(Integer.toString(rs.getInt("requestId")));
+        fr.setReceiverId(rs.getString("receiverId"));
+        fr.setSenderId(rs.getString("senderId"));
+        fr.setStatus(rs.getString("status"));
+        return fr;
     }
 
     // get first and last name from userid
@@ -149,6 +147,7 @@ public class UserRepository {
         return curriculumList;
     }
 
+    //GET friend id
     public List<String> getAllFriends(String userId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_FRIENDS_FOR_USER, userId, userId);
         List<String> friendIds = new ArrayList<>();
@@ -158,6 +157,19 @@ public class UserRepository {
         return friendIds;
     }
 
+    //convert friend id to friend object
+    public List<FriendInfo> getAllFriendObjects(List<String> friendIds){
+        List<FriendInfo> friends = new ArrayList<>();
+        for (String friendId: friendIds){
+            SqlRowSet rs = template.queryForRowSet(Queries.SQL_FIND_USER_BY_USERID, friendId);
+            if (rs.next()){
+                FriendInfo friend = convertRsToFriendInfo(rs, friendId);
+                friends.add(friend);
+            }
+        }
+        System.out.println("found friends" + friends);
+        return friends;
+    }
     // adding course to user
     @Transactional(rollbackFor = UserAddCourseException.class)
     public CourseDetails addCourseAndInitializeProgress(String userId, CourseDetails courseDetails,
@@ -197,17 +209,20 @@ public class UserRepository {
 
     // friends feature
     public FriendInfo convertRsToFriendInfo(SqlRowSet rs, String userId) {
-        FriendInfo friend = new FriendInfo();
-        friend.setUserId(rs.getString("userId"));
-        friend.setEmail(rs.getString("email"));
-        friend.setFirstName(rs.getString("firstName"));
-        friend.setLastName(rs.getString("lastName"));
-        friend.setProfilePicUrl(rs.getString("profilePicUrl"));
-        friend.setInterests(getUserInterests(friend.getUserId()));
-        friend.setRegisteredCourses(getAllRegisteredCoursesForUser(friend.getUserId()));
-        boolean isFriend = isFriend(userId, friend.getUserId());
-        friend.setFriend(isFriend);
-        return friend;
+      
+            FriendInfo friend = new FriendInfo();
+            friend.setUserId(rs.getString("userId"));
+            friend.setEmail(rs.getString("email"));
+            friend.setFirstName(rs.getString("firstName"));
+            friend.setLastName(rs.getString("lastName"));
+            friend.setProfilePicUrl(rs.getString("profilePicUrl"));
+            friend.setInterests(getUserInterests(friend.getUserId()));
+            friend.setRegisteredCourses(getAllRegisteredCoursesForUser(friend.getUserId()));
+            boolean isFriend = isFriend(userId, friend.getUserId());
+            friend.setFriend(isFriend);
+            return friend;
+    
+        
     }
 
     public FriendInfo friendSearchByEmail(String friendEmail, String userId) {
@@ -308,6 +323,30 @@ public class UserRepository {
         int rowsAffected = template.update(Queries.SQL_NOTIF_DELETE, notif.getNotifId());
         if (rowsAffected==0) return false;
         return true;
+    }
+
+    public boolean amendFriendRequest(FriendRequest req, String status){
+        //status is either ACCEPTED or REJECTED
+        int rowsAffected = template.update(Queries.SQL_FRIENDS_UPDATE_FRIEND_REQUEST, status, req.getRequestId());
+        if (rowsAffected > 0) {
+            System.out.println("amended successfully");
+            return true;
+        } else {
+            System.out.println("did not amend friend request");
+            return false;
+        }
+        
+    }
+    //add user + friend to friends table
+    public boolean addToFriendsList(FriendRequest req){
+        int rowsAffected = template.update(Queries.SQL_FRIENDS_ADD_TO_FRIEND_LIST, req.getSenderId(), req.getReceiverId());
+        if (rowsAffected > 0) {
+            System.out.println("successfully added to friend table");
+            return true;
+        } else {
+            System.out.println("did not add to friend table");
+            return false;
+        }
     }
 
 }

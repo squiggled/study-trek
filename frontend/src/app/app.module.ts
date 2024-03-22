@@ -31,7 +31,8 @@ import { PhotoComponent } from './components/user-profile/contents/photo.compone
 import { SubscriptionComponent } from './components/user-profile/contents/subscription.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationService } from './services/notification.service';
-
+import { FriendListStore } from './stores/friends.store';
+import { FriendService } from './services/friend.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,9 @@ import { NotificationService } from './services/notification.service';
     AuthService,
     UserSessionStore,
     UserService,
-    HomePageCourseListingStore
+    HomePageCourseListingStore,
+    FriendListStore,
+    FriendService
   ],
   bootstrap: [AppComponent]
 })

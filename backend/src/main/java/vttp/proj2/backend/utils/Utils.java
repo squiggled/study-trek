@@ -5,8 +5,11 @@ import java.util.Optional;
 import org.bson.Document;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import jakarta.json.JsonObject;
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.CourseSearch;
+import vttp.proj2.backend.models.FriendRequest;
+import vttp.proj2.backend.models.Notification;
 import vttp.proj2.backend.models.Platform;
 
 public class Utils {
@@ -52,6 +55,28 @@ public class Utils {
         courseSearch.setInstructor(document.getString("instructor"));
 
         return courseSearch;
+    }
+
+    public static Notification parseNotification(JsonObject json) {
+        Notification notif = new Notification();
+        Integer id = json.getInt("notifId");
+        notif.setNotifId(id);
+        String message = json.getString("message");
+        notif.setMessage(message);
+        notif.setUserId(json.getString("userId"));
+        notif.setRelatedId(json.getString("relatedId"));
+        notif.setType(json.getString("type"));
+        notif.setRead(json.getBoolean("read"));
+        return notif;
+    }
+
+    public static FriendRequest parseFriendRequest(JsonObject json) {
+        FriendRequest req = new FriendRequest();
+        req.setReceiverId(json.getString("receiverId"));
+        req.setRequestId(json.getString("requestId"));
+        req.setSenderId(json.getString("senderId"));
+        req.setStatus(json.getString("status"));
+        return req;
     }
 
     

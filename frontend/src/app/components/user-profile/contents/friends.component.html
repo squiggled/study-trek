@@ -3,10 +3,14 @@
     <p>My friends</p>
     <input type="text" placeholder="Find your friends" (click)="toggleSearchPopUp()">
   
-    <!-- Other content specific to friends -->
-    <div *ngIf="accountDetails$ | async as accountDetails">
-      <div *ngFor="let friend of accountDetails.friendIds ">
-
+    <!-- friendslist should be here-->
+    <div *ngIf="friendStore.friendList$ | async as friendList">
+      <div *ngFor="let friend of friendList">
+        <!-- Display each friend's info here -->
+        <p>{{ friend.firstName }} {{ friend.lastName }}</p>
+        <div *ngFor="let course of friend.registeredCourses">
+          <p>{{course.title}} {{course.instructor}}</p>
+        </div>
       </div>
     </div>
     <!-- Pop-up Search Form -->

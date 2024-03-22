@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.exceptions.UserAddFriendException;
+import vttp.proj2.backend.exceptions.UserAmendFriendRequestException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.Curriculum;
@@ -50,7 +51,7 @@ public class UserService {
 
     @Transactional(rollbackFor = UserAddFriendException.class)
     public FriendInfo makeFriendRequest(FriendRequest friendRequest) throws UserAddFriendException{
-        System.out.println(friendRequest.getReceiverId() + " " + friendRequest.getSenderId());
+        System.out.println("for usersvc makefriendrq " + friendRequest.getReceiverId() + " " + friendRequest.getSenderId());
         boolean isPending = userRepo.isPending(friendRequest.getSenderId(), friendRequest.getReceiverId());
         if (isPending){
             throw new UserAddFriendException("Request is already pending");
@@ -62,6 +63,7 @@ public class UserService {
         Notification notif = new Notification();
         notif.setUserId(friendRequest.getReceiverId());
         notif.setFriendRequest(friendRequest);
+        System.out.println("friend req in user svc create notif " + friendRequest);
         notif.setMessage("You have a new friend request from " + userRepo.findNameByUserId(friendRequest.getSenderId()));
         notif.setRead(false);
         notif.setType("FRIEND_REQUEST");
@@ -83,10 +85,38 @@ public class UserService {
     //get updated friend list
     public List<FriendInfo> getFriendListByUserId(String userId) {
         // Implementation to fetch the friend list from the database
-        return userRepo.findFriendIdsByUserId(userId);
+        return null;
+        // return userRepo.findFriendIdsByUserId(userId);
     }
 
-    //delete notifs
+    //update friend req
+    @Transactional(rollbackFor = UserAmendFriendRequestException.class)
+    public boolean updateFriendRequest(FriendRequest req, Notification notif, boolean isAccepted) throws UserAmendFriendRequestException{
+        boolean isNotifDeleted = userRepo.deleteNotification(notif);
+        if (!isNotifDeleted){
+            throw new UserAmendFriendRequestException("Failed to delete notification");
+        }
+
+        String status = "ACCEPTED";
+        if (!isAccepted) status="REJECTED";
+        boolean isFriendReqAmended = userRepo.amendFriendRequest(req, status);
+        if (!isFriendReqAmended){
+            throw new UserAmendFriendRequestException("Failed to update friend request");
+        }
+        if (!isAccepted && isFriendReqAmended) return true;
+        boolean addedToFriendList = userRepo.addToFriendsList(req);
+        if (!addedToFriendList) {
+            throw new UserAmendFriendRequestException("faled to add to friend list");
+        }
+        return true;
+    }
+
+    //get all friendinfo obj
+    public List<FriendInfo> getAllFriends(String userId){
+        List<String> friendIds = userRepo.getAllFriends(userId);
+        List<FriendInfo> friends = userRepo.getAllFriendObjects(friendIds);
+        return friends;
+    }
     
 
 

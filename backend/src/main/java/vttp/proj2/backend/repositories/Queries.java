@@ -116,7 +116,7 @@ public class Queries {
     public static final String SQL_FRIENDS_UPDATE_FRIEND_REQUEST = """
                 UPDATE friend_requests
                 SET status = ?, responseTimeStamp = CURRENT_TIMESTAMP
-                WHERE senderId = ? AND recipientId = ?;
+                WHERE requestId = ?;
             """;
     public static final String SQL_FRIENDS_IS_PENDING = """
                 SELECT COUNT(*) 
@@ -128,7 +128,11 @@ public class Queries {
                 FROM friend_requests
                 WHERE requestId = ?
             """;
-            
+    //add friends to friend table
+    public static final String SQL_FRIENDS_ADD_TO_FRIEND_LIST = """
+                INSERT into friends(userId, friendUserId)
+                VALUES (?, ?)
+            """;      
     //notifications
     public static final String SQL_NOTIF_ADD_NEW ="""
                 INSERT into notifications(userId, type, message, relatedId, readStatus, timestamp)

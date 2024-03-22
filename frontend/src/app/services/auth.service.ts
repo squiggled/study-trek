@@ -6,6 +6,7 @@ import { UserSessionStore } from "../stores/user.store";
 import { UserService } from "./user.service";
 import { jwtDecode } from "jwt-decode";
 import { NotificationService } from "./notification.service";
+import { FriendListStore } from "../stores/friends.store";
 
 @Injectable()
 export class AuthService{
@@ -15,6 +16,7 @@ export class AuthService{
     private userSessionStore = inject(UserSessionStore);
     private userSvc = inject(UserService);
     private notificationSvc = inject(NotificationService);
+    private friendStore = inject(FriendListStore);
 
     loginFailed: boolean = false;
     loginAttempted: boolean = false;
@@ -39,6 +41,7 @@ export class AuthService{
                 this.loginFailed=false;
                 this.loginAttempted = false;
                 localStorage.setItem('jwtToken', response.token); //store jwt token
+                localStorage.setItem('userId', response.user.userId);
                 this.isLoggedInSubject.next(true);
 
                 //update user store
@@ -46,10 +49,18 @@ export class AuthService{
                     accountDetails: response.user, 
                     isAuthenticated: true
                 });
+                // this.sharedStateSvc.setUserId(response.user.userId);
 
                 //set notifs
                 this.notificationSvc.setNotifications(response.notifications);
-                console.log("userdetails" , response.user)
+                console.log("userdetails" , response.user);
+
+                // this.sharedStateSvc.setUserId(response.user.userId);
+
+                //set friendlist
+                if (response.friendList) {
+                    this.friendStore.setFriendList(response.friendList);
+                  }
                 this.router.navigate(['/'])
             }),
             error:((error: any) => {
@@ -76,7 +87,9 @@ export class AuthService{
 
     logout(): void {
         localStorage.removeItem('jwtToken');
+        localStorage.removeItem('userId');
         this.isLoggedInSubject.next(false);
+        // this.sharedStateSvc.setUserId(null);
         this.userSessionStore.resetState(); 
     }
     

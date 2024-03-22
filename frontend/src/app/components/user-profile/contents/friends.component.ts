@@ -11,6 +11,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { AccountDetails, FriendInfo, FriendRequest } from '../../../models';
 import { UserSessionStore } from '../../../stores/user.store';
+import { FriendListStore } from '../../../stores/friends.store';
 
 @Component({
   selector: 'app-friends',
@@ -39,6 +40,7 @@ export class FriendsComponent implements OnInit {
 
   private userSessionStore = inject(UserSessionStore);
   private userSvc = inject(UserService);
+  friendStore = inject(FriendListStore);
   friendSearchForm!: FormGroup;
   showSearchPopUp = false;
   foundFriend$ = this.userSvc.foundFriend$;
@@ -67,6 +69,12 @@ export class FriendsComponent implements OnInit {
     this.friendSearchForm = this.fb.group({
       friendEmail: this.fb.control<string>('', [Validators.required]),
     });
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+        this.friendStore.loadFriends(userId);
+    } else {
+        console.error('No userId found in localStorage');
+  }
   }
 
   // ngOnDestroy(): void {

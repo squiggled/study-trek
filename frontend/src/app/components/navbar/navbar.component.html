@@ -39,7 +39,7 @@
               <a>No new notifications</a>
             </li>
             <li *ngFor="let notification of (notifications$ | async)">
-              <a (click)="onNotificationClick(notification)">
+              <a (click)="onNotificationClick()">
                 {{ notification.message }}
               </a>
               <ng-container *ngIf="notification.friendRequest">
@@ -47,6 +47,7 @@
                   <button class="btn btn-sm btn-outline btn-success" (click)="acceptFriendRequest(notification, notification.friendRequest, true)">Accept</button>
                   <button class="btn btn-sm btn-outline btn-error" (click)="acceptFriendRequest(notification, notification.friendRequest, false)">Reject</button>
                 </div>
+                <p>TEST</p>
               </ng-container>
               
             </li>

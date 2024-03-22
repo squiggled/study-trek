@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, filter } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { UserSessionStore } from '../../stores/user.store';
-import { FriendRequest, Notification } from '../../models';
+import { FriendRequest, Notification as AppNotification } from '../../models';
 
 @Component({
   selector: 'app-navbar',
@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit, OnDestroy{
   private userSessionStore = inject(UserSessionStore);
 
   isLoggedIn$: Observable<boolean> = this.userSvc.isLoggedIn;
-  notifications$!: Observable<Notification[]>;
+  notifications$!: Observable<AppNotification[]>;
   userProfilePicUrl$ = this.userSvc.userProfilePicUrl$;
   firstName$ = this.userSvc.firstName;
   userId!: string; 
@@ -48,6 +48,17 @@ export class NavbarComponent implements OnInit, OnDestroy{
     );
     this.notifications$ = this.notificationSvc.notifications$;
     this.notifications$.subscribe(notifications => {
+      console.log('Notifications:', notifications);
+    });
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.fetchNotifications();
+    });
+  }
+
+  fetchNotifications() {
+    this.notificationSvc.getNotifications(this.userId).subscribe(notifications => {
       console.log('Notifications:', notifications);
     });
   }
@@ -85,11 +96,19 @@ export class NavbarComponent implements OnInit, OnDestroy{
     this.router.navigate(['/home/profile']);
   }
   
-  onNotificationClick(notification: Notification): void {
+  onNotificationClick(): void {
     // Handle click, e.g., navigate to a page or mark as read
   }
 
-  acceptFriendRequest(notification: Notification, friendReq: FriendRequest, accept: boolean){
-
+ 
+  acceptFriendRequest(notif: AppNotification, friendReq: FriendRequest, accept: boolean) {
+    this.userSvc.amendFriendRequest(notif, friendReq, accept).subscribe({
+      next: () => {
+        console.log('Friend list updated successfully');
+      },
+      error: (error) => {
+        console.error('Failed to update friend list', error);
+      }
+    });
   }
 }

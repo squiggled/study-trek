@@ -26,6 +26,7 @@ import jakarta.json.JsonReader;
 import jakarta.servlet.http.HttpServletResponse;
 import vttp.proj2.backend.exceptions.UserRegistrationException;
 import vttp.proj2.backend.models.AccountInfo;
+import vttp.proj2.backend.models.FriendInfo;
 import vttp.proj2.backend.models.Notification;
 import vttp.proj2.backend.services.AuthService;
 import vttp.proj2.backend.services.AuthUserDetailsService;
@@ -84,6 +85,8 @@ public class AuthController {
             responseMap.put("message", "🟢 User " + email + " authenticated successfully");
             responseMap.put("user", user);
             responseMap.put("notifications", notifs);
+            List<FriendInfo> friends = userSvc.getAllFriends(user.getUserId());
+            responseMap.put("friendList", friends);
             System.out.println(notifs);
             responseMap.put("authenticated", true);
             responseMap.put("token", tokenDetails);
