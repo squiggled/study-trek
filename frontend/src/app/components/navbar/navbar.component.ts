@@ -33,11 +33,15 @@ export class NavbarComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authSvc.isLoggedIn$;
-    this.subscription.add(
-      this.userSessionStore.userId$.subscribe((id) => {
-        this.userId = id;
-      })
-    );
+    // this.subscription.add(
+    //   this.userSessionStore.userId$.subscribe((id) => {
+    //     this.userId = id;
+    //   })
+    // );
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.userId=userId;
+    }
     this.subscription.add(
       this.userSvc.foundFriend$.subscribe((friendInfo) => {
         if (friendInfo) {
@@ -58,9 +62,15 @@ export class NavbarComponent implements OnInit, OnDestroy{
   }
 
   fetchNotifications() {
-    this.notificationSvc.getNotifications(this.userId).subscribe(notifications => {
-      console.log('Notifications:', notifications);
-    });
+    const userIdFromStorage = localStorage.getItem('userId');
+    if (userIdFromStorage) {
+      this.userId = userIdFromStorage; 
+      this.notificationSvc.getNotifications(this.userId).subscribe(notifications => {
+        console.log('Notifications:', notifications);
+      });
+    } else {
+      console.error('User ID not found in local storage.');
+    }
   }
 
   ngOnDestroy(): void {

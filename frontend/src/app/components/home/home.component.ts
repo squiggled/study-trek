@@ -1,11 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { AccountDetails, CourseDetails, CourseSearch, Platform } from '../../models';
 import { UserSessionStore } from '../../stores/user.store';
 import { SearchComponent } from '../navbar/search.component';
 import { SearchService } from '../../services/search.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { HomePageCourseListingStore } from '../../stores/course-homepage.store';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -17,25 +18,38 @@ export class HomeComponent implements OnInit{
   private userSessionStore = inject(UserSessionStore);
   private searchSvc = inject(SearchService);
   private router = inject(Router);
+  private notificationSvc = inject(NotificationService);
   private homepageCourseListingStore = inject(HomePageCourseListingStore);
   
   showScheduleCard = true;
   categories = ['Business', 'Coding', 'Marketing', 'Design', 'Video'];
   selectedCategory: string = 'Business';
   homepageCourses$!: Observable<CourseSearch[]>;
+  userId!:string;
 
 
   ngOnInit(): void {
     this.accountDetails$ = this.userSessionStore.select(state => state.accountDetails);
     this.loadHomepageCourses();
     this.homepageCourses$ = this.homepageCourseListingStore.select(state => state.homePageCourseListing);
-    // this.homepageCourses$ = this.homepageCourseListingStore.select(state => state.homePageCourseListing);
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      console.log("found user id " + userId);
+      this.userId = userId;
+    }
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.notificationSvc.fetchAndSetNotifications();
+    });
+    
   }
 
   dismissScheduleCard() {
     this.showScheduleCard = false; //hide schedule card when button is clicked
   }
 
+ 
 
   loadHomepageCourses(): void {
     this.searchSvc.loadHomepageCourses().subscribe({
