@@ -33,6 +33,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationService } from './services/notification.service';
 import { FriendListStore } from './stores/friends.store';
 import { FriendService } from './services/friend.service';
+import { CourseNavigatorComponent } from './components/course-ai-navigator/course-navigator.component';
+import { OpenAIService } from './services/openai.service';
+import { SubscribeComponent } from './components/subscribe/subscribe.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,8 @@ import { FriendService } from './services/friend.service';
     FriendsComponent,
     PhotoComponent,
     SubscriptionComponent,
+    CourseNavigatorComponent,
+    SubscribeComponent
   ],
   imports: [
     BrowserModule,
@@ -62,17 +67,18 @@ import { FriendService } from './services/friend.service';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    SearchService, 
+    CommonUtilsService,
+    SearchService,
     CourseSearchStore, 
     CourseDetailsStore, 
-    CommonUtilsService,
-    NotificationService,
-    AuthService,
-    UserSessionStore,
-    UserService,
     HomePageCourseListingStore,
+    AuthService,
+    UserService,
+    UserSessionStore,
+    OpenAIService,
+    NotificationService,
+    FriendService,
     FriendListStore,
-    FriendService
   ],
   bootstrap: [AppComponent]
 })

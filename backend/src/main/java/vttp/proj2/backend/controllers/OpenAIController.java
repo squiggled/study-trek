@@ -23,8 +23,9 @@ public class OpenAIController {
     public final String model = "gpt-3.5-turbo";
 
     @GetMapping("/bot")
-    public String chat(@RequestParam("prompt") String prompt) {
-        String formattedPrompt = prompt + " Recommend courses from udemy and coursera only";
+    public String chat(@RequestParam("prompt") String prompt, @RequestParam("number") String number) {
+        String formattedPrompt = " Recommend " + number + " course(s) on " + prompt + " from udemy and coursera only" ;
+        System.out.println("formattedprompt " + formattedPrompt);
         OpenAIRequest req = new OpenAIRequest(model, formattedPrompt);
         OpenAIResponse response = openAISvc.getResponse(req);
         if (response != null && response.getChoices() != null && !response.getChoices().isEmpty()) {
@@ -36,7 +37,7 @@ public class OpenAIController {
                 return content; 
             }
         }
-        return "Error or no content available"; 
+        return "No courses found. Search again?"; 
 
     }
 

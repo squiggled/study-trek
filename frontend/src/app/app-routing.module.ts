@@ -12,6 +12,8 @@ import { FriendsComponent } from './components/user-profile/contents/friends.com
 import { isLoggedIn } from './guards';
 import { PhotoComponent } from './components/user-profile/contents/photo.component';
 import { SubscriptionComponent } from './components/user-profile/contents/subscription.component';
+import { CourseNavigatorComponent } from './components/course-ai-navigator/course-navigator.component';
+import { SubscribeComponent } from './components/subscribe/subscribe.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +21,10 @@ const routes: Routes = [
   { path: 'courses/search', component: SearchResultsComponent },
   { path: 'join/login', component: LoginComponent },
   { path: 'join/register', component: RegisterComponent },
+  { path: 'join/subscribe', 
+    component: SubscribeComponent, 
+    canActivate: [ isLoggedIn ], 
+  },
   { path: 'home/my-courses', 
     component: MyCoursesComponent, 
     canActivate: [ isLoggedIn ], 
@@ -34,6 +40,10 @@ const routes: Routes = [
       { path: 'subscription', component: SubscriptionComponent },
   
     ]
+  },
+  { path: 'course-navigator', 
+    component: CourseNavigatorComponent, 
+    canActivate: [ isLoggedIn ], 
   },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];

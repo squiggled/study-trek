@@ -4,6 +4,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable()
 export class CommonUtilsService {
+
   convertPlatformToStringFormatter(platform: Platform) {
     return (
       platform.toString().charAt(0).toUpperCase() +
@@ -47,4 +48,16 @@ export class CommonUtilsService {
     const expiresAt = expiration ? parseInt(expiration, 10) : 0;
     return Date.now() >= expiresAt * 1000;
   }
+
+  formatResponse(response: string): string {
+    const formattedResponse = response.replace(/(?<=^|\s)\d+\./g, (match: any) => `\n${match}`);
+    const courseRegex = /"([^"]+)"/g; 
+    const linkFormattedResponse = formattedResponse.replace(courseRegex, (match, courseName) => {
+      const encodedCourseName = encodeURIComponent(courseName);
+      const searchUrl = `/#/courses/search?query=${encodedCourseName}&page=1`;
+      return `<a href="${searchUrl}" target="_blank" class="text-teal-500 underline">${courseName}</a>`;
+    });
+    return linkFormattedResponse;
+  }
+  
 }

@@ -5,11 +5,24 @@ import { inject } from '@angular/core';
 export const isLoggedIn: CanActivateFn = (_route, _state) => {
   const authSvc = inject(AuthService);
   const router = inject(Router);
-  console.info('in can proceed');
-  if (authSvc.hasRole('ROLE_USER') || authSvc.hasRole('ROLE_MEMBER')) {
+  console.info('ROLE_USER; can proceed');
+  if (authSvc.hasRole('ROLE_USER') || authSvc.hasRole('ROLE_SUBSCRIBER')) {
     return true;
   } else {
     router.navigate(['/join/login']);
+    return false;
+  }
+}; 
+
+export const isSubscriber: CanActivateFn = (_route, _state) => {
+  const authSvc = inject(AuthService);
+  const router = inject(Router);
+  
+  if (authSvc.hasRole('ROLE_SUBSCRIBER')) {
+    console.info('ROLE_SUBSCRIBER; can proceed');
+    return true;
+  } else {
+    router.navigate(['/join/subscribe']);
     return false;
   }
 }; 
