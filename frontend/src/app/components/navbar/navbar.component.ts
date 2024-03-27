@@ -1,46 +1,53 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Observable, Subject, Subscription, distinctUntilChanged, filter } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  Subscription,
+  distinctUntilChanged,
+  filter,
+} from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { UserSessionStore } from '../../stores/user.store';
 import { FriendRequest, Notification as AppNotification } from '../../models';
 import { debounceTime } from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
-
-export class NavbarComponent implements OnInit, OnDestroy{
-  
+export class NavbarComponent implements OnInit, OnDestroy {
   themeSvc = inject(ThemeService);
   private router = inject(Router);
   private userSvc = inject(UserService);
   private authSvc = inject(AuthService);
   private notificationSvc = inject(NotificationService);
-  private userSessionStore = inject(UserSessionStore);
-
   private fetchNotificationsSubject = new Subject<void>();
 
-  
   isLoggedIn$: Observable<boolean> = this.userSvc.isLoggedIn;
   notifications$!: Observable<AppNotification[]>;
   userProfilePicUrl$ = this.userSvc.userProfilePicUrl$;
   firstName$ = this.userSvc.firstName;
-  userId!: string; 
-  friendId!:string;
+  userId!: string;
+  friendId!: string;
   private subscription: Subscription = new Subscription();
+  isDropdownVisible = false;
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authSvc.isLoggedIn$;
     const userId = localStorage.getItem('userId');
     if (userId) {
-      this.userId=userId;
+      this.userId = userId;
     }
     this.subscription.add(
       this.userSvc.foundFriend$.subscribe((friendInfo) => {
@@ -51,27 +58,31 @@ export class NavbarComponent implements OnInit, OnDestroy{
       })
     );
     this.notifications$ = this.notificationSvc.notifications$;
-    this.fetchNotificationsSubject.pipe(
-      debounceTime(10000) // Adjust debounce time as needed
-    ).subscribe(() => {
-      this.fetchNotifications();
-    });
-  
+    this.fetchNotificationsSubject
+      .pipe(
+        debounceTime(10000) // Adjust debounce time as needed
+      )
+      .subscribe(() => {
+        this.fetchNotifications();
+      });
+
     // Example usage
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.fetchNotificationsSubject.next();
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.fetchNotificationsSubject.next();
+      });
   }
 
   fetchNotifications() {
     const userIdFromStorage = localStorage.getItem('userId');
     if (userIdFromStorage) {
-      this.userId = userIdFromStorage; 
-      this.notificationSvc.getNotifications(this.userId).subscribe(notifications => {
-        console.log('Notifications:', notifications);
-      });
+      this.userId = userIdFromStorage;
+      this.notificationSvc
+        .getNotifications(this.userId)
+        .subscribe((notifications) => {
+          console.log('Notifications:', notifications);
+        });
     } else {
       console.error('User ID not found in local storage.');
     }
@@ -80,53 +91,68 @@ export class NavbarComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  
+
   get isDarkMode(): boolean {
     return document.body.classList.contains('dark');
   }
-  
+
   toggleTheme(): void {
     this.themeSvc.toggleTheme();
   }
 
-  login(){
+  login() {
     this.router.navigate(['/join/login']);
   }
 
-  register(){
-    this.router.navigate(['/join/register'])
+  register() {
+    this.router.navigate(['/join/register']);
   }
 
   logout() {
-    this.authSvc.logout(); 
+    this.authSvc.logout();
     this.router.navigate(['/']);
   }
 
-  navigateToMyCourses(){
+  navigateToMyCourses() {
     this.router.navigate(['/home/my-courses']);
   }
 
-  navigateToCourseNavigator(){
+  navigateToCourseNavigator() {
     this.router.navigate(['/course-navigator']);
   }
 
-  goToProfile(){
+  goToProfile() {
     this.router.navigate(['/home/profile']);
   }
-  
-  onNotificationClick(): void {
-    // Handle click, e.g., navigate to a page or mark as read
+
+  navigateToForum() {}
+
+  onNotificationClick(): void {}
+
+  toggleDropdown() {
+    this.isDropdownVisible = !this.isDropdownVisible;
   }
 
- 
-  acceptFriendRequest(notif: AppNotification, friendReq: FriendRequest, accept: boolean) {
+  @HostListener('document:click', ['$event'])
+  clickout(event: MouseEvent) {
+    const target = event.target as Element;
+    if (!target.closest('.profile-dropdown')) {
+      this.isDropdownVisible = false;
+    }
+  }
+
+  acceptFriendRequest(
+    notif: AppNotification,
+    friendReq: FriendRequest,
+    accept: boolean
+  ) {
     this.userSvc.amendFriendRequest(notif, friendReq, accept).subscribe({
       next: () => {
         console.log('Friend list updated successfully');
       },
       error: (error) => {
         console.error('Failed to update friend list', error);
-      }
+      },
     });
   }
 }

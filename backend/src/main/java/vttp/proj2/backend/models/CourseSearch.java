@@ -6,7 +6,6 @@ public class CourseSearch {
     private String title;
     private String headline;
     private String imageUrl;
-    // private Float price;
     private String price;
     private String instructor;
     private Double rating;

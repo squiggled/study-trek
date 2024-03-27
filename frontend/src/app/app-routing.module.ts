@@ -16,6 +16,7 @@ import { CourseNavigatorComponent } from './components/course-ai-navigator/cours
 import { SubscribeComponent } from './components/subscribe/subscribe.component';
 import { SubscribeFailComponent } from './components/subscribe/fail.component';
 import { SubscribeSuccessComponent } from './components/subscribe/success.component';
+import { ForumComponent } from './components/forum/forum.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -53,8 +54,11 @@ const routes: Routes = [
   },
   { path: 'course-navigator', 
     component: CourseNavigatorComponent, 
-    canActivate: [ isSubscriber ], 
-    //canActivate: [ isSubscriber ]
+    canActivate: [ isSubscriber ]
+  },
+  { path: 'forum',
+    component: ForumComponent,
+    canActivate: [ isLoggedIn ]
   },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];

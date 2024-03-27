@@ -40,6 +40,8 @@ import { SubscriptionService } from './services/subscription.service';
 import { SubscribeSuccessComponent } from './components/subscribe/success.component';
 import { SubscribeFailComponent } from './components/subscribe/fail.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ForumService } from './services/forum.service';
+import { ForumComponent } from './components/forum/forum.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     CourseNavigatorComponent,
     SubscribeComponent,
     SubscribeSuccessComponent,
-    SubscribeFailComponent
+    SubscribeFailComponent,
+    ForumComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,8 +75,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
@@ -91,7 +92,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     NotificationService,
     FriendService,
     FriendListStore,
-    SubscriptionService
+    SubscriptionService,
+    ForumService
   ],
   bootstrap: [AppComponent]
 })
