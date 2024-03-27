@@ -1,5 +1,5 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 
 export const isLoggedIn: CanActivateFn = (_route, _state) => {
@@ -18,7 +18,7 @@ export const isSubscriber: CanActivateFn = (_route, _state) => {
   const authSvc = inject(AuthService);
   const router = inject(Router);
   
-  if (authSvc.hasRole('ROLE_SUBSCRIBER')) {
+  if (authSvc.isSubscriber()) {
     console.info('ROLE_SUBSCRIBER; can proceed');
     return true;
   } else {

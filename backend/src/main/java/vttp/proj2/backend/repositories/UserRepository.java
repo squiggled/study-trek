@@ -51,6 +51,31 @@ public class UserRepository {
         }
     }
 
+    public AccountInfo findUserById(String userId) {
+        SqlRowSet rs = template.queryForRowSet(Queries.SQL_FIND_USER_BY_USERID, userId);
+        if (rs.next()) {
+            AccountInfo acc = new AccountInfo();
+            String userRole = getUserRole(rs.getString("userId"));
+            if (null == userRole) {
+                return null;
+            }
+            acc.setUserId(rs.getString("userId"));
+            acc.setEmail(rs.getString("email"));
+            acc.setPasswordHash(rs.getString("passwordHash"));
+            acc.setRole(userRole);
+            acc.setLastPasswordResetDate(rs.getDate("lastPasswordResetDate"));
+            acc.setFirstName(rs.getString("firstName"));
+            acc.setLastName(rs.getString("lastName"));
+            acc.setProfilePicUrl(rs.getString("profilePicUrl"));
+            acc.setFriendIds(getAllFriends(acc.getUserId()));
+            acc.setRegisteredCourses(getAllRegisteredCoursesForUser(acc.getUserId()));
+            acc.setInterests(getUserInterests(acc.getUserId()));
+            return acc;
+        } else {
+            return null;
+        }
+    }
+
     //get notifs on login
     public List<Notification> getUserNotifications(String userId) {
         List<Notification> notifications = new ArrayList<>();
@@ -71,7 +96,7 @@ public class UserRepository {
             notif.setTimestamp(rs.getTimestamp("timestamp"));
             notif.setRead(rs.getBoolean("readStatus"));
             notifications.add(notif);
-            System.out.println("notif found " + notif);
+            // System.out.println("notif found " + notif);
         }
         return notifications;
     }
@@ -228,7 +253,7 @@ public class UserRepository {
     public FriendInfo friendSearchByEmail(String friendEmail, String userId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_FIND_FRIENDS_BY_EMAIL, friendEmail);
         if (rs.next()) {
-            System.out.println("found friend");
+            // System.out.println("found friend");
             FriendInfo friend = convertRsToFriendInfo(rs, userId);
             boolean isFriend = isFriend(userId, friend.getUserId());
             if (isFriend) {
@@ -251,7 +276,7 @@ public class UserRepository {
     public FriendInfo friendSearchById(String friendId, String userId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_FIND_USER_BY_EMAIL, friendId);
         if (rs.next()) {
-            System.out.println("found friend");
+            // System.out.println("found friend");
             FriendInfo friend = convertRsToFriendInfo(rs, userId);
             boolean isFriend = isFriend(userId, friend.getUserId());
             if (isFriend) {
@@ -285,7 +310,7 @@ public class UserRepository {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_FRIENDS_IS_PENDING, userId, friendId);
         if (rs.next()){
             int count = rs.getInt(1); // Assuming COUNT(*) is the first column
-            System.out.println("Pending count: " + count);
+            // System.out.println("Pending count: " + count);
             return count > 0;
         }
         return false;

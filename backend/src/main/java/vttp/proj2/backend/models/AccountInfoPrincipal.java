@@ -32,7 +32,7 @@ public class AccountInfoPrincipal implements UserDetails{
 
     @Override
     public String getUsername() {
-        return accInfo.getEmail();
+        return accInfo.getUserId();
     }
 
     public String getEmail() {

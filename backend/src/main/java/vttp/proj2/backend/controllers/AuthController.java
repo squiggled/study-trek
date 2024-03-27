@@ -32,6 +32,7 @@ import vttp.proj2.backend.services.AuthService;
 import vttp.proj2.backend.services.AuthUserDetailsService;
 import vttp.proj2.backend.services.SecurityTokenService;
 import vttp.proj2.backend.services.UserService;
+import vttp.proj2.backend.utils.Utils;
 
 @RestController
 @CrossOrigin
@@ -151,8 +152,8 @@ public class AuthController {
         }
         if (authentication.getPrincipal() instanceof Jwt) {
             Jwt jwt = (Jwt) authentication.getPrincipal();
-            String email = jwt.getClaimAsString("sub"); // Example: get the subject claim to use as username
-            AccountInfo acc = userSvc.getUserByEmail(email);
+            String userId = jwt.getClaimAsString("sub"); // Example: get the subject claim to use as username
+            AccountInfo acc = userSvc.getUserById(userId);
             if (acc==null){
                 return ResponseEntity.badRequest().body("User not found");
             }

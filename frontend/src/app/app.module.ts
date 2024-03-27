@@ -36,6 +36,9 @@ import { FriendService } from './services/friend.service';
 import { CourseNavigatorComponent } from './components/course-ai-navigator/course-navigator.component';
 import { OpenAIService } from './services/openai.service';
 import { SubscribeComponent } from './components/subscribe/subscribe.component';
+import { SubscriptionService } from './services/subscription.service';
+import { SubscribeSuccessComponent } from './components/subscribe/success.component';
+import { SubscribeFailComponent } from './components/subscribe/fail.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,9 @@ import { SubscribeComponent } from './components/subscribe/subscribe.component';
     PhotoComponent,
     SubscriptionComponent,
     CourseNavigatorComponent,
-    SubscribeComponent
+    SubscribeComponent,
+    SubscribeSuccessComponent,
+    SubscribeFailComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +84,7 @@ import { SubscribeComponent } from './components/subscribe/subscribe.component';
     NotificationService,
     FriendService,
     FriendListStore,
+    SubscriptionService
   ],
   bootstrap: [AppComponent]
 })

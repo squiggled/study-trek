@@ -4,6 +4,11 @@ import java.util.Optional;
 
 import org.bson.Document;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 import jakarta.json.JsonObject;
 import vttp.proj2.backend.models.CourseDetails;
@@ -11,8 +16,12 @@ import vttp.proj2.backend.models.CourseSearch;
 import vttp.proj2.backend.models.FriendRequest;
 import vttp.proj2.backend.models.Notification;
 import vttp.proj2.backend.models.Platform;
+import vttp.proj2.backend.repositories.UserRepository;
 
 public class Utils {
+    @Autowired
+    static UserRepository userRepo;
+
      public static Platform stringToPlatform(String platformStr) {
         for (Platform platform : Platform.values()) {
             if (platform.name().equalsIgnoreCase(platformStr)) {
@@ -79,6 +88,16 @@ public class Utils {
         return req;
     }
 
+    public static String getUserIdFromJWT(HttpServletRequest request, JwtDecoder jwtDecoder) {
+        final String TOKEN = request.getHeader(HttpHeaders.AUTHORIZATION).trim().replaceFirst("Bearer\\s+", "");
+        if (!TOKEN.isEmpty()) {
+            System.out.println("USER ID " + jwtDecoder.decode(TOKEN).getSubject());
+            return jwtDecoder.decode(TOKEN).getSubject();
+        }
+        return null;
+    }
+
+   
     
     
 }

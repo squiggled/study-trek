@@ -30,6 +30,10 @@ public class UserService {
         return userRepo.findUserByEmail(email);
     }
 
+    public AccountInfo getUserById(String userId){
+        return userRepo.findUserById(userId);
+    }
+
     public CourseDetails addCourseAndInitializeProgress(String userId, CourseDetails courseDetails,
             List<Curriculum> curriculumList) {
         try {
@@ -49,6 +53,11 @@ public class UserService {
         return friend;
     }
 
+    public String getRolesById(String userId) {
+        String role = userRepo.getUserRole(userId);
+        return role;
+    }
+
     @Transactional(rollbackFor = UserAddFriendException.class)
     public FriendInfo makeFriendRequest(FriendRequest friendRequest) throws UserAddFriendException{
         System.out.println("for usersvc makefriendrq " + friendRequest.getReceiverId() + " " + friendRequest.getSenderId());
@@ -63,7 +72,7 @@ public class UserService {
         Notification notif = new Notification();
         notif.setUserId(friendRequest.getReceiverId());
         notif.setFriendRequest(friendRequest);
-        System.out.println("friend req in user svc create notif " + friendRequest);
+        // System.out.println("friend req in user svc create notif " + friendRequest);
         notif.setMessage("You have a new friend request from " + userRepo.findNameByUserId(friendRequest.getSenderId()));
         notif.setRead(false);
         notif.setType("FRIEND_REQUEST");

@@ -1,0 +1,4 @@
+export const environment = {
+    stripePublishableKey: 'pk_live_51OxqpgRovknRUrZ7Y67Qv8yWOqCCFAI3qXhxg6zXnNoOPDLRfjt3w59wcCL8d3m3wfCGEYMazus4z3Ri4eml4BVc00UEODHmKc',
+    stripePublishableTest:'pk_test_51OxqpgRovknRUrZ79DvwpgCq7h3HGfTMrPWtz5FtUA2yFOI75Yej19mIDnc5vRH1nhuD55kLvlBVWOMRVX3DS7WH00LdHnsvGJ'
+};

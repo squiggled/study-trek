@@ -153,5 +153,17 @@ public class Queries {
                 SET readStatus = TRUE 
                 WHERE notificationId = ?;
             """;
+
+    //subscription - amend user status
+    public static final String SQL_SUBSCRIPTION_UPDATE_STATUS = """
+                UPDATE roles 
+                SET role = ? 
+                WHERE userId = ?
+            """;
+    //ADD SUBSCRIPTION
+    public static final String SQL_SUBSCRIPTION_INSERT = """
+                INSERT INTO subscriptions (userId, subscriptionType, startDate, endDate, status, autoRenew, lastPaymentDate, nextPaymentDate) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """;
 }
 

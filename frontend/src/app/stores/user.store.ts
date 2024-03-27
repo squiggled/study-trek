@@ -36,6 +36,8 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
   readonly isLoggedIn$ = this.select((state) => state.isAuthenticated);
   readonly firstName$ = this.select((state) => state.accountDetails.firstName);
   readonly userId$ = this.select((state) => state.accountDetails.userId);
+  readonly email$ = this.select((state) => state.accountDetails.email);
+
 
   readonly addCourseToUser = this.updater((state, newCourse: CourseDetails) => {
     return {

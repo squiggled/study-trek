@@ -103,5 +103,18 @@ CREATE TABLE friend_requests (
     FOREIGN KEY (receiverId) REFERENCES user_info(userId)
 );
 
+CREATE TABLE subscriptions (
+    subscriptionId INT AUTO_INCREMENT PRIMARY KEY,
+    userId VARCHAR(8),
+    subscriptionType VARCHAR(255), -- For example, 'PREMIUM', 'BASIC'
+    startDate DATE,
+    endDate DATE,
+    status ENUM('ACTIVE', 'CANCELLED', 'EXPIRED') NOT NULL,
+    autoRenew BOOLEAN DEFAULT TRUE, -- Indicates whether the subscription auto-renews
+    lastPaymentDate TIMESTAMP,
+    nextPaymentDate TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES user_info(userId)
+);
+
 grant all privileges on study_trek.* to 'newuser'@'%';
 flush privileges;

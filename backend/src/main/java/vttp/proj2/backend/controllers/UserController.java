@@ -112,7 +112,7 @@ public class UserController {
     //get notifs
     @GetMapping("/notifications/{userId}")
     public ResponseEntity<?> loadNotifications(@PathVariable String userId){
-        System.out.println("got here");
+        // System.out.println("got here");
         List<Notification> notifs = userSvc.getNotifications(userId);
         if (notifs==null){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -1,110 +1,144 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, inject } from "@angular/core";
-import { Router } from "@angular/router";
-import { BehaviorSubject, Observable } from "rxjs";
-import { UserSessionStore } from "../stores/user.store";
-import { UserService } from "./user.service";
-import { jwtDecode } from "jwt-decode";
-import { NotificationService } from "./notification.service";
-import { FriendListStore } from "../stores/friends.store";
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { UserSessionStore } from '../stores/user.store';
+import { UserService } from './user.service';
+import { jwtDecode } from 'jwt-decode';
+import { NotificationService } from './notification.service';
+import { FriendListStore } from '../stores/friends.store';
 
 @Injectable()
-export class AuthService{
+export class AuthService {
+  private httpClient = inject(HttpClient);
+  private router = inject(Router);
+  private userSessionStore = inject(UserSessionStore);
+  private userSvc = inject(UserService);
+  private notificationSvc = inject(NotificationService);
+  private friendStore = inject(FriendListStore);
 
-    private httpClient = inject(HttpClient);
-    private router = inject(Router);
-    private userSessionStore = inject(UserSessionStore);
-    private userSvc = inject(UserService);
-    private notificationSvc = inject(NotificationService);
-    private friendStore = inject(FriendListStore);
+  loginFailed: boolean = false;
+  loginAttempted: boolean = false;
 
-    loginFailed: boolean = false;
-    loginAttempted: boolean = false;
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
 
-    private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
-    
-    private hasToken(): boolean {
-        return !!localStorage.getItem('jwtToken');
-    }
-    
-    //expose the login state
-    get isLoggedIn$(): Observable<boolean> {
+  private hasToken(): boolean {
+    return !!localStorage.getItem('jwtToken');
+  }
+
+  //expose the login state
+  get isLoggedIn$(): Observable<boolean> {
     return this.isLoggedInSubject.asObservable();
+  }
+
+  processLogin(email: any, password: any) {
+    this.loginAttempted = true;
+    const loginData = { email, password };
+    this.httpClient
+      .post<any>('/api/auth/login', loginData, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .subscribe({
+        next: (response: any) => {
+          this.loginFailed = false;
+          this.loginAttempted = false;
+          localStorage.setItem('jwtToken', response.token); //store jwt token
+          localStorage.setItem('userId', response.user.userId);
+          this.isLoggedInSubject.next(true);
+
+          //update user store
+          this.userSessionStore.loginSuccess({
+            accountDetails: response.user,
+            isAuthenticated: true,
+          });
+          // this.sharedStateSvc.setUserId(response.user.userId);
+
+          //set notifs
+          this.notificationSvc.setNotifications(response.notifications);
+          console.log('userdetails', response.user);
+
+          // this.sharedStateSvc.setUserId(response.user.userId);
+
+          //set friendlist
+          if (response.friendList) {
+            this.friendStore.setFriendList(response.friendList);
+          }
+          this.router.navigate(['/']);
+        },
+        error: (error: any) => {
+          this.loginFailed = true;
+          console.error(error);
+        },
+      });
+  }
+
+  processRegister(
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) {
+    const registrationData = { firstName, lastName, email, password };
+    this.httpClient
+      .post<any>('/api/auth/register', registrationData, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.processLogin(email, password);
+          this.router.navigate(['/']);
+        },
+        error: (error: any) => {
+          console.error('Registration or Login Error', error);
+        },
+      });
+  }
+
+  logout(): void {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('userId');
+    this.isLoggedInSubject.next(false);
+    // this.sharedStateSvc.setUserId(null);
+    this.userSessionStore.resetState();
+  }
+
+  //initialise login state
+  checkTokenOnStartup(): void {
+    this.isLoggedInSubject.next(this.hasToken());
+  }
+
+  hasRole(expectedRole: string): boolean {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) return false;
+    const decoded: any = jwtDecode(token);
+    const roles: string[] = decoded.scope || [];
+
+    return roles.includes(expectedRole);
+  }
+
+  isSubscriber(): boolean {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+      console.log(
+        'No token found. The user is not logged in or the session has expired.'
+      );
+      return false;
     }
+    try {
+      const decoded: any = jwtDecode(token);
+      const roles: string[] = decoded.scope || [];
 
-    processLogin(email: any, password: any) {
-        this.loginAttempted = true;
-        const loginData = { email, password };
-        this.httpClient.post<any>('/api/auth/login', loginData, {headers: { 'Content-Type': 'application/json' }})
-        .subscribe({
-            next:((response: any) => {
-                this.loginFailed=false;
-                this.loginAttempted = false;
-                localStorage.setItem('jwtToken', response.token); //store jwt token
-                localStorage.setItem('userId', response.user.userId);
-                this.isLoggedInSubject.next(true);
-
-                //update user store
-                this.userSessionStore.loginSuccess({
-                    accountDetails: response.user, 
-                    isAuthenticated: true
-                });
-                // this.sharedStateSvc.setUserId(response.user.userId);
-
-                //set notifs
-                this.notificationSvc.setNotifications(response.notifications);
-                console.log("userdetails" , response.user);
-
-                // this.sharedStateSvc.setUserId(response.user.userId);
-
-                //set friendlist
-                if (response.friendList) {
-                    this.friendStore.setFriendList(response.friendList);
-                  }
-                this.router.navigate(['/'])
-            }),
-            error:((error: any) => {
-                this.loginFailed=true;
-                console.error(error);
-            })
-        })
-    }
-
-    processRegister(firstName: string, lastName:string, email:string, password:string){
-        const registrationData = { firstName, lastName, email, password };
-        this.httpClient.post<any>('/api/auth/register', registrationData , {headers: { 'Content-Type': 'application/json' }})
-        .subscribe({
-            next:( (response:any) => {
-                console.log(response);
-                this.processLogin(email, password);
-                this.router.navigate(['/'])
-            }),
-            error: ((error:any) => {
-                console.error('Registration or Login Error', error);
-            })
-        });
-    }
-
-    logout(): void {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('userId');
-        this.isLoggedInSubject.next(false);
-        // this.sharedStateSvc.setUserId(null);
-        this.userSessionStore.resetState(); 
-    }
-    
-    //initialise login state
-    checkTokenOnStartup(): void {
-        this.isLoggedInSubject.next(this.hasToken());
-    }
-
-    hasRole(expectedRole: string): boolean {
-        const token = localStorage.getItem('jwtToken');
-        if (!token) return false;
-        const decoded: any = jwtDecode(token);
-        const roles: string[] = decoded.scope || [];
-      
-        return roles.includes(expectedRole);
+      if (roles.includes('ROLE_SUBSCRIBER')) {
+        console.log('The user is a subscriber.');
+        return true;
+      } else {
+        console.log('The user is not a subscriber.');
+        return false;
       }
-
+    } catch (error) {
+      console.error('Failed to decode the token:', error);
+      return false;
+    }
+  }
 }
