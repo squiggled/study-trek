@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Observable, Subscription, filter } from 'rxjs';
+import { Observable, Subject, Subscription, distinctUntilChanged, filter } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { UserSessionStore } from '../../stores/user.store';
 import { FriendRequest, Notification as AppNotification } from '../../models';
+import { debounceTime } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-navbar',
@@ -23,6 +25,9 @@ export class NavbarComponent implements OnInit, OnDestroy{
   private notificationSvc = inject(NotificationService);
   private userSessionStore = inject(UserSessionStore);
 
+  private fetchNotificationsSubject = new Subject<void>();
+
+  
   isLoggedIn$: Observable<boolean> = this.userSvc.isLoggedIn;
   notifications$!: Observable<AppNotification[]>;
   userProfilePicUrl$ = this.userSvc.userProfilePicUrl$;
@@ -46,13 +51,17 @@ export class NavbarComponent implements OnInit, OnDestroy{
       })
     );
     this.notifications$ = this.notificationSvc.notifications$;
-    this.notifications$.subscribe(notifications => {
-      console.log('Notifications:', notifications);
+    this.fetchNotificationsSubject.pipe(
+      debounceTime(10000) // Adjust debounce time as needed
+    ).subscribe(() => {
+      this.fetchNotifications();
     });
+  
+    // Example usage
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      this.fetchNotifications();
+      this.fetchNotificationsSubject.next();
     });
   }
 

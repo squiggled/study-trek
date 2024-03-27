@@ -43,6 +43,21 @@ export class NotificationService implements OnInit, OnDestroy {
     }
   }
 
+  // getNotifications(userId: string): Observable<Notification[]> {
+  //   const userId1 = localStorage.getItem('userId');
+  //   if (!userId1) {
+  //     console.error('User ID not found in local storage.');
+  //   }
+  //   const url = `/api/user/notifications/${userId1}`;
+  //   console.log('Request URL: ' + url);
+  //   this.httpClient
+  //     .get<Notification[]>(url, { headers: this.addTokenToHeader() })
+  //     .subscribe((notifications) => {
+  //       this.notificationsSubject.next(notifications);
+  //     });
+  //   return this.notificationsSubject.asObservable();
+  // }
+
   getNotifications(userId: string): Observable<Notification[]> {
     const userId1 = localStorage.getItem('userId');
     if (!userId1) {
@@ -50,13 +65,9 @@ export class NotificationService implements OnInit, OnDestroy {
     }
     const url = `/api/user/notifications/${userId1}`;
     console.log('Request URL: ' + url);
-    this.httpClient
-      .get<Notification[]>(url, { headers: this.addTokenToHeader() })
-      .subscribe((notifications) => {
-        this.notificationsSubject.next(notifications);
-      });
-    return this.notificationsSubject.asObservable();
-  }
+    return this.httpClient
+      .get<Notification[]>(url, { headers: this.addTokenToHeader() });
+}
 
   setNotifications(notifications: Notification[]) {
     this.notificationsSubject.next(notifications);

@@ -3,6 +3,8 @@ import { SubscriptionService } from '../../services/subscription.service';
 import { jwtDecode } from 'jwt-decode';
 import { Subscription } from 'rxjs';
 import { UserSessionStore } from '../../stores/user.store';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-success',
@@ -12,11 +14,14 @@ import { UserSessionStore } from '../../stores/user.store';
 export class SubscribeSuccessComponent implements OnInit {
   userSessionStore = inject(UserSessionStore);
   subscriptionSvc = inject(SubscriptionService);
+  authSvc = inject(AuthService);
+  router = inject(Router);
   private subscription: Subscription = new Subscription();
+  isSubscriber: boolean = false;
 
   ngOnInit() {
     console.log('got to success oninit');
-
+    
     this.subscription.add(
       this.userSessionStore.email$.subscribe((email) => {
         if (email) {
@@ -41,5 +46,13 @@ export class SubscribeSuccessComponent implements OnInit {
         }
       })
     );
+    this.isSubscriber = this.authSvc.isSubscriber();
+  }
+  exploreCourses(){
+    this.router.navigate(['/course-navigator']);
+  }
+
+  subscribe(){
+    this.router.navigate(['/join/subscribe']);
   }
 }
