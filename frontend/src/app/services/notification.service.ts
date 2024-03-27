@@ -24,7 +24,7 @@ export class NotificationService implements OnInit, OnDestroy {
     this.subscription.add(
       this.userSessionStore.userId$.subscribe((id) => {
         this.userId = id;
-        this.fetchAndSetNotifications(); // Fetch and set notifications once userId is available
+        this.fetchAndSetNotifications(); 
       })
     );
   }

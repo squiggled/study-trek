@@ -7,6 +7,7 @@ WORKDIR /ngapp
 COPY frontend/package*.json .
 COPY frontend/angular.json .
 COPY frontend/tsconfig.* .
+COPY frontend/ngsw-config.json .
 COPY frontend/src src
 
 RUN npm ci && ng build
