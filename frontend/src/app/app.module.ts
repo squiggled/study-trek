@@ -42,6 +42,8 @@ import { SubscribeFailComponent } from './components/subscribe/fail.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ForumService } from './services/forum.service';
 import { ForumComponent } from './components/forum/forum.component';
+import { CreateThreadComponent } from './components/forum/contents/create-thread.component';
+import { IndividualThreadComponent } from './components/forum/contents/individual-thread.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { ForumComponent } from './components/forum/forum.component';
     SubscribeSuccessComponent,
     SubscribeFailComponent,
     ForumComponent,
+    CreateThreadComponent,
+    IndividualThreadComponent,
   ],
   imports: [
     BrowserModule,

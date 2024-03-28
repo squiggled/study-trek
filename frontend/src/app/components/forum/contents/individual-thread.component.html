@@ -1,0 +1,53 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center mt-6">
+        <button (click)="goBack()" class="btn btn-accent btn-outline">Back</button>
+    </div>
+
+    <div *ngIf="thread$ | async as thread; else notFound">
+        <h1 class="text-3xl font-bold text-emerald-700 mt-6">{{ thread.title }}</h1>
+        <div class="bg-white p-6 mt-4 rounded-lg shadow">
+            <div class="flex justify-between items-start">
+                <div class="flex items-center">
+                    <img [src]="thread.userProfilePic" alt="Profile Pic" class="rounded-full h-10 w-10">
+                    <p class="ml-4 font-bold">{{ thread.firstName }}</p>
+                </div>
+                <p>{{ thread.createdDate | date:'MMM d, y' }}</p>
+            </div>
+            <p class="mt-4">{{ thread.content }}</p>
+            <button class="mt-4 btn btn-accent btn-outline float-right" (click)="toggleReplyForm()">Reply</button>
+        </div>
+    
+        <!-- Messages -->
+        <div class="mt-4" *ngFor="let message of thread.messages">
+            <div class="bg-gray-100 p-4 mt-2 rounded-lg">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <img [src]="message.userProfilePic" alt="Message Profile" class="rounded-full h-8 w-8">
+                        <p class="ml-4 font-bold">{{ message.firstName }}</p>
+                    </div>
+                    <p>{{ message.postedDate | date:'MMM d, y' }}</p>
+                </div>
+                <p class="mt-2">{{ message.content }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reply Form Modal -->
+    <div *ngIf="thread$  | async as thread;">
+        <div *ngIf="isReplyFormVisible" class="reply-modal px-4 sm:px-6 lg:px-8">
+            <h2 class="text-xl font-bold">{{ thread.title }}</h2>
+            <form [formGroup]="replyThreadForm" (ngSubmit)="submitReply()">
+                <textarea formControlName="content" placeholder="Type your reply..." class="w-full mt-4"></textarea>
+                <div class="flex justify-start mt-4 space-x-2">
+                    <button type="submit" class="btn btn-primary">Reply</button>
+                    <button type="button" (click)="toggleReplyForm()" class="btn btn-outline btn-secondary">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+   
+
+    <ng-template #notFound>
+        <p>Thread not found.</p>
+    </ng-template>
+</div>

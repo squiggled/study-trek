@@ -1,7 +1,11 @@
 <!-- profile-nav.component.html -->
 <div class="flex flex-col items-center" *ngIf="(accountDetails$ | async) as accountDetails">
-    <img [src]="accountDetails.profilePicUrl" alt="Profile Image" class="rounded-full" />
-    <h2 class="font-bold">{{ accountDetails.firstName }} {{ accountDetails.lastName }}</h2>
+  <div class="avatar online">
+    <div class="w-24 rounded-full">
+      <img [src]="accountDetails.profilePicUrl" />
+    </div>
+  </div>
+    <h2 class="font-bold mt-4">{{ accountDetails.firstName }} {{ accountDetails.lastName }}</h2>
     <nav>
       <ul>
         <li><a routerLink="/home/profile/edit-account">Edit account</a></li>

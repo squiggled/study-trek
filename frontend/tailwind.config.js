@@ -3,9 +3,18 @@ module.exports = {
   content: [
     "./src/**/*.{html,ts}",
   ],
-  darkMode: 'class',
+  // darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'custom-blue': '#5b6c5d',
+        'custom-pink': {
+          light: '#ff7ce5',
+          DEFAULT: '#ff49db',
+          dark: '#27272a',
+        },
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {

@@ -139,5 +139,29 @@ export interface Notification {
   read: boolean;
   timestamp: Date;
   friendRequest?: FriendRequest;
-  
 }
+
+export interface ThreadMessage{
+  userId:string,
+  firstName: string,
+  userProfilePic: string;
+  postedDate: Date;
+  content: string
+}
+
+export interface ForumThread{
+  id?:string,
+  userId: string,
+  firstName: string,
+  userProfilePic: string,
+  createdDate: Date;
+  title: string,
+  content: string,
+  messages: ThreadMessage[]
+}
+
+export interface ForumSlice{
+  threads: ForumThread[]
+}
+
+

@@ -32,7 +32,6 @@ import vttp.proj2.backend.services.AuthService;
 import vttp.proj2.backend.services.AuthUserDetailsService;
 import vttp.proj2.backend.services.SecurityTokenService;
 import vttp.proj2.backend.services.UserService;
-import vttp.proj2.backend.utils.Utils;
 
 @RestController
 @CrossOrigin
@@ -76,9 +75,16 @@ public class AuthController {
                     userDetails,
                     null,
                     userDetails.getAuthorities());
+            String userRole = user.getRole();
+            String tokenDetails;
+            if (userRole.equals("ROLE_SUBSCRIBER")){
+                System.out.println("Generating JWT for subscriber");
+                tokenDetails = tokenSvc.generateTokenWithUpdatedRoles(authentication);
 
-            String tokenDetails = tokenSvc.generateToken(authentication);
-
+            } else {
+                tokenDetails = tokenSvc.generateToken(authentication);
+            }
+            
             //get notifs
             List<Notification> notifs = userSvc.getNotifications(user.getUserId());
             
@@ -94,8 +100,6 @@ public class AuthController {
             System.out.println("Generated JWT: " + tokenDetails); 
 
             return ResponseEntity.ok(responseMap);
-                    // .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                    // .body(responseMap);
         } else {
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("message", "🔴 Login failed");

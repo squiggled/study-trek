@@ -1,14 +1,15 @@
 .profile-dropdown {
     position: relative;
+    overflow: visible;
   }
   
   .dropdown-content {
     position: absolute;
-    z-index: 1000; /* Ensure it's high enough to be on top */
+    z-index: 9999; 
     right: 0;
-    top: 100%; /* Adjust as necessary */
-    background: white; /* Or any other background */
-    color: black; /* Text color */
-    /* Add other styling as needed */
+    top: 100%;
+    background: white; 
+    color: black;
+    display: block; 
   }
   

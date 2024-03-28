@@ -113,19 +113,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']);
   }
 
-  navigateToMyCourses() {
-    this.router.navigate(['/home/my-courses']);
-  }
-
   navigateToCourseNavigator() {
     this.router.navigate(['/course-navigator']);
   }
-
-  goToProfile() {
-    this.router.navigate(['/home/profile']);
-  }
-
-  navigateToForum() {}
 
   onNotificationClick(): void {}
 

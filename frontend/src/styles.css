@@ -8,7 +8,7 @@ body {
 }
 
 .dark body {
-    background-color: black; /* Dark mode */
+    background-color: '#27272a'; /* Dark mode */
     color: white; /* Dark mode */
 }
 
@@ -42,4 +42,8 @@ body {
 
 .profile-dropdown:hover .dropdown-content a:hover {
     background-color: #ddd; 
+}
+
+.btn {
+    @apply rounded-none;
 }

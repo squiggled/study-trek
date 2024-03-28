@@ -1,0 +1,24 @@
+<div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center mt-6">
+        <button (click)="goBack()" class="btn btn-accent btn-outline">Back</button>
+        <h1 class="text-lg text-teal-500 font-bold text-left">Create a new topic</h1>
+    </div>
+
+    <div class="text-center">
+        <form [formGroup]="createThreadForm" (ngSubmit)="createThread()" class="mt-2 inline-block text-left w-full">
+            <div class="mb-4">
+                <input type="text" placeholder="What is the topic about in one brief sentence?" formControlName="title" class="input input-bordered w-full text-white">
+            </div>
+            
+            <div class="mb-4">
+                <textarea placeholder="Type here" formControlName="content" class="textarea textarea-bordered w-full text-white" style="min-height: 150px;"></textarea>
+            </div>
+            
+            <div class="flex justify-start space-x-4">
+                <button type="submit" class="btn btn-primary">+ Create Topic</button>
+                <button type="button" (click)="goBack()" class="btn btn-outline btn-secondary">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+

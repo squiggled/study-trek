@@ -2,8 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { FriendInfo, FriendListSlice } from '../models';
 import { Observable, filter, switchMap, of } from 'rxjs';
-import { UserService } from '../services/user.service';
-import { UserSessionStore } from './user.store';
 import { FriendService } from '../services/friend.service';
 
 const INIT_STATE: FriendListSlice = {

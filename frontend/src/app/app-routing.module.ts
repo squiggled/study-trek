@@ -9,7 +9,7 @@ import { MyCoursesComponent } from './components/user-courses/courses.component'
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { EditAccountComponent } from './components/user-profile/contents/edit-account.component';
 import { FriendsComponent } from './components/user-profile/contents/friends.component';
-import { isLoggedIn, isSubscriber } from './guards/guards';
+import { canLeaveCreateThread, isLoggedIn, isSubscriber } from './guards/guards';
 import { PhotoComponent } from './components/user-profile/contents/photo.component';
 import { SubscriptionComponent } from './components/user-profile/contents/subscription.component';
 import { CourseNavigatorComponent } from './components/course-ai-navigator/course-navigator.component';
@@ -17,6 +17,8 @@ import { SubscribeComponent } from './components/subscribe/subscribe.component';
 import { SubscribeFailComponent } from './components/subscribe/fail.component';
 import { SubscribeSuccessComponent } from './components/subscribe/success.component';
 import { ForumComponent } from './components/forum/forum.component';
+import { CreateThreadComponent } from './components/forum/contents/create-thread.component';
+import { IndividualThreadComponent } from './components/forum/contents/individual-thread.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -56,8 +58,15 @@ const routes: Routes = [
     component: CourseNavigatorComponent, 
     canActivate: [ isSubscriber ]
   },
-  { path: 'forum',
+  { path: 'forum', 
     component: ForumComponent,
+    canActivate: [ isLoggedIn ],
+  },
+  { path: 'forum/create-topic', component:  CreateThreadComponent,
+    canActivate: [ isLoggedIn ],
+    canDeactivate: [ canLeaveCreateThread ]
+  },
+  { path: 'forum/topic/:threadId', component: IndividualThreadComponent,
     canActivate: [ isLoggedIn ]
   },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
