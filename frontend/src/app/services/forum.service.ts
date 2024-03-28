@@ -26,7 +26,7 @@ export class ForumService {
   }
 
   replyToThread(threadId: string, message: ThreadMessage): Observable<ForumThread> {
-    return this.httpClient.post<ForumThread>(`/api/forum/thread/${threadId}/reply`, message,{ headers: this.addTokenToHeader()} );
+    return this.httpClient.post<ForumThread>(`/api/forum/topic/${threadId}/reply`, message,{ headers: this.addTokenToHeader()} );
   }
 
   

@@ -33,18 +33,22 @@ public class ForumController {
 
     @PostMapping("/forum/topic/new")
     public ResponseEntity<?> postNewTopic(@RequestBody ForumThread thread){
-        ForumThread newThread = forumSvc.postNew(thread);
+        ForumThread newThread = forumSvc.postNewTopic(thread);
         if (newThread==null){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(newThread);
     }
 
-    @PostMapping("/forum/thread/{threadId}/reply")
+    @PostMapping("/forum/topic/{threadId}/reply")
     public ResponseEntity<?> postNewReply(@RequestBody ThreadMessage message, @PathVariable String threadId) {
-        System.out.println("ForumController message " + message);
-        System.out.println("ForumController threadId " + threadId);
-        return ResponseEntity.ok().build(); 
+        // System.out.println("ForumController message " + message);
+        // System.out.println("ForumController threadId " + threadId);
+        ForumThread updatedThread = forumSvc.postNewReply(threadId, message);
+        if (null==updatedThread){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedThread); 
     }
     
 }

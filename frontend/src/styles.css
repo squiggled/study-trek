@@ -47,3 +47,7 @@ body {
 .btn {
     @apply rounded-none;
 }
+
+html, body {
+    min-height: 100vh; /* This ensures at least the full height of the viewport is covered */
+}

@@ -7,6 +7,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
@@ -88,6 +89,15 @@ public class ForumRepository {
             System.out.println("No document matching the query was found to update");
             return false; 
         }
+    }
+
+    public ForumThread postNewReply(String threadId, ThreadMessage message) {
+        Query query = new Query(Criteria.where("_id").is(threadId));
+        Update update = new Update().push("messages", message);
+        FindAndModifyOptions options = new FindAndModifyOptions().returnNew(true);        
+        ForumThread updatedThread = mongoTemplate.findAndModify(query, update, options, ForumThread.class, "forum");
+        // System.out.println("updatedThread "+ updatedThread);
+        return updatedThread; 
     }
 
 }
