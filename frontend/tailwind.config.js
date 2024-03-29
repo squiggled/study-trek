@@ -14,6 +14,9 @@ module.exports = {
           dark: '#27272a',
         },
       },
+      fontFamily: {
+        sans: ['Sohne', 'sans-serif'],
+      },
     },
   },
   plugins: [require("daisyui")],

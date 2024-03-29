@@ -51,3 +51,34 @@ body {
 html, body {
     min-height: 100vh; /* This ensures at least the full height of the viewport is covered */
 }
+@font-face {
+    font-family: 'Sohne';
+    src: url('/assets/fonts/Sohne-Extraleicht.otf') format('opentype');
+    font-weight: 300;
+    font-style: light;
+}
+
+@font-face {
+    font-family: 'Sohne';
+    src: url('/assets/fonts/Sohne-Buch.otf') format('opentype');
+    font-weight: 300; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Sohne';
+    src: url('/assets/fonts/Sohne-Buch.otf') format('opentype');
+    font-weight: 500; 
+    font-style: medium;
+}
+
+@font-face {
+    font-family: 'Sohne';
+    src: url('/assets/fonts/Sohne-Halbfett.otf') format('opentype');
+    font-weight: 600; /* Bold */
+    font-style: bold;
+}
+
+  
+  /* Add more variations as needed (italic, light, medium, etc.) */
+  
