@@ -67,4 +67,15 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
       isAuthenticated: false,
     });
   }
+
+  //profile pic
+  readonly updateProfilePicUrl = this.updater(
+    (state, profilePicUrl: string) => ({
+      ...state,
+      accountDetails: {
+        ...state.accountDetails,
+        profilePicUrl: profilePicUrl,
+      },
+    })
+  );
 }

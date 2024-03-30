@@ -22,7 +22,7 @@
                 <p>{{ thread.content | slice:0:100 }}<a href="#" *ngIf="thread.content.length > 100">... Read more</a></p>
             </a>
             <div class="w-32 text-center">
-                <img src="{{ thread.userProfilePic }}" alt="Profile Pic" class="rounded-full h-10 w-10 inline-block">
+                <img src="{{ thread.userProfilePic }}" alt="Profile Pic" class="rounded-full h-6 w-6 inline-block">
             </div>
             <div class="w-32 text-center">{{ thread.messages.length }}</div>
             <div class="w-48 text-center">{{ thread.createdDate | date:'MMM d, y' }}</div>

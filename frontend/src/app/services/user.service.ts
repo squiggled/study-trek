@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { ElementRef, inject } from '@angular/core';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 import { UserSessionStore } from '../stores/user.store';
 import { AccountDetails, CourseDetails, FriendInfo, FriendRequest, Notification } from '../models';
 import { FriendListStore } from '../stores/friends.store';
@@ -10,7 +10,6 @@ export class UserService {
   private httpClient = inject(HttpClient);
   private userSessionStore = inject(UserSessionStore);
   private friendStore = inject(FriendListStore);
-  // foundFriend!: Observable<FriendInfo>;
   private foundFriendSubject = new BehaviorSubject<FriendInfo | null>(null);
   public foundFriend$ = this.foundFriendSubject.asObservable();
 
@@ -89,4 +88,23 @@ export class UserService {
     );
   }
   
+  uploadPicture(userId: string, croppedBlob: any) {
+    console.log("userId " , userId , "croppedImg ", croppedBlob);
+    const formData = new FormData();
+    formData.append('image', croppedBlob, 'cropped-image.png'); //'image' is name of the field expected by BE
+    return this.httpClient.post<any>(`/api/user/${userId}/upload-picture`, formData, { headers: this.addTokenToHeader() }).pipe(
+      tap(response => {
+        //response contains the new profile picture URL
+        const newProfilePicUrl = response.profilePicUrl;
+        this.userSessionStore.updateProfilePicUrl(newProfilePicUrl);
+      }),
+      catchError(error => {
+        console.error('Error uploading profile picture:', error);
+        return throwError(() => new Error('Error uploading profile picture'));
+      })
+    );
+
+  }
+
+
 }

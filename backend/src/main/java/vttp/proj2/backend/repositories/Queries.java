@@ -89,6 +89,11 @@ public class Queries {
                 SELECT * FROM registered_courses 
                 WHERE courseId = ?
             """;
+    public static final String SQL_USER_UPDATE_PROFILE_PICTURE = """
+                UPDATE user_info
+                SET profilePicUrl = ?
+                WHERE userId = ?
+            """;
     
     //finding friends
     public static final String SQL_FIND_FRIENDS_BY_EMAIL = """

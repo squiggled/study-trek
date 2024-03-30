@@ -1,10 +1,10 @@
 package vttp.proj2.backend.services;
 
-import java.sql.Timestamp;
-import java.sql.Date;
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +17,7 @@ import vttp.proj2.backend.models.Curriculum;
 import vttp.proj2.backend.models.FriendInfo;
 import vttp.proj2.backend.models.FriendRequest;
 import vttp.proj2.backend.models.Notification;
+import vttp.proj2.backend.repositories.S3Repository;
 import vttp.proj2.backend.repositories.UserRepository;
 
 @Service
@@ -24,6 +25,9 @@ public class UserService {
     
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    S3Repository s3Repo;
 
     //for login
     public AccountInfo getUserByEmail(String email){
@@ -128,5 +132,17 @@ public class UserService {
     }
     
 
+    //upoad profile pic
+    public String uploadProfilePicture(InputStream is, String mediaType, long size, String userId){
+        //upload to s3 first
+        String newUrl = s3Repo.savePhotoToS3(is, mediaType, size, userId);
+        if (newUrl==null){
+            return null;
+        }
+        //then update user url in SQL
+        boolean isUpdated = userRepo.updateProfilePicture(userId, newUrl);
+        if (isUpdated) return newUrl;
+        return null;
+    }
 
 }

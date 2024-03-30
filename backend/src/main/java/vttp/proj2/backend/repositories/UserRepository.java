@@ -366,10 +366,22 @@ public class UserRepository {
     public boolean addToFriendsList(FriendRequest req){
         int rowsAffected = template.update(Queries.SQL_FRIENDS_ADD_TO_FRIEND_LIST, req.getSenderId(), req.getReceiverId());
         if (rowsAffected > 0) {
-            System.out.println("successfully added to friend table");
+            System.out.println("UserRepo: Successfully added to friend table");
             return true;
         } else {
-            System.out.println("did not add to friend table");
+            System.out.println("UserRepo: Did not add to friend table");
+            return false;
+        }
+    }
+
+    //change profile picture
+    public boolean updateProfilePicture(String userId, String newPictureUrl){
+        int rowsAffected = template.update(Queries.SQL_USER_UPDATE_PROFILE_PICTURE, newPictureUrl, userId);
+        if (rowsAffected>0){
+            System.out.println("🟢 UserRepo: Successfully updated profile pic");
+            return true;
+        } else {
+            System.out.println("🔴 UserRepo: Did not successfully update profile pic");
             return false;
         }
     }

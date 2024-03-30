@@ -44,6 +44,8 @@ import { ForumService } from './services/forum.service';
 import { ForumComponent } from './components/forum/forum.component';
 import { CreateThreadComponent } from './components/forum/contents/create-thread.component';
 import { IndividualThreadComponent } from './components/forum/contents/individual-thread.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import { IndividualThreadComponent } from './components/forum/contents/individua
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    ImageCropperModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'

@@ -1,12 +1,18 @@
 package vttp.proj2.backend.controllers;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +22,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -120,6 +130,27 @@ public class UserController {
         return ResponseEntity.ok(notifs);
     }
 
+
+    //upload pic
+    @PostMapping(path="/{userId}/upload-picture")
+    public ResponseEntity<?> uploadProfilePicture(@RequestPart("image") MultipartFile image, @PathVariable String userId){
+        try{
+            InputStream is = image.getInputStream();
+            String mediaType = image.getContentType();
+            String newProfilePictureUrl = userSvc.uploadProfilePicture(is, mediaType, image.getSize(), userId);
+            if (newProfilePictureUrl==null){
+                System.out.println("UserController upload-picture: Unable to upload picture");
+                return ResponseEntity.badRequest().build();
+            }
+            Map<String, String> response = new HashMap<>();
+            response.put("profilePicUrl", newProfilePictureUrl);
+            return ResponseEntity.ok(response);
+
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 
 }
