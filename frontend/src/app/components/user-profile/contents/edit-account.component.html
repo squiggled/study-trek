@@ -1,1 +1,11 @@
-<p>edit-account works!</p>
+<div class="text-xl font-bold text-center mt-6">Profile information</div>
+<div class="text-center mt-4">Edit your details</div>
+
+<!-- notification -->
+<div *ngIf="showSuccessNotification" role="alert" class="alert alert-success">
+    <div class="toast toast-top toast-center">
+      <div class="alert alert-success">
+        <span>Profile updated successfully</span>
+      </div>
+    </div>
+  </div>

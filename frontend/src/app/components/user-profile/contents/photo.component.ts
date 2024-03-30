@@ -80,7 +80,6 @@ export class PhotoComponent implements OnInit{
 
   showNotification() {
     this.showSuccessNotification = true;
-
     //hide the notification after 3 seconds
     setTimeout(() => {
       this.showSuccessNotification = false;

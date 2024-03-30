@@ -17,6 +17,9 @@ export class CourseDetailsComponent implements OnInit{
   
   courseDetails$!: Observable<CourseDetails>;
   userId!: string;
+  showSuccessNotification:boolean = false;
+  showAddFailNotification:boolean = false;
+
   private activatedRoute = inject(ActivatedRoute);
   private searchSvc =  inject(SearchService);
   private courseDetailsStore =  inject(CourseDetailsStore);
@@ -67,11 +70,13 @@ export class CourseDetailsComponent implements OnInit{
   addCourseToList(courseDetails: CourseDetails) {
     let isCoursePresent = this.userSessionStore.courseExists(courseDetails);
     if (isCoursePresent){
+      this.showAddFailNotificationMethod()
       console.log("course already exists"); 
     } else {
       this.userSvc.addRegisteredCourseToUser(this.userId, courseDetails).subscribe({
         next: (response:any) => {
           this.userSessionStore.addCourseToUser(response);
+          this.showSuccessNotificationMethod();
         },
         error: (error:any) => {
           console.error('Failed to add the course', error);
@@ -79,5 +84,19 @@ export class CourseDetailsComponent implements OnInit{
       });
     }
     
+  }
+  showSuccessNotificationMethod() {
+    this.showSuccessNotification = true;
+    setTimeout(() => {
+      this.showSuccessNotification = false;
+    }, 3000);
+  }
+
+  showAddFailNotificationMethod(){
+    this.showAddFailNotification = true;
+    setTimeout(() => {
+      this.showAddFailNotification = false;
+    }, 3000);
+
   }
 }

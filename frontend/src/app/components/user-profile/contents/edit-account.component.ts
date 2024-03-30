@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrl: './edit-account.component.css'
 })
 export class EditAccountComponent {
+  showSuccessNotification: boolean = false
+
+
+  showSuccessfulEditNotification() {
+    this.showSuccessNotification = true;
+    setTimeout(() => {
+      this.showSuccessNotification = false;
+    }, 3000);
+  }
 
 }

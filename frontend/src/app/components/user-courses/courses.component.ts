@@ -1,7 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AccountDetails } from '../../models';
+import { AccountDetails, Platform } from '../../models';
 import { Observable } from 'rxjs';
 import { UserSessionStore } from '../../stores/user.store';
+import { SearchService } from '../../services/search.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -11,9 +13,20 @@ import { UserSessionStore } from '../../stores/user.store';
 export class MyCoursesComponent implements OnInit{
   accountDetails$!: Observable<AccountDetails>;
   private userSessionStore = inject(UserSessionStore);
+  private searchSvc = inject(SearchService)
+  private router = inject(Router)
 
 
   ngOnInit(): void {
     this.accountDetails$ = this.userSessionStore.select(state => state.accountDetails);
+  }
+  
+  getCourseById(courseId: string, platform: Platform){
+    this.searchSvc.getCourseById(courseId, platform);
+    this.router.navigate([
+      '/course',
+      platform.toString().toLowerCase(),
+      courseId,
+    ]);
   }
 }
