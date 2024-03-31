@@ -48,7 +48,6 @@ export class PhotoComponent implements OnInit{
 
   uploadImage() {
     console.log('Image data to upload:', this.croppedImage);
-    // Implement upload logic here
   }
 
   saveImage() {

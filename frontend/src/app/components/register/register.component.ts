@@ -29,7 +29,6 @@ export class RegisterComponent implements OnInit{
   checkPasswordsEqual(group: FormGroup) { 
     let pass = group.get('password')?.value;
     let confirmPass = group.get('confirmPassword')?.value;
-
     return pass === confirmPass ? null : { passwordMismatch: true } //If pass match, returns null (no error) / if fail, return an object
     //use this obj to conditionally render html
   }

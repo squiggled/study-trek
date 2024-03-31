@@ -44,10 +44,10 @@ public class AuthRepository {
         return null;
     }
 
-    public boolean updateUserPassword(String userId, String newHashedPassword) {
+    public String updateUserPassword(String userId, String newHashedPassword) {
        int rowsAffected = template.update(Queries.SQL_AUTH_PASSWORD_CHANGE, newHashedPassword, userId);
-       if (rowsAffected==0) return false;
-       return true;
+       if (rowsAffected==0) return null;
+       return newHashedPassword;
     }
 
    

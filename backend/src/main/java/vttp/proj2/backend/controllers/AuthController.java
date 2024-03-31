@@ -25,7 +25,9 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.servlet.http.HttpServletResponse;
+import vttp.proj2.backend.dtos.PasswordChangeRequestDTO;
 import vttp.proj2.backend.exceptions.UserRegistrationException;
+import vttp.proj2.backend.exceptions.UserWrongPasswordException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.models.FriendInfo;
 import vttp.proj2.backend.models.Notification;
@@ -157,20 +159,44 @@ public class AuthController {
         }
         if (authentication.getPrincipal() instanceof Jwt) {
             Jwt jwt = (Jwt) authentication.getPrincipal();
-            String userId = jwt.getClaimAsString("sub"); // Example: get the subject claim to use as username
+            String userId = jwt.getClaimAsString("sub"); // get the subject claim to use as username
             AccountInfo acc = userSvc.getUserById(userId);
             if (acc==null){
-                return ResponseEntity.badRequest().body("User not found");
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "🔴 User not found");
+                return ResponseEntity.badRequest().body(errorResponse);
             }
             return ResponseEntity.ok(acc);
         } else {
-            return ResponseEntity.badRequest().body("JWT error");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "🔴 JWT authentication error");
+            return ResponseEntity.badRequest().body(errorResponse);
         }        
     }
 
     //change password
     @PostMapping("/password/{userId}")
-    public ResponseEntity<?> changePassword(@PathVariable String userId, @RequestBody String newPassword){
-        return null;
+    public ResponseEntity<?> changePassword(@PathVariable String userId, @RequestBody PasswordChangeRequestDTO dto){
+        System.out.println("this end point was reached " + dto);
+        try {
+            String newHashedPw = authSvc.changeUserPassword(userId, dto.getCurrentPassword(), dto.getNewPassword());
+            if (null==newHashedPw){
+                //cannot find current user in db
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("notFound", "🔴 Current user does not exist");
+                // System.out.println("not found");
+                return ResponseEntity.notFound().build();
+            } 
+            Map<String, String> response = new HashMap<>();
+            response.put("newHashedPassword", newHashedPw);
+            return ResponseEntity.ok(response);
+        } catch (UserWrongPasswordException e){
+                // user entered wrong password in form
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "🔴 Current passwords do not match");
+                // System.out.println("wrong pw");
+                return ResponseEntity.badRequest().body(errorResponse);
+        }
+        
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import vttp.proj2.backend.exceptions.UserRegistrationException;
+import vttp.proj2.backend.exceptions.UserWrongPasswordException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.repositories.AuthRepository;
 import vttp.proj2.backend.repositories.UserRepository;
@@ -49,15 +50,13 @@ public class AuthService {
     }
 
     //change password
-    public boolean changeUserPassword(String userId, String currentPassword, String newPassword, String confirmNewPassword) {
-       
+    public String changeUserPassword(String userId, String currentPassword, String newPassword) {
         //verify current password
         String storedHashedPassword = authRepo.getHashedPasswordById(userId);
-        System.out.println("Old pw hash: " + storedHashedPassword);
+        System.out.println("stored hashed pw " + storedHashedPassword);
         if (!passwordEncoder.matches(currentPassword, storedHashedPassword)) {
-            return false;
+            throw new UserWrongPasswordException();
         }
-
         //checks passed, update password
         String newHashedPassword = passwordEncoder.encode(newPassword);
         System.out.println("New pw hash: " + newHashedPassword);

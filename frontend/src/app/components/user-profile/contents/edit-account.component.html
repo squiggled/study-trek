@@ -4,15 +4,15 @@
 <!--change details form -->
 <form (ngSubmit)="onSubmit()" [formGroup]="profileForm" class="max-w-xl mx-auto mt-6">
     <div class="mb-4">
-        <label for="firstName" class="block text-black font-bold">First name:</label>
+        <label for="firstName" class="label-text text-black">First name:</label>
         <input type="text" id="firstName" formControlName="firstName" class="border border-black w-full px-3 py-2">
     </div>
     <div class="mb-4">
-        <label for="lastName" class="block text-black font-bold">Last name:</label>
+        <label for="lastName" class="label-text text-black">Last name:</label>
         <input type="text" id="lastName" formControlName="lastName" class="border border-black w-full px-3 py-2">
     </div>
     <div class="mb-4">
-        <label for="interests" class="block text-black font-bold">Interests (comma separated):</label>
+        <label for="interests" class="label-text text-black">Interests (comma separated):</label>
         <input type="text" id="interests" formControlName="interests" class="border border-black w-full px-3 py-2">
     </div>
     <button type="submit" class="btn btn-primary">Save</button>

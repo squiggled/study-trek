@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { UserSessionStore } from '../../../stores/user.store';
 
@@ -18,8 +18,8 @@ export class EditAccountComponent {
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
-      firstName: [''],
-      lastName: [''],
+      firstName: this.fb.control<string>('', Validators.required),
+      lastName: this.fb.control<string>('', Validators.required),
       interests: ['']
     });
 

@@ -94,13 +94,13 @@ export class AuthService {
       });
   }
 
-  changePassword(oldPassword: string, newPassword: string): Observable<any> {
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
     const userId = localStorage.getItem('userId'); 
     if (!userId) {
       throw new Error('User ID not found');
     }
-    const body = { oldPassword, newPassword };
-    return this.httpClient.post(`/api/users/password/${userId}`, body, { headers: this.addTokenToHeader() });
+    const dto = { currentPassword, newPassword };
+    return this.httpClient.post(`/api/auth/password/${userId}`, dto, { headers: this.addTokenToHeader() });
   }
 
   logout(): void {
