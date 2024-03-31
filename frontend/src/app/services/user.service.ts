@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ElementRef, inject } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap, throwError, map} from 'rxjs';
 import { UserSessionStore } from '../stores/user.store';
-import { AccountDetails, CourseDetails, FriendInfo, FriendRequest, Notification } from '../models';
+import { AccountDetails, CourseDetails, FriendInfo, FriendRequest, Notification, UserPartialUpdate } from '../models';
 import { FriendListStore } from '../stores/friends.store';
 
 export class UserService {
@@ -103,7 +103,18 @@ export class UserService {
         return throwError(() => new Error('Error uploading profile picture'));
       })
     );
+  }
 
+  updateUserProfile(updatedDetails: { firstName: string; lastName: string; interests: string[] }): Observable<any> {
+    const userId = localStorage.getItem('userId');
+    
+    return this.httpClient.put<UserPartialUpdate>(`/api/user/${userId}/profile`, updatedDetails, { headers: this.addTokenToHeader() })
+      .pipe(
+        map(response => response as UserPartialUpdate), // Cast the response to UserPartialUpdate
+        tap((response: UserPartialUpdate) => {
+          this.userSessionStore.updateUserPartialDetails(response);
+        })
+      );
   }
 
 

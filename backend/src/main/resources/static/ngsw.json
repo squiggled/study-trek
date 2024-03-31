@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1711684524985,
+  "timestamp": 1711814107873,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,10 +13,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-IBTSFNN6.js",
+        "/main-SRQNOJPC.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-QJA7YGCP.css"
+        "/styles-XE7COIQY.css"
       ],
       "patterns": []
     },
@@ -28,6 +28,8 @@
         "ignoreVary": true
       },
       "urls": [
+        "/assets/banner-home.png",
+        "/assets/banner-starttoday.png",
         "/assets/fonts/Sohne-Buch.otf",
         "/assets/fonts/Sohne-BuchKursiv.otf",
         "/assets/fonts/Sohne-Dreiviertelfett.otf",
@@ -63,6 +65,8 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/assets/banner-home.png": "c0552585120b33bde1b6805286402c9aeb73b804",
+    "/assets/banner-starttoday.png": "9f3302f460fa246d6e5f0cded43eaf5e2ef0869f",
     "/assets/fonts/Sohne-Buch.otf": "e23f6bebdfe49f5080a402dd7eba1e3d73b565f0",
     "/assets/fonts/Sohne-BuchKursiv.otf": "048e06d8a86f394e42971e6f93d993e3520633dd",
     "/assets/fonts/Sohne-Dreiviertelfett.otf": "75061a817d0b021369e4eb32d245e96e7364fd6e",
@@ -93,11 +97,11 @@
     "/assets/logo-studytrek.png": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
     "/assets/logo-udemy.png": "81b787f40aaf1ba76a42e7dc9a84f949cfd4214b",
     "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/index.html": "e975a0eee51bae80f6773be6db0b48c20b4b6a91",
-    "/main-IBTSFNN6.js": "a8b53e7e0684e97933180a63af47a945cb4d7b49",
+    "/index.html": "64e65ec63279b16519bc2c0b4cd03fbc6fe77341",
+    "/main-SRQNOJPC.js": "085f95b5f241e0de3afa5a04d96c7f728bb7de49",
     "/manifest.webmanifest": "63b272452f7323ec09705c84044faa394ce82a79",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-QJA7YGCP.css": "ddfec5cf409b4a125c11df12e94befcca1245dc2"
+    "/styles-XE7COIQY.css": "3aabcebbf9ded37f56644221c5175b8e7fdc8ae5"
   },
   "navigationUrls": [
     {

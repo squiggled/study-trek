@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -13,15 +13,18 @@ export class AuthService {
   private httpClient = inject(HttpClient);
   private router = inject(Router);
   private userSessionStore = inject(UserSessionStore);
-  private userSvc = inject(UserService);
   private notificationSvc = inject(NotificationService);
   private friendStore = inject(FriendListStore);
 
   loginFailed: boolean = false;
   loginAttempted: boolean = false;
-
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
 
+  private addTokenToHeader(): HttpHeaders {
+    const token = localStorage.getItem('jwtToken');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+  
   private hasToken(): boolean {
     return !!localStorage.getItem('jwtToken');
   }
@@ -51,13 +54,9 @@ export class AuthService {
             accountDetails: response.user,
             isAuthenticated: true,
           });
-          // this.sharedStateSvc.setUserId(response.user.userId);
-
           //set notifs
           this.notificationSvc.setNotifications(response.notifications);
           console.log('userdetails', response.user);
-
-          // this.sharedStateSvc.setUserId(response.user.userId);
 
           //set friendlist
           if (response.friendList) {
@@ -95,11 +94,19 @@ export class AuthService {
       });
   }
 
+  changePassword(oldPassword: string, newPassword: string): Observable<any> {
+    const userId = localStorage.getItem('userId'); 
+    if (!userId) {
+      throw new Error('User ID not found');
+    }
+    const body = { oldPassword, newPassword };
+    return this.httpClient.post(`/api/users/password/${userId}`, body, { headers: this.addTokenToHeader() });
+  }
+
   logout(): void {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('userId');
     this.isLoggedInSubject.next(false);
-    // this.sharedStateSvc.setUserId(null);
     this.userSessionStore.resetState();
   }
 

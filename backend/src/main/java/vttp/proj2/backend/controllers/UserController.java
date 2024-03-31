@@ -31,8 +31,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import vttp.proj2.backend.dtos.UserAmendDetailsDTO;
 import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.exceptions.UserAddFriendException;
+import vttp.proj2.backend.exceptions.UserAmendDetailsException;
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.FriendInfo;
 import vttp.proj2.backend.models.FriendRequest;
@@ -145,10 +147,20 @@ public class UserController {
             Map<String, String> response = new HashMap<>();
             response.put("profilePicUrl", newProfilePictureUrl);
             return ResponseEntity.ok(response);
-
-
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    //amend firstname, lastname, details
+    @PutMapping("/{userId}/profile")
+    public ResponseEntity<?> amendProfileDetails(@PathVariable String userId, @RequestBody UserAmendDetailsDTO updatedDetails){
+        System.out.println("UserController PUT userId/profile: This endpoint was reached");
+        try {
+            UserAmendDetailsDTO updated = userSvc.amendProfileDetails(userId, updatedDetails);
+            return ResponseEntity.ok(updated);
+        } catch (UserAmendDetailsException e) {
+            return ResponseEntity.badRequest().body("Error updating profile: " + e.getMessage());
         }
     }
 

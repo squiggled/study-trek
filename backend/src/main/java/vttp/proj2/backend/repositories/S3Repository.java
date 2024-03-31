@@ -36,9 +36,9 @@ public class S3Repository {
         putReq = putReq.withCannedAcl(CannedAccessControlList.PublicRead); //sets the access level to public read
 
         PutObjectResult result = s3.putObject(putReq); 
-        System.out.println("putobjectresult in s3 repo " + result);
+        // System.out.println("putobjectresult in s3 repo " + result);
         String urlToReturn= s3.getUrl(BUCKET_NAME, userId).toExternalForm();
-        System.out.println("url to return from s3 repo: " + urlToReturn);
+        // System.out.println("url to return from s3 repo: " + urlToReturn);
         return urlToReturn;
     } 
 

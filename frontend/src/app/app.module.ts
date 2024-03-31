@@ -45,6 +45,7 @@ import { ForumComponent } from './components/forum/forum.component';
 import { CreateThreadComponent } from './components/forum/contents/create-thread.component';
 import { IndividualThreadComponent } from './components/forum/contents/individual-thread.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { EditPasswordComponent } from './components/user-profile/contents/edit-password.component';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ForumComponent,
     CreateThreadComponent,
     IndividualThreadComponent,
+    EditPasswordComponent,
   ],
   imports: [
     BrowserModule,

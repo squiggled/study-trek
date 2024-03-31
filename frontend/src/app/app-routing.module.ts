@@ -19,6 +19,7 @@ import { SubscribeSuccessComponent } from './components/subscribe/success.compon
 import { ForumComponent } from './components/forum/forum.component';
 import { CreateThreadComponent } from './components/forum/contents/create-thread.component';
 import { IndividualThreadComponent } from './components/forum/contents/individual-thread.component';
+import { EditPasswordComponent } from './components/user-profile/contents/edit-password.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -48,6 +49,7 @@ const routes: Routes = [
     canActivate: [ isLoggedIn ],
     children: [
       { path: 'edit-account', component: EditAccountComponent },
+      { path: 'change-password', component: EditPasswordComponent },
       { path: 'friends', component: FriendsComponent },
       { path: 'photo', component: PhotoComponent },
       { path: 'subscription', component: SubscriptionComponent }, //this page just gives sub status + links to subscribecomponent

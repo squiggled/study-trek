@@ -8,9 +8,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import vttp.proj2.backend.dtos.UserAmendDetailsDTO;
 import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.exceptions.UserAddFriendException;
 import vttp.proj2.backend.exceptions.UserAmendFriendRequestException;
+import vttp.proj2.backend.exceptions.UserAmendDetailsException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.Curriculum;
@@ -143,6 +145,22 @@ public class UserService {
         boolean isUpdated = userRepo.updateProfilePicture(userId, newUrl);
         if (isUpdated) return newUrl;
         return null;
+    }
+
+    @Transactional(rollbackFor = {UserAmendDetailsException.class})
+    public UserAmendDetailsDTO amendProfileDetails(String userId, UserAmendDetailsDTO dto) throws UserAmendDetailsException {
+        System.out.println("UserService amendProfileDetails: This endpoint was reached");
+        boolean isNameUpdated = userRepo.amendProfileDetails(userId, dto);
+        if (!isNameUpdated){
+            System.out.println("Cannot amend user names");
+            throw new UserAmendDetailsException();
+        }
+        boolean isInterestUpdated = userRepo.amendInterests(userId, dto);
+        if (!isInterestUpdated){
+            System.out.println("Cannot amend user interests");
+            throw new UserAmendDetailsException();
+        }
+        return dto;
     }
 
 }

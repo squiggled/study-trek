@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import vttp.proj2.backend.dtos.UserAmendDetailsDTO;
 import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.exceptions.UserAddFriendException;
 import vttp.proj2.backend.models.AccountInfo;
@@ -208,12 +209,12 @@ public class UserRepository {
         // get newly added course's id
         Integer courseId = template.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         if (courseId == 0) {
-            throw new UserAddCourseException("Cannot save registered course");
+            throw new UserAddCourseException("🔴 UserRepo: Cannot save registered course");
         }
         for (Curriculum curriculum : curriculumList) {
             int curriculumId = addCurriculumItem(courseId, curriculum);
             if (curriculumId == 0) {
-                throw new UserAddCourseException("Cannot save curriculum for registered course");
+                throw new UserAddCourseException("🔴 UserRepo: Cannot save curriculum for registered course");
             }
             template.update(Queries.SQL_USER_UPDATE_COURSE_PROGRESS, userId, curriculumId, false);
         }
@@ -234,7 +235,6 @@ public class UserRepository {
 
     // friends feature
     public FriendInfo convertRsToFriendInfo(SqlRowSet rs, String userId) {
-      
             FriendInfo friend = new FriendInfo();
             friend.setUserId(rs.getString("userId"));
             friend.setEmail(rs.getString("email"));
@@ -246,8 +246,6 @@ public class UserRepository {
             boolean isFriend = isFriend(userId, friend.getUserId());
             friend.setFriend(isFriend);
             return friend;
-    
-        
     }
 
     public FriendInfo friendSearchByEmail(String friendEmail, String userId) {
@@ -268,7 +266,7 @@ public class UserRepository {
             }
             return friend;
         } else {
-            System.out.println("did not find friend");
+            System.out.println("🔴 UserRepo: Did not find friend");
             return null;
         }
     }
@@ -287,12 +285,12 @@ public class UserRepository {
             }
             boolean isPendingReq = isPending(userId, friend.getUserId());
             if (isPendingReq) {
-                System.out.println("is pending");
+                System.out.println("🟡 UserRepo: Friend request pending");
                 friend.setStatus("PENDING");
             }
             return friend;
         } else {
-            System.out.println("did not find friend");
+            System.out.println("🔴 UserRepo: Did not find friend");
             return null;
         }
     }
@@ -309,8 +307,7 @@ public class UserRepository {
     public boolean isPending(String userId, String friendId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_FRIENDS_IS_PENDING, userId, friendId);
         if (rs.next()){
-            int count = rs.getInt(1); // Assuming COUNT(*) is the first column
-            // System.out.println("Pending count: " + count);
+            int count = rs.getInt(1); 
             return count > 0;
         }
         return false;
@@ -323,7 +320,7 @@ public class UserRepository {
                 friendRequest.getSenderId(), friendRequest.getReceiverId(),
                 friendRequest.getStatus(), currentTimestamp, null);
         if (rowsAffected == 0) {
-            throw new UserAddFriendException("Cannot create new friend request");
+            throw new UserAddFriendException("🔴 UserRepo: Cannot create new friend request");
         } else {
             int insertedId = template.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
             return insertedId;
@@ -337,7 +334,7 @@ public class UserRepository {
                 notif.getMessage(), notif.getRelatedId(),
                 notif.isRead(), currentTimestamp);
         if (rowsAffected == 0) {
-            throw new UserAddFriendException("Cannot create new notification");
+            throw new UserAddFriendException("🔴 UserRepo: Cannot create new notification");
         } else {
             int insertedId = template.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
             return insertedId;
@@ -354,10 +351,10 @@ public class UserRepository {
         //status is either ACCEPTED or REJECTED
         int rowsAffected = template.update(Queries.SQL_FRIENDS_UPDATE_FRIEND_REQUEST, status, req.getRequestId());
         if (rowsAffected > 0) {
-            System.out.println("amended successfully");
+            System.out.println("🟢 UserRepo: Friend request amended successfully");
             return true;
         } else {
-            System.out.println("did not amend friend request");
+            System.out.println("🔴 UserRepo: Did not amend friend request");
             return false;
         }
         
@@ -366,10 +363,10 @@ public class UserRepository {
     public boolean addToFriendsList(FriendRequest req){
         int rowsAffected = template.update(Queries.SQL_FRIENDS_ADD_TO_FRIEND_LIST, req.getSenderId(), req.getReceiverId());
         if (rowsAffected > 0) {
-            System.out.println("UserRepo: Successfully added to friend table");
+            System.out.println("🟢 UserRepo: Successfully added to friend table");
             return true;
         } else {
-            System.out.println("UserRepo: Did not add to friend table");
+            System.out.println("🔴 UserRepo: Did not update friend table");
             return false;
         }
     }
@@ -384,6 +381,30 @@ public class UserRepository {
             System.out.println("🔴 UserRepo: Did not successfully update profile pic");
             return false;
         }
+    }
+
+    //amend user interests
+    public boolean amendInterests(String userId, UserAmendDetailsDTO dto) {
+        int rowsAffected1 = template.update(Queries.SQL_USER_INTERESTS_DELETE, userId);
+        if (rowsAffected1==0){
+            System.out.println("No interests for " + userId + " deleted");
+        }
+        List<String> newInterests = dto.getInterests();
+        for (String interest : newInterests){
+            int rowAffected2 = template.update(Queries.SQL_USER_INTERESTS_INSERT, userId, interest);
+            if (rowAffected2==0) return false;
+        }
+        return true;
+    }
+
+    //amend first and last name
+    public boolean amendProfileDetails(String userId, UserAmendDetailsDTO dto){
+        System.out.println("🟡 UserRepo amendProfileDetails: This endpoint was reached");
+        // System.out.println("dto " + dto);
+        // System.out.println("userId "+ userId);
+        int rowsAffected = template.update(Queries.SQL_USER_UPDATE_PROFILE_NAMES, dto.getFirstName(), dto.getLastName(), userId);
+        if (rowsAffected==0) return false;
+        return true;
     }
 
 }

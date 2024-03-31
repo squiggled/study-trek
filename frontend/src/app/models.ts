@@ -86,6 +86,12 @@ export const defaultAccountDetails: AccountDetails = {
     role: ''
 };
 
+export interface UserPartialUpdate {
+  firstName: string;
+  lastName: string;
+  interests: string[];
+}
+
 export interface CourseSearchSlice {
   courseListing: CourseSearch[];
 }

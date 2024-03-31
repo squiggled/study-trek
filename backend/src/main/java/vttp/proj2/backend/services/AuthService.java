@@ -43,9 +43,25 @@ public class AuthService {
     public boolean authenticateLogin(String email, String rawPassword){
         boolean emailExists = authRepo.checkEmailExists(email);
         if (!emailExists) return false;
-        String passwordHash = authRepo.getHashedPassword(email);
+        String passwordHash = authRepo.getHashedPasswordByEmail(email);
         boolean isAuthenticated = checkPassword(rawPassword, passwordHash);
         return isAuthenticated;
+    }
+
+    //change password
+    public boolean changeUserPassword(String userId, String currentPassword, String newPassword, String confirmNewPassword) {
+       
+        //verify current password
+        String storedHashedPassword = authRepo.getHashedPasswordById(userId);
+        System.out.println("Old pw hash: " + storedHashedPassword);
+        if (!passwordEncoder.matches(currentPassword, storedHashedPassword)) {
+            return false;
+        }
+
+        //checks passed, update password
+        String newHashedPassword = passwordEncoder.encode(newPassword);
+        System.out.println("New pw hash: " + newHashedPassword);
+        return authRepo.updateUserPassword(userId, newHashedPassword);
     }
 
     @Transactional(rollbackFor = UserRegistrationException.class)
@@ -55,8 +71,8 @@ public class AuthService {
         newAcc.setLastName(lastName);
         newAcc.setEmail(email);
         newAcc.setPasswordHash(hashPassword(rawPassword));
-        System.out.println("test hashpw " + newAcc.getPasswordHash());
-        System.out.println("userid test " + newAcc.getUserId());
+        // System.out.println("test hashpw " + newAcc.getPasswordHash());
+        // System.out.println("userid test " + newAcc.getUserId());
         newAcc.setLastPasswordResetDate(new Date());
         newAcc.setProfilePicUrl("/assets/logo-defaultuser.png");
         boolean doesEmailExist = authRepo.checkEmailExists(email);

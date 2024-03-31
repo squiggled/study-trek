@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit{
   selectedCategory: string = 'Business';
   homepageCourses$!: Observable<CourseSearch[]>;
   userId!:string;
+  isLoggedIn$!: Observable<boolean>;
 
 
   ngOnInit(): void {
@@ -42,7 +43,7 @@ export class HomeComponent implements OnInit{
     ).subscribe(() => {
       this.notificationSvc.fetchAndSetNotifications();
     });
-    
+    this.isLoggedIn$ = this.userSessionStore.isLoggedIn$;
   }
 
   dismissScheduleCard() {

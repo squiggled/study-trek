@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   AccountDetails,
   CourseDetails,
+  UserPartialUpdate,
   UserSessionSlice,
   defaultAccountDetails,
 } from '../models';
@@ -17,7 +18,14 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
     super(INIT_STATE);
   }
 
-  //updater
+  readonly isLoggedIn$ = this.select((state) => state.isAuthenticated);
+  readonly firstName$ = this.select((state) => state.accountDetails.firstName);
+  readonly userId$ = this.select((state) => state.accountDetails.userId);
+  readonly email$ = this.select((state) => state.accountDetails.email);
+  readonly profilePic$ = this.select(
+    (state) => state.accountDetails.profilePicUrl
+  );
+
   readonly loginSuccess = this.updater(
     (state, { accountDetails, isAuthenticated }: UserSessionSlice) => ({
       ...state,
@@ -33,12 +41,15 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
     })
   );
 
-  readonly isLoggedIn$ = this.select((state) => state.isAuthenticated);
-  readonly firstName$ = this.select((state) => state.accountDetails.firstName);
-  readonly userId$ = this.select((state) => state.accountDetails.userId);
-  readonly email$ = this.select((state) => state.accountDetails.email);
-  readonly profilePic$ = this.select((state) => state.accountDetails.profilePicUrl);
-
+  readonly updateUserPartialDetails = this.updater(
+    (state, update: UserPartialUpdate) => ({
+      ...state,
+      accountDetails: {
+        ...state.accountDetails,
+        ...update,
+      },
+    })
+  );
 
   readonly addCourseToUser = this.updater((state, newCourse: CourseDetails) => {
     return {
@@ -63,7 +74,7 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
 
   resetState(): void {
     this.setState({
-      accountDetails: defaultAccountDetails, 
+      accountDetails: defaultAccountDetails,
       isAuthenticated: false,
     });
   }
@@ -75,6 +86,17 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
       accountDetails: {
         ...state.accountDetails,
         profilePicUrl: profilePicUrl,
+      },
+    })
+  );
+
+  //update pw hash
+  readonly updatePasswordHash = this.updater(
+    (state, newPasswordHash: string) => ({
+      ...state,
+      accountDetails: {
+        ...state.accountDetails,
+        passwordHash: newPasswordHash,
       },
     })
   );

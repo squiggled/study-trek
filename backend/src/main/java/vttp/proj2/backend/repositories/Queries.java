@@ -24,11 +24,21 @@ public class Queries {
                 WHERE userId = ?
             """;
 
-    //auth - retrieving password
-    public static final String SQL_GET_HASHED_PASSWORD_BY_EMAIL = """
+    //auth - retrieving password, change password
+    public static final String SQL_AUTH_GET_HASHED_PASSWORD_BY_EMAIL = """
                 SELECT passwordHash
                 FROM user_info
                 WHERE email = ?
+            """;
+    public static final String SQL_AUTH_GET_HASHED_PASSWORD_BY_ID = """
+                SELECT passwordHash
+                FROM user_info
+                WHERE userId = ?
+            """;
+    public static final String SQL_AUTH_PASSWORD_CHANGE = """
+                UPDATE user_info
+                SET passwordHash = ?
+                WHERE userId = ?
             """;
 
     //auth - registering new user
@@ -40,7 +50,7 @@ public class Queries {
                 INSERT INTO roles(userId, role) VALUES (?, ?);
             """;
 
-    //auth - login, retrieving user details
+    //auth - login, retrieving user details, update password
     public static final String SQL_GET_USER_INTERESTS = """
                 SELECT * 
                 FROM interests
@@ -71,8 +81,9 @@ public class Queries {
                 FROM friends
                 WHERE friendUserId = ?
             """;
+   
             
-    //user - updating user progress + user adding new courses
+    //user - updating user progress + adding new courses + details 
     public static final String SQL_USER_ADD_REGISTERED_COURSE = """
                 INSERT INTO registered_courses(userId, platform, platformId, title, headline, imageUrl, urlToCourse, isPaid, price, instructor, isEnrolled) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -93,6 +104,19 @@ public class Queries {
                 UPDATE user_info
                 SET profilePicUrl = ?
                 WHERE userId = ?
+            """;
+    public static final String SQL_USER_UPDATE_PROFILE_NAMES = """
+                UPDATE user_info
+                SET firstName = ?, lastName = ?
+                WHERE userId = ?
+            """;
+    public static final String SQL_USER_INTERESTS_DELETE = """
+                DELETE FROM interests
+                WHERE userId = ?
+            """;
+    public static final String SQL_USER_INTERESTS_INSERT = """
+                INSERT INTO interests (userId, interest)
+                VALUES (?, ?);
             """;
     
     //finding friends
