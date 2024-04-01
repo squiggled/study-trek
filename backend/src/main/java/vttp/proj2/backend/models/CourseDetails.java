@@ -9,13 +9,12 @@ public class CourseDetails {
     private String platformId;
     private String title;
     private String headline;
-    private String category;
     private String imageUrl;
     private String urlToCourse;
     private boolean isPaid;
     private String price;
     private String instructor;
-    private List<String> courseNotes;
+    private CourseNote courseNotes;
     private List<Curriculum> curriculum;
     private boolean isEnrolled = false;
     
@@ -119,14 +118,6 @@ public class CourseDetails {
         this.courseId = courseId;
     }
 
-    public List<String> getCourseNotes() {
-        return courseNotes;
-    }
-
-    public void setCourseNotes(List<String> courseNotes) {
-        this.courseNotes = courseNotes;
-    }
-
     public String getUserId() {
         return userId;
     }
@@ -135,6 +126,12 @@ public class CourseDetails {
         this.userId = userId;
     }
 
-    
+    public CourseNote getCourseNotes() {
+        return courseNotes;
+    }
+
+    public void setCourseNotes(CourseNote courseNotes) {
+        this.courseNotes = courseNotes;
+    }
 
 }

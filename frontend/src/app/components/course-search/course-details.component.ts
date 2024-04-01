@@ -1,12 +1,14 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { Observable, take, withLatestFrom } from 'rxjs';
-import { CourseDetails, Platform } from '../../models';
+import { CourseDetails, CourseNote, Platform } from '../../models';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { CourseDetailsStore } from '../../stores/course-details.store';
 import { CommonUtilsService } from '../../services/common.utils.service';
 import { UserSessionStore } from '../../stores/user.store';
 import { UserService } from '../../services/user.service';
+import { CourseService } from '../../services/course.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-course-details',
@@ -15,10 +17,17 @@ import { UserService } from '../../services/user.service';
 })
 export class CourseDetailsComponent implements OnInit{
   
-  courseDetails$!: Observable<CourseDetails>;
   userId!: string;
+  courseId!:string;
+  newNote: string = '';
+
   showSuccessNotification:boolean = false;
   showAddFailNotification:boolean = false;
+  isScrolled = false;
+
+  isUserEnrolled$!: Observable<boolean>;
+  courseDetails$!: Observable<CourseDetails>;
+  courseNotes$!: Observable<CourseNote[]>;
 
   private activatedRoute = inject(ActivatedRoute);
   private searchSvc =  inject(SearchService);
@@ -26,12 +35,16 @@ export class CourseDetailsComponent implements OnInit{
   private utilsSvc = inject(CommonUtilsService)
   private userSessionStore = inject(UserSessionStore)
   private userSvc = inject(UserService);
+  private courseSvc = inject(CourseService);
+
+  courseForm!:FormGroup
+  constructor (private fb:FormBuilder){}
   
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       const platform = params['platform'];
       const courseId = params['courseId'];
-  
+      this.courseId=courseId;
       //check if the requested course is already being viewed
       this.courseDetailsStore.getCurrentCourseId.pipe(
         take(1), //take the current value and unsubscribe
@@ -51,6 +64,12 @@ export class CourseDetailsComponent implements OnInit{
       this.userId = userId;
       console.log("User ID from store:", this.userId);
     });
+    this.courseForm = this.fb.group({
+      newNote: ['']
+      // other form controls
+    });
+    this.isUserEnrolled$ = this.userSessionStore.isEnrolledInCourse(this.courseId);
+    
   }
 
   getPlatformLogo(platform: Platform): string {
@@ -83,8 +102,18 @@ export class CourseDetailsComponent implements OnInit{
         }
       });
     }
-    
   }
+  fetchNotes() {
+    this.courseNotes$ = this.courseSvc.fetchNotes(this.courseId, this.userId);
+  }
+
+  saveNote(): void {
+    if (this.courseForm.value.newNote.trim()) {
+      // Call service to save note, then clear the form field
+      this.courseForm.reset();
+    }
+  }
+
   showSuccessNotificationMethod() {
     this.showSuccessNotification = true;
     setTimeout(() => {
@@ -97,6 +126,13 @@ export class CourseDetailsComponent implements OnInit{
     setTimeout(() => {
       this.showAddFailNotification = false;
     }, 3000);
+  }
 
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    const threshold = 100;
+    this.isScrolled = window.scrollY > threshold;
+    console.log("is scrolled " + this.isScrolled);
+    
   }
 }

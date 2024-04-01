@@ -13,6 +13,7 @@ export class EditAccountComponent {
   profileForm!: FormGroup;
   private userSvc = inject(UserService);
   private userSessionStore = inject(UserSessionStore)
+  email!:string;
 
   constructor(private fb: FormBuilder) {}
 
@@ -30,6 +31,7 @@ export class EditAccountComponent {
         lastName: details.lastName,
         interests: details.interests.join(', ')
       });
+      this.email = details.email;
     });
   }
 
@@ -43,7 +45,6 @@ export class EditAccountComponent {
       console.log("updated details ", updatedDetails);
       this.userSvc.updateUserProfile(updatedDetails).subscribe(() => {
         this.showSuccessfulEditNotification();
-        // Optionally refresh or update the store with new details
       });
     }
   }

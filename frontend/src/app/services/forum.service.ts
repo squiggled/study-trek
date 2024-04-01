@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { UserSessionStore } from '../stores/user.store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ForumThread, ThreadMessage } from '../models';
 
 @Injectable({

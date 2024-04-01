@@ -50,7 +50,7 @@ public class UserController {
     @Autowired
     UserService userSvc;
 
-    //for adding user courses
+    //COURSES for adding user courses
     @PostMapping("/{userId}/courses")
     public ResponseEntity<?> addCourse(@PathVariable String userId, @RequestBody CourseDetails courseDetails) {
         try {

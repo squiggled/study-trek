@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.models.AccountInfoPrincipal;
-import vttp.proj2.backend.repositories.AuthRepository;
 import vttp.proj2.backend.repositories.UserRepository;
 
 @Service

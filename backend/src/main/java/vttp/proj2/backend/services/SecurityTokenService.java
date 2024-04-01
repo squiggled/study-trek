@@ -5,7 +5,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;

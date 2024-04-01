@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1711814107873,
+  "timestamp": 1711942744992,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,10 +13,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-SRQNOJPC.js",
+        "/main-ZGB6RAGZ.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-XE7COIQY.css"
+        "/styles-P5M5S3HR.css"
       ],
       "patterns": []
     },
@@ -28,8 +28,10 @@
         "ignoreVary": true
       },
       "urls": [
+        "/assets/banner-home-1.png",
+        "/assets/banner-home-2.png",
         "/assets/banner-home.png",
-        "/assets/banner-starttoday.png",
+        "/assets/banner-login.gif",
         "/assets/fonts/Sohne-Buch.otf",
         "/assets/fonts/Sohne-BuchKursiv.otf",
         "/assets/fonts/Sohne-Dreiviertelfett.otf",
@@ -65,8 +67,10 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/assets/banner-home-1.png": "9f3302f460fa246d6e5f0cded43eaf5e2ef0869f",
+    "/assets/banner-home-2.png": "0a2eba43b631e6eaea2315c6a37ca8f045c30ded",
     "/assets/banner-home.png": "c0552585120b33bde1b6805286402c9aeb73b804",
-    "/assets/banner-starttoday.png": "9f3302f460fa246d6e5f0cded43eaf5e2ef0869f",
+    "/assets/banner-login.gif": "3f9414c5f5fc3ddefe6f3f597a9a0b6e1842d057",
     "/assets/fonts/Sohne-Buch.otf": "e23f6bebdfe49f5080a402dd7eba1e3d73b565f0",
     "/assets/fonts/Sohne-BuchKursiv.otf": "048e06d8a86f394e42971e6f93d993e3520633dd",
     "/assets/fonts/Sohne-Dreiviertelfett.otf": "75061a817d0b021369e4eb32d245e96e7364fd6e",
@@ -97,11 +101,11 @@
     "/assets/logo-studytrek.png": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
     "/assets/logo-udemy.png": "81b787f40aaf1ba76a42e7dc9a84f949cfd4214b",
     "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/index.html": "64e65ec63279b16519bc2c0b4cd03fbc6fe77341",
-    "/main-SRQNOJPC.js": "085f95b5f241e0de3afa5a04d96c7f728bb7de49",
+    "/index.html": "672e5433e4d942eba5b92d2795a13d95ae96dbd2",
+    "/main-ZGB6RAGZ.js": "c910f06d136144c2d301f583ceff3624d976e30d",
     "/manifest.webmanifest": "63b272452f7323ec09705c84044faa394ce82a79",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-XE7COIQY.css": "3aabcebbf9ded37f56644221c5175b8e7fdc8ae5"
+    "/styles-P5M5S3HR.css": "351a05be4f9b680e653a6de37633e5fc3807b3f8"
   },
   "navigationUrls": [
     {

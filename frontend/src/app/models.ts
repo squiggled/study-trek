@@ -29,6 +29,7 @@ export interface CourseDetails {
   price: number;
   instructor: string;
   curriculum: Curriculum[];
+  notes?: CourseNote;
 }
 
 export const defaultCourseDetails: CourseDetails = {
@@ -49,6 +50,13 @@ export interface Curriculum {
   lectureNumber: number;
   title: string;
   completed: boolean;
+}
+
+export interface CourseNote {
+  noteId: number; 
+  courseId:string;
+  userId:string
+  text: string;
 }
 
 export interface AccountDetails {

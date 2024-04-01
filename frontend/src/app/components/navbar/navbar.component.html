@@ -20,8 +20,8 @@
       <!-- Right content: Login/Signup buttons -->
       <!-- if user is NOT logged in -->
       <div class="flex items-center space-x-4">
-        <button *ngIf="!(isLoggedIn$ | async)" class="btn btn-outline btn-primary" (click)="login()">Login</button>
-        <button *ngIf="!(isLoggedIn$ | async)" class="btn btn-primary" (click)="register()">Sign Up</button>
+        <button *ngIf="!(isLoggedIn$ | async)" class="btn btn-outline btn-secondary btn-sm rounded-md" (click)="login()">Login</button>
+        <button *ngIf="!(isLoggedIn$ | async)" class="btn btn-primary btn-sm rounded-md" (click)="register()">Sign Up</button>
 
         <!--  bell and user profile dropdown if user is logged in -->
       <div *ngIf="isLoggedIn$ | async" class="relative profile-dropdown flex items-center space-x-2">

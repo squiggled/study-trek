@@ -1,0 +1,36 @@
+.sticky-column {
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 20px; 
+    align-self: flex-start; 
+}
+
+.course-details-container {
+    position: relative;
+}
+  
+.course-title {
+    position: absolute;
+    top: -100px; 
+    left: 0;
+    width: 100%;
+    text-align: center;
+    transition: top 0.3s ease-in-out;
+}
+  
+.course-title.scrolled {
+    top: 10; 
+}
+
+.show-title {
+    visibility: visible;
+    opacity: 1;
+    opacity: 1;
+    position: fixed; 
+    padding-left: 50px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #FFF; 
+    z-index: 100; 
+}

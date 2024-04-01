@@ -1,7 +1,6 @@
 package vttp.proj2.backend.config;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import javax.crypto.spec.SecretKeySpec;
 

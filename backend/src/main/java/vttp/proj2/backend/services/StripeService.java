@@ -2,18 +2,12 @@ package vttp.proj2.backend.services;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.param.CustomerCreateParams;
-import com.stripe.param.SubscriptionCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
-import com.stripe.model.Customer;
-import com.stripe.model.Subscription;
 import com.stripe.model.checkout.Session;
 
 import jakarta.annotation.PostConstruct;
 import vttp.proj2.backend.dtos.SubscriptionRequestDTO;
 import vttp.proj2.backend.repositories.SubscriptionRepository;
-
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

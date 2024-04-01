@@ -23,7 +23,6 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
-import vttp.proj2.backend.models.CourseDetails;
 import vttp.proj2.backend.models.CourseSearch;
 import vttp.proj2.backend.repositories.CourseRepository;
 import vttp.proj2.backend.utils.Utils;

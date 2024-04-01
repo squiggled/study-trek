@@ -53,13 +53,13 @@ public class AuthService {
     public String changeUserPassword(String userId, String currentPassword, String newPassword) {
         //verify current password
         String storedHashedPassword = authRepo.getHashedPasswordById(userId);
-        System.out.println("stored hashed pw " + storedHashedPassword);
+        System.out.println("🟡 AuthService - Stored hashed pw: " + storedHashedPassword);
         if (!passwordEncoder.matches(currentPassword, storedHashedPassword)) {
             throw new UserWrongPasswordException();
         }
         //checks passed, update password
         String newHashedPassword = passwordEncoder.encode(newPassword);
-        System.out.println("New pw hash: " + newHashedPassword);
+        System.out.println("🟡 AuthService - New pw hash: " + newHashedPassword);
         return authRepo.updateUserPassword(userId, newHashedPassword);
     }
 
@@ -76,15 +76,15 @@ public class AuthService {
         newAcc.setProfilePicUrl("/assets/logo-defaultuser.png");
         boolean doesEmailExist = authRepo.checkEmailExists(email);
         if (doesEmailExist){
-            throw new UserRegistrationException("Email already exists: " + email);
+            throw new UserRegistrationException("🔴 AuthService - Email already exists: " + email);
         }
         boolean isRegistered = authRepo.createNewUser(newAcc);
         if (!isRegistered) {
-            throw new UserRegistrationException("Cannot create new user: " + email);
+            throw new UserRegistrationException("🔴 AuthService - Cannot create new user: " + email);
         }
         boolean roleAssigned = authRepo.assignUserRole(newAcc.getUserId(), "ROLE_USER");
         if (!roleAssigned){
-            throw new UserRegistrationException("Cannot assign role to new user: "+ email);
+            throw new UserRegistrationException("🔴 AuthService - Cannot assign role to new user: "+ email);
         }
 
         String subject = "Welcome to Study Trek!";

@@ -177,7 +177,7 @@ public class AuthController {
     //change password
     @PostMapping("/password/{userId}")
     public ResponseEntity<?> changePassword(@PathVariable String userId, @RequestBody PasswordChangeRequestDTO dto){
-        System.out.println("this end point was reached " + dto);
+        // System.out.println("this end point was reached " + dto);
         try {
             String newHashedPw = authSvc.changeUserPassword(userId, dto.getCurrentPassword(), dto.getNewPassword());
             if (null==newHashedPw){

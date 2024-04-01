@@ -60,21 +60,21 @@ export class EditPasswordComponent implements OnInit{
     this.showSuccessNotification = true;
     setTimeout(() => {
       this.showSuccessNotification = false;
-    }, 3000);
+    }, 4000);
   }
 
   showErrorNotification(){
     this.showGenericErrorNotification = true;
     setTimeout(() => {
       this.showGenericErrorNotification = false;
-    }, 3000);
+    }, 4000);
   }
 
   showWrongPasswordNotification(){
     this.showWrongPwNotification = true;
     setTimeout(() => {
       this.showWrongPwNotification = false;
-    }, 3000);
+    }, 4000);
   }
 
   //toggle show/hide pw

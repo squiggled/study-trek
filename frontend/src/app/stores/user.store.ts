@@ -7,6 +7,7 @@ import {
   defaultAccountDetails,
 } from '../models';
 import { ComponentStore } from '@ngrx/component-store';
+import { Observable } from 'rxjs';
 
 const INIT_STATE: UserSessionSlice = {
   accountDetails: defaultAccountDetails,
@@ -25,6 +26,11 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
   readonly profilePic$ = this.select(
     (state) => state.accountDetails.profilePicUrl
   );
+  isEnrolledInCourse(courseId: string): Observable<boolean> {
+    return this.select(state =>
+      state.accountDetails.registeredCourses.some(course => course.platformId === courseId)
+    );
+  }
 
   readonly loginSuccess = this.updater(
     (state, { accountDetails, isAuthenticated }: UserSessionSlice) => ({
