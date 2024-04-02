@@ -12,6 +12,10 @@ export class CommonUtilsService {
     );
   }
 
+  toPlatformEnum(platformStr: string): Platform {
+    return Platform[platformStr as keyof typeof Platform] ?? Platform.OTHER;
+  }
+
   capitaliseFirstLetterFormatter(s: string): string {
     return s.charAt(0).toUpperCase() + s.slice(1);
   }

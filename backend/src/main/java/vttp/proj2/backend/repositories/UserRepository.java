@@ -15,6 +15,7 @@ import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.exceptions.UserAddFriendException;
 import vttp.proj2.backend.models.AccountInfo;
 import vttp.proj2.backend.models.CourseDetails;
+import vttp.proj2.backend.models.CourseNote;
 import vttp.proj2.backend.models.Curriculum;
 import vttp.proj2.backend.models.FriendInfo;
 import vttp.proj2.backend.models.FriendRequest;
@@ -153,13 +154,13 @@ public class UserRepository {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_USER_REGISTERED_COURSES, userId);
         List<CourseDetails> userCourses = new ArrayList<>();
         while (rs.next()) {
-            CourseDetails newCourse = Utils.mapRowToCourseDetails(rs);
+            CourseDetails newCourse = mapRowToCourseDetails(rs);
             userCourses.add(newCourse);
         }
         return userCourses;
     }
 
-    public List<Curriculum> getCurriculumForCourse(String courseId, Integer curriculumId) {
+    public List<Curriculum> getCurriculumForCourse(int courseId, Integer curriculumId) {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_GET_CURRICULUM_FOR_COURSE, courseId, curriculumId);
         List<Curriculum> curriculumList = new ArrayList<>();
         while (rs.next()) {
@@ -193,7 +194,7 @@ public class UserRepository {
                 friends.add(friend);
             }
         }
-        System.out.println("found friends" + friends);
+        // System.out.println("found friends" + friends);
         return friends;
     }
     // adding course to user
@@ -220,7 +221,7 @@ public class UserRepository {
         }
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_USER_GET_NEW_REGISTERED_COURSE, userId);
         if (rs.next()) {
-            CourseDetails newCourse = Utils.mapRowToCourseDetails(rs);
+            CourseDetails newCourse = mapRowToCourseDetails(rs);
             return newCourse;
         } else {
             return null;
@@ -405,6 +406,58 @@ public class UserRepository {
         int rowsAffected = template.update(Queries.SQL_USER_UPDATE_PROFILE_NAMES, dto.getFirstName(), dto.getLastName(), userId);
         if (rowsAffected==0) return false;
         return true;
+    }
+
+     public CourseDetails mapRowToCourseDetails(SqlRowSet rs) {
+        CourseDetails course = new CourseDetails();
+        course.setCourseId(rs.getInt("courseId"));
+        // System.out.println("UserRepo course id " + course.getCourseId());
+        course.setUserId(rs.getString("userId"));
+        course.setPlatformId(rs.getString("platformId"));
+        course.setPlatform(Utils.stringToPlatform(rs.getString("platform")));
+        course.setTitle(rs.getString("title"));
+        course.setHeadline(rs.getString("headline"));
+        course.setImageUrl(rs.getString("imageUrl"));
+        course.setUrlToCourse(rs.getString("urlToCourse"));
+        course.setPaid(rs.getBoolean("isPaid"));
+        course.setPrice(rs.getString("price"));
+        course.setInstructor(rs.getString("instructor"));
+        course.setEnrolled(rs.getBoolean("isEnrolled"));
+        // System.out.println("course.getuserId " + course.getUserId());
+        List<Curriculum> lectures = new ArrayList<>();
+        SqlRowSet lectureRS = template.queryForRowSet(Queries.SQL_GET_CURRICULUM_FOR_COURSE, course.getCourseId());
+        while (lectureRS.next()){
+            Curriculum curr = mapRowToCurriculum(lectureRS);
+            lectures.add(curr);
+        }
+        course.setCurriculum(lectures);
+        // System.out.println("found lectures " + course.getCurriculum());
+        SqlRowSet cnRS = template.queryForRowSet(Queries.SQL_USER_COURSE_GET_ALL_BY_COURSEID, course.getUserId(), course.getCourseId());
+        if (cnRS.next()){
+            course.setCourseNotes(mapRowToCourseNote(cnRS));
+        } else {
+            course.setCourseNotes(new CourseNote());
+        }
+        // System.out.println("Notes for user: " + course.getCourseNotes());
+        return course;
+    }
+
+    public CourseNote mapRowToCourseNote(SqlRowSet rs){
+        CourseNote note = new CourseNote();
+        note.setCourseId(rs.getInt("courseId"));
+        note.setNoteId(rs.getInt("noteId"));
+        note.setText(rs.getString("note"));
+        note.setUserId(rs.getString("userId"));
+        return note;
+    }
+
+    public Curriculum mapRowToCurriculum(SqlRowSet rs){
+        Curriculum curr = new Curriculum();
+        curr.setCourseId(rs.getInt("courseId"));
+        curr.setCurriculumId(rs.getInt("curriculumId"));
+        curr.setLectureNumber(rs.getInt("lectureNumber"));
+        curr.setTitle(rs.getString("title"));
+        return curr;
     }
 
 }

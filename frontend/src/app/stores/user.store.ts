@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {
   AccountDetails,
   CourseDetails,
+  CourseNote,
   UserPartialUpdate,
   UserSessionSlice,
   defaultAccountDetails,
 } from '../models';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 const INIT_STATE: UserSessionSlice = {
   accountDetails: defaultAccountDetails,
@@ -57,26 +58,7 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
     })
   );
 
-  readonly addCourseToUser = this.updater((state, newCourse: CourseDetails) => {
-    return {
-      ...state,
-      accountDetails: {
-        ...state.accountDetails,
-        registeredCourses: [
-          ...state.accountDetails.registeredCourses,
-          newCourse,
-        ],
-      },
-    };
-  });
-
-  courseExists(newCourse: CourseDetails): boolean {
-    return this.get((state) =>
-      state.accountDetails.registeredCourses.some(
-        (course) => course.platformId === newCourse.platformId
-      )
-    );
-  }
+ 
 
   resetState(): void {
     this.setState({
@@ -106,4 +88,71 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
       },
     })
   );
+  
+  //adding courses
+  readonly addCourseToUser = this.updater((state, newCourse: CourseDetails) => {
+    return {
+      ...state,
+      accountDetails: {
+        ...state.accountDetails,
+        registeredCourses: [
+          ...state.accountDetails.registeredCourses,
+          newCourse,
+        ],
+      },
+    };
+  });
+
+  //checking if course exists
+  courseExists(newCourse: CourseDetails): boolean {
+    return this.get((state) =>
+      state.accountDetails.registeredCourses.some(
+        (course) => course.platformId === newCourse.platformId
+      )
+    );
+  }
+  //course notes
+  readonly getCourseNoteForCourse = (courseId: number): Observable<CourseNote | undefined> => {
+    return this.select(state =>
+      state.accountDetails.registeredCourses
+        .find(course => course.courseId === courseId)?.notes
+    );
+  }
+
+  readonly updateCourseNote = this.updater((state, updatedNote: CourseNote) => {
+    const updatedCourses = state.accountDetails.registeredCourses.map(course => {
+      if (course.courseId === updatedNote.courseId) {
+        return { ...course, notes: updatedNote };
+      }
+      return course;
+    });
+    return { ...state, accountDetails: {
+        ...state.accountDetails, registeredCourses: updatedCourses,
+      },
+    };
+  });
+
+  readonly getCourseDetailsByPlatformId = (platformId: string): Observable<CourseDetails | undefined> => {
+    return this.select(state =>
+      state.accountDetails.registeredCourses.find(course => course.platformId === platformId)
+    );
+  };
+  
+  // readonly getCourseIdByPlatformId = (platformId: string): Observable<number | undefined> => {
+  //   return this.select(state =>
+  //     state.accountDetails.registeredCourses.find(course => course.platformId === platformId)?.courseId
+  //   );
+  // };
+  readonly getCourseIdByPlatformId = (platformId: string): Observable<number> => {
+    return this.select(state => {
+      const course = state.accountDetails.registeredCourses.find(course => course.platformId === platformId);
+      if (course) {
+        return course.courseId;
+      } else {
+        throw new Error(`Course with platform ID ${platformId} not found.`);
+      }
+    }) as Observable<number>;
+  };
+  
+  
 }

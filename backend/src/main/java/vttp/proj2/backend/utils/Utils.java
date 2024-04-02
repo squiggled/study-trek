@@ -1,8 +1,11 @@
 package vttp.proj2.backend.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -12,15 +15,23 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 import jakarta.json.JsonObject;
 import vttp.proj2.backend.models.CourseDetails;
+import vttp.proj2.backend.models.CourseNote;
 import vttp.proj2.backend.models.CourseSearch;
 import vttp.proj2.backend.models.FriendRequest;
 import vttp.proj2.backend.models.Notification;
 import vttp.proj2.backend.models.Platform;
+import vttp.proj2.backend.repositories.Queries;
 import vttp.proj2.backend.repositories.UserRepository;
 
 public class Utils {
     @Autowired
     static UserRepository userRepo;
+    private static JdbcTemplate template;
+
+    @Autowired
+    public Utils(JdbcTemplate jdbcTemplate) {
+        Utils.template = jdbcTemplate;
+    }
 
      public static Platform stringToPlatform(String platformStr) {
         for (Platform platform : Platform.values()) {
@@ -44,7 +55,26 @@ public class Utils {
         course.setPrice(rs.getString("price"));
         course.setInstructor(rs.getString("instructor"));
         course.setEnrolled(rs.getBoolean("isEnrolled"));
+        // System.out.println("course.getuserId " + course.getUserId());
+        SqlRowSet cnRS = template.queryForRowSet(Queries.SQL_USER_COURSE_GET_ALL_BY_COURSEID, course.getUserId(), course.getCourseId());
+        if (cnRS.next()){
+            System.out.println("found a note ");
+            course.setCourseNotes(mapRowToCourseNote(cnRS));
+        } else {
+            System.out.println("did not find note");
+            course.setCourseNotes(new CourseNote());
+        }
+        // System.out.println("Notes for user in Utils: " + course.getCourseNotes());
         return course;
+    }
+
+    public static CourseNote mapRowToCourseNote(SqlRowSet rs){
+        CourseNote note = new CourseNote();
+        note.setCourseId(rs.getInt("courseId"));
+        note.setNoteId(rs.getInt("noteId"));
+        note.setText(rs.getString("note"));
+        note.setUserId(rs.getString("userId"));
+        return note;
     }
 
     public static CourseSearch documentToCourseSearch(Document document) {

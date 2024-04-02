@@ -53,6 +53,7 @@ public class UserController {
     //COURSES for adding user courses
     @PostMapping("/{userId}/courses")
     public ResponseEntity<?> addCourse(@PathVariable String userId, @RequestBody CourseDetails courseDetails) {
+        System.out.println(userId);
         try {
             CourseDetails addedCourseDetails = userSvc.addCourseAndInitializeProgress(userId, courseDetails,
                     courseDetails.getCurriculum());

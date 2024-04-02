@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CourseNote {
     private int noteId;
-    private String courseId;
+    private int courseId; //matches auto inc pk for courses table
     private String userId;
     private String text;
     

@@ -32,10 +32,15 @@ export class UserService {
 
   fetchUserDetails(): Observable<AccountDetails> {
     return this.httpClient.get<AccountDetails>('/api/auth/loaduser', { headers: this.addTokenToHeader() })
-      .pipe(tap(userDetails => this.userSessionStore.loginSuccess({
-        accountDetails: userDetails,
-        isAuthenticated: true
-      })));
+      .pipe(
+        tap(userDetails => {
+          console.log("Received user details:", userDetails.registeredCourses); 
+          this.userSessionStore.loginSuccess({
+            accountDetails: userDetails,
+            isAuthenticated: true
+          });
+        })
+      );
   }
 
   addRegisteredCourseToUser(userId: string, courseDetails: CourseDetails): Observable<any> {

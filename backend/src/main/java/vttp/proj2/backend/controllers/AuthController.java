@@ -161,10 +161,11 @@ public class AuthController {
             Jwt jwt = (Jwt) authentication.getPrincipal();
             String userId = jwt.getClaimAsString("sub"); // get the subject claim to use as username
             AccountInfo acc = userSvc.getUserById(userId);
+            // System.out.println(acc.getRegisteredCourses());
             if (acc==null){
                 Map<String, String> errorResponse = new HashMap<>();
                 errorResponse.put("error", "🔴 User not found");
-                return ResponseEntity.badRequest().body(errorResponse);
+                return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(acc);
         } else {

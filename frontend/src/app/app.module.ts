@@ -47,6 +47,7 @@ import { IndividualThreadComponent } from './components/forum/contents/individua
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EditPasswordComponent } from './components/user-profile/contents/edit-password.component';
 import { CourseService } from './services/course.service';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import { CourseService } from './services/course.service';
     CreateThreadComponent,
     IndividualThreadComponent,
     EditPasswordComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

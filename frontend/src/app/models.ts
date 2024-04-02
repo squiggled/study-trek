@@ -18,6 +18,8 @@ export interface CourseSearch {
 }
 
 export interface CourseDetails {
+  courseId?:number,
+  userId?:string,
   platform: Platform;
   platformId: string;
   title: string;
@@ -49,12 +51,14 @@ export const defaultCourseDetails: CourseDetails = {
 export interface Curriculum {
   lectureNumber: number;
   title: string;
-  completed: boolean;
+  curriculumId: number;
+  courseId:number;
+  completed?:boolean
 }
 
 export interface CourseNote {
   noteId: number; 
-  courseId:string;
+  courseId:number;
   userId:string
   text: string;
 }

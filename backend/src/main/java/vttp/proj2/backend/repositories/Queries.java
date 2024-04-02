@@ -70,7 +70,7 @@ public class Queries {
                 SELECT * 
                 FROM curriculum 
                 WHERE courseId = ? 
-                AND curriculumId = ?
+                ORDER BY lectureNumber ASC
             """;
     public static final String SQL_GET_FRIENDS_FOR_USER = """
                 SELECT friendUserId as friendId
@@ -116,9 +116,35 @@ public class Queries {
             """;
     public static final String SQL_USER_INTERESTS_INSERT = """
                 INSERT INTO interests (userId, interest)
-                VALUES (?, ?);
+                VALUES (?, ?)
             """;
     
+    //user - course progress
+    public static final String SQL_USER_COURSE_GET_ALL_BY_COURSEID="""
+                SELECT * FROM course_notes 
+                WHERE userId = ? AND courseId = ? 
+            """;
+    public static final String SQL_USER_COURSE_ADD_NOTE = """
+                INSERT into course_notes(courseId, userId, note)
+                VALUES (?, ?, ?)
+            """;
+    public static final String SQL_USER_COURSE_UPDATE_NOTE="""
+                UPDATE course_notes
+                SET note = ?
+                WHERE noteId = ?
+            """;
+    public static final String SQL_USER_COURSE_GET_LATEST = """
+                SELECT * FROM course_notes 
+                WHERE userId = ? AND courseId = ? 
+                ORDER BY noteId 
+                DESC LIMIT 1
+            """;
+    public static final String SQL_USER_COURSE_GET_LATEST_NOTE="""
+                SELECT * FROM course_notes 
+                WHERE courseId = ?
+                ORDER BY noteId DESC LIMIT 1;
+            """;
+
     //finding friends
     public static final String SQL_FIND_FRIENDS_BY_EMAIL = """
                 SELECT *

@@ -60,13 +60,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.notifications$ = this.notificationSvc.notifications$;
     this.fetchNotificationsSubject
       .pipe(
-        debounceTime(10000) // Adjust debounce time as needed
+        debounceTime(10000) 
       )
       .subscribe(() => {
         this.fetchNotifications();
       });
 
-    // Example usage
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {

@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
-import { Observable, take, withLatestFrom } from 'rxjs';
-import { CourseDetails, CourseNote, Platform } from '../../models';
+import { Observable, EMPTY, of, from, forkJoin } from 'rxjs';
+import { map, take, switchMap, catchError, tap } from 'rxjs/operators';
+import { CourseDetails, CourseNote, Platform, defaultCourseDetails } from '../../models';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { CourseDetailsStore } from '../../stores/course-details.store';
@@ -18,16 +19,22 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class CourseDetailsComponent implements OnInit{
   
   userId!: string;
-  courseId!:string;
+  courseId!:number;
+  platformId!:string;
   newNote: string = '';
+  selectedNoteId = 0;
+  platform!:string;
 
-  showSuccessNotification:boolean = false;
+  showSuccessSaveNoteNotification:boolean = false;
+  showSuccessAddCourseNotification:boolean=false
   showAddFailNotification:boolean = false;
   isScrolled = false;
+  isLoggedIn: boolean = localStorage.getItem('isLoggedIn') === 'true';
 
   isUserEnrolled$!: Observable<boolean>;
   courseDetails$!: Observable<CourseDetails>;
-  courseNotes$!: Observable<CourseNote[]>;
+  courseNote$!: Observable<CourseNote | undefined>;
+  isUserEnrolledLS!:boolean;
 
   private activatedRoute = inject(ActivatedRoute);
   private searchSvc =  inject(SearchService);
@@ -39,38 +46,100 @@ export class CourseDetailsComponent implements OnInit{
 
   courseForm!:FormGroup
   constructor (private fb:FormBuilder){}
-  
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params => {
-      const platform = params['platform'];
-      const courseId = params['courseId'];
-      this.courseId=courseId;
-      //check if the requested course is already being viewed
-      this.courseDetailsStore.getCurrentCourseId.pipe(
-        take(1), //take the current value and unsubscribe
-        withLatestFrom(this.courseDetailsStore.getCurrentPlatform.pipe(take(1)))
-      ).subscribe(([currentCourseId, currentPlatform]) => {
-        if (currentCourseId !== courseId || currentPlatform !== platform) {
-          //if requested course differs from the current one, fetch new details
-          this.searchSvc.getCourseById(courseId, platform);
-          //update store with the new current course id and platform
-          this.courseDetailsStore.updateCurrentCourse({ courseId, platform });
+    this.activatedRoute.params.pipe(
+      take(1),
+      switchMap(params => {
+        const platformId = params['courseId'];
+        const platform = params['platform'];
+        this.platform = platform;
+        console.log("this.platformId ", platformId);
+        
+        this.platformId = platformId;
+        this.initialiseForm(this.platformId);
+  
+        // Check if user is logged in by checking local storage
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Or check for accountDetails existence
+
+        
+        if (isLoggedIn) {
+          // Try to fetch account details from local storage
+          this.isLoggedIn=isLoggedIn;
+          console.log("islogged in ", isLoggedIn);
+          
+          const accountDetails = JSON.parse(localStorage.getItem('accountDetails') || '{}');
+          
+          // Find the course in registeredCourses by platformId
+          const course = accountDetails.registeredCourses?.find((c:any) => c.platformId === platformId);
+          this.isUserEnrolledLS = this.isUserEnrolled(platformId);
+          console.log('isUserEnrolled:', this.isUserEnrolledLS);
+  
+          if (course) {
+            this.courseId = course.courseId;
+            console.log("courseId ", this.courseId);
+            
+            // Populate course notes if they exist for this course
+            this.courseNote$ = of(course.notes);
+            return of(course);
+          } else {
+            // If course is not found in local storage, fetch from backend
+            return this.fetchCourseDetailsFromBackend(platformId, platform);
+          }
+        } else {
+          // User is not logged in, fetch course details from backend
+          return this.fetchCourseDetailsFromBackend(platformId, platform);
         }
-        //sub to the course details obs
-        this.courseDetails$ = this.courseDetailsStore.getCourseDetails;
-      });
+      })
+    ).subscribe(courseDetails => {
+      this.courseDetails$ = of(courseDetails);
+      this.refreshFormData(this.courseId);
+
     });
-    this.userSessionStore.userId$.subscribe(userId => {
-      this.userId = userId;
-      console.log("User ID from store:", this.userId);
-    });
-    this.courseForm = this.fb.group({
-      newNote: ['']
-      // other form controls
-    });
-    this.isUserEnrolled$ = this.userSessionStore.isEnrolledInCourse(this.courseId);
-    
   }
+  
+  refreshFormData(courseId:number): void {
+    this.courseSvc.getLatestCourseNoteByCourseId(courseId).subscribe(note => {
+      if (note) {
+        this.courseForm.patchValue({
+          newNote: note.text
+        });
+      } else {
+        this.courseForm.reset({
+          newNote: ''
+        });
+      }
+    }, error => {
+      console.error('Failed to fetch the latest course note', error);
+      // Handle error state appropriately
+    });
+  }
+  
+  // Helper method to encapsulate backend fetching logic.
+  private fetchCourseDetailsFromBackend(platformId: string, platform:string) {
+    return from(this.searchSvc.getCourseById(platformId, this.utilsSvc.toPlatformEnum(platform.toUpperCase()))).pipe(
+      map(courseDetailsFromBackend => courseDetailsFromBackend ?? defaultCourseDetails),
+      catchError(error => {
+        console.error('Error fetching course details from backend:', error);
+        return of(defaultCourseDetails); // Fallback on error.
+      })
+    );
+  }
+  
+  initialiseForm(courseId: string): void {
+    this.userSessionStore.getCourseNoteForCourse(this.selectedNoteId).subscribe(note => {
+      if (note) {
+        this.selectedNoteId = note.noteId; 
+        this.courseForm.patchValue({
+          newNote: note.text
+        });
+      } else {
+        this.selectedNoteId = 0; 
+        this.courseForm = this.fb.group({
+          newNote: ['']
+        });
+      }
+    });
+}
 
   getPlatformLogo(platform: Platform): string {
     return this.utilsSvc.displayPlatformLogo(platform);
@@ -92,10 +161,13 @@ export class CourseDetailsComponent implements OnInit{
       this.showAddFailNotificationMethod()
       console.log("course already exists"); 
     } else {
-      this.userSvc.addRegisteredCourseToUser(this.userId, courseDetails).subscribe({
+      const userId = localStorage.getItem('userId');
+      if (userId)
+      this.userSvc.addRegisteredCourseToUser(userId, courseDetails).subscribe({
         next: (response:any) => {
           this.userSessionStore.addCourseToUser(response);
-          this.showSuccessNotificationMethod();
+          this.showSuccessAddCourseNotificationMethod();
+          this.enrollUserInCourse(courseDetails.platformId)
         },
         error: (error:any) => {
           console.error('Failed to add the course', error);
@@ -103,21 +175,67 @@ export class CourseDetailsComponent implements OnInit{
       });
     }
   }
-  fetchNotes() {
-    this.courseNotes$ = this.courseSvc.fetchNotes(this.courseId, this.userId);
-  }
 
-  saveNote(): void {
-    if (this.courseForm.value.newNote.trim()) {
-      // Call service to save note, then clear the form field
-      this.courseForm.reset();
+  enrollUserInCourse(platformId:string ) {
+    const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+    if (!enrolledCourses.includes(platformId)) {
+      enrolledCourses.push(platformId);
+      localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses));
+      this.updateEnrollmentStatus();
     }
   }
 
-  showSuccessNotificationMethod() {
-    this.showSuccessNotification = true;
+  isUserEnrolled(platformId: string): boolean {
+    const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+    return enrolledCourses.includes(platformId);
+  }
+
+  updateEnrollmentStatus(): void {
+    const platformId = this.platformId; // Ensure this is set correctly in context
+    this.isUserEnrolledLS = this.isUserEnrolled(platformId);
+    console.log('Updated isUserEnrolledLS:', this.isUserEnrolledLS);
+  }
+
+  saveNote(): void {
+    const noteText = this.courseForm.value.newNote.trim();
+    const userId = localStorage.getItem('userId');
+    if (userId)
+    if (noteText) {
+      const note: CourseNote = {
+        noteId: this.selectedNoteId, 
+        courseId: this.courseId,
+        userId: userId,
+        text: noteText
+      };
+      console.log("courseId " + note.courseId);
+      
+      this.courseSvc.saveNote(note).subscribe({
+        next: (savedNote) => {
+          this.userSessionStore.updateCourseNote(savedNote);
+          this.selectedNoteId = savedNote.noteId;
+          this.showSuccessSaveNoteNotificationMethod();
+        },
+        error: (error) => {
+          console.error('Error saving note', error)
+          this.showAddFailNotificationMethod();
+        },
+      });
+    }
+  }
+
+  //success - save note
+  showSuccessSaveNoteNotificationMethod() {
+    this.showSuccessSaveNoteNotification = true;
     setTimeout(() => {
-      this.showSuccessNotification = false;
+      this.showSuccessSaveNoteNotification = false;
+    }, 3000);
+  }
+
+   //success - add course
+  showSuccessAddCourseNotificationMethod(){
+    this.showSuccessAddCourseNotification = true;
+    setTimeout(() => {
+      this.showSuccessAddCourseNotification = false;
     }, 3000);
   }
 
@@ -127,6 +245,8 @@ export class CourseDetailsComponent implements OnInit{
       this.showAddFailNotification = false;
     }, 3000);
   }
+
+
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {

@@ -15,7 +15,7 @@ export class FriendService {
   }
 
   getFriends(userId: string): Observable<FriendInfo[]> {
-    console.log("calling get friends");
+    // console.log("calling get friends");
     return this.httpClient.get<FriendInfo[]>(`/api/user/${userId}/friends`, { headers: this.addTokenToHeader()});
   }
 

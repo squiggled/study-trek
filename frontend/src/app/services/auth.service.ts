@@ -43,10 +43,13 @@ export class AuthService {
       })
       .subscribe({
         next: (response: any) => {
+          console.log(response)
           this.loginFailed = false;
           this.loginAttempted = false;
           localStorage.setItem('jwtToken', response.token); //store jwt token
           localStorage.setItem('userId', response.user.userId);
+          localStorage.setItem('accountDetails', JSON.stringify(response.user));
+          localStorage.setItem('isLoggedIn', 'true');
           this.isLoggedInSubject.next(true);
 
           //update user store
@@ -106,6 +109,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('userId');
+    localStorage.removeItem('accountDetails');
+    localStorage.removeItem('isLoggedIn');
     this.isLoggedInSubject.next(false);
     this.userSessionStore.resetState();
   }
