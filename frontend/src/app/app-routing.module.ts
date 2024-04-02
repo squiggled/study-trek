@@ -20,6 +20,7 @@ import { ForumComponent } from './components/forum/forum.component';
 import { CreateThreadComponent } from './components/forum/contents/create-thread.component';
 import { IndividualThreadComponent } from './components/forum/contents/individual-thread.component';
 import { EditPasswordComponent } from './components/user-profile/contents/edit-password.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -71,6 +72,7 @@ const routes: Routes = [
   { path: 'forum/topic/:threadId', component: IndividualThreadComponent,
     canActivate: [ isLoggedIn ]
   },
+  {path: 'calendar', component:CalendarComponent},
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 
