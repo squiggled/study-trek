@@ -23,7 +23,6 @@ import { Subscription } from 'rxjs';
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     DatePipe,
     {
@@ -64,16 +63,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.fetchAndStoreEvents();
       this.eventsSubscription = this.calendarStore.events$.subscribe(
         (events) => {
-          console.log('Current events in the store:', events);
+          // console.log('Current events in the store:', events);
           this.events = this.transformMyEventsToAngularCalendarEvents(events);
-          this.cdr.markForCheck();
+          // this.cdr.markForCheck();
         }
       );
     }
 
     setTimeout(() => {
       this.showAlert = false;
-      this.cdr.markForCheck();
+      // this.cdr.markForCheck();
     }, 3000);
     this.getUserEvents();
   }
@@ -111,6 +110,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         start: startDate,
         end: endDate,
         title: event.title,
+        text:event.text,
         meta: {
           calendarId: event.calendarId,
           userId: event.userId,
@@ -148,7 +148,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.events = [...this.events];
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
     // this.getSlots();
   }
 
@@ -181,6 +181,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
       -7
     );
     this.refresh();
+  }
+
+  deleteEvent(eventToDelete: AngularCalendarEvent): void {
+    // this.events = this.events.filter(event => event.id !== eventToDelete.id);
+  
+    // this.calendarSvc.deleteEvent(eventToDelete.id).subscribe({
+    //   next: () => {
+    //     console.log('Event deleted successfully');
+    //     // Optionally refresh the events list from the backend here
+    //   },
+    //   error: error => console.error('Error deleting event', error),
+    // });
+ 
   }
 
   ngOnDestroy(): void {

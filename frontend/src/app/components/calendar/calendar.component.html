@@ -24,6 +24,17 @@
   </ng-template>
   </div>
 
+  <ng-template #customEventTemplate let-event="event">
+    <div style="position: relative; padding: 5px;">
+      <div style="position: absolute; top: 0; right: 0; cursor: pointer;" (click)="deleteEvent(event)">
+        X
+      </div>
+      <b>{{ event.title }}</b>
+      <!-- <p>{{ event?.meta?.text }}</p> -->
+    </div>
+  </ng-template>
+  
+
   <div class="calendar-wrapper">
     <mwl-calendar-week-view
       [viewDate]="viewDate"
@@ -32,6 +43,7 @@
       [weekStartsOn]="weekStartsOn"
       [dayStartHour]="viewStart"
       [dayEndHour]="viewEnd"
+      [eventTemplate]="customEventTemplate"      
       (hourSegmentClicked)="onHourSegmentClicked($event)">
     </mwl-calendar-week-view>
   </div>

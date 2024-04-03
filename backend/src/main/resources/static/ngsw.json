@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1712065097288,
+  "timestamp": 1712128212323,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,10 +13,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-QEE7EIBB.js",
+        "/main-5VNYHUQR.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-O7Z6GWKW.css"
+        "/styles-ZLC5N2P4.css"
       ],
       "patterns": []
     },
@@ -101,11 +101,11 @@
     "/assets/logo-studytrek.png": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
     "/assets/logo-udemy.png": "81b787f40aaf1ba76a42e7dc9a84f949cfd4214b",
     "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/index.html": "dcd9e275ee1eb13e87c9e0958a7bd1c6a7773e2f",
-    "/main-QEE7EIBB.js": "80fb9554dfe2bff0653c13a95be7ed6a287c9e95",
+    "/index.html": "6db8622a7b635abe7224a69b1682fece6f9db11e",
+    "/main-5VNYHUQR.js": "81e78090d2439dc42db985671761b05f44b84eab",
     "/manifest.webmanifest": "63b272452f7323ec09705c84044faa394ce82a79",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-O7Z6GWKW.css": "c59e9ba774d3f0379a3ca46692a02b19a4c7a4a0"
+    "/styles-ZLC5N2P4.css": "cd3f52b9e7383b8a8ef3a6577a3a24f67063fac6"
   },
   "navigationUrls": [
     {

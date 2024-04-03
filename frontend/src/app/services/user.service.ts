@@ -34,7 +34,7 @@ export class UserService {
     return this.httpClient.get<AccountDetails>('/api/auth/loaduser', { headers: this.addTokenToHeader() })
       .pipe(
         tap(userDetails => {
-          console.log("Received user details:", userDetails.registeredCourses); 
+          // console.log("Received user details:", userDetails.registeredCourses); 
           this.userSessionStore.loginSuccess({
             accountDetails: userDetails,
             isAuthenticated: true
