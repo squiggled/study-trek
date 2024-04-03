@@ -76,7 +76,7 @@ export class CourseDetailsComponent implements OnInit{
   
           if (course) {
             this.courseId = course.courseId;
-            console.log("courseId ", this.courseId);
+            console.log("courseId HERE", this.courseId);
             
             // Populate course notes if they exist for this course
             this.courseNote$ = of(course.notes);

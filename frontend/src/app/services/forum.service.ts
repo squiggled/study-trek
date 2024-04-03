@@ -8,7 +8,6 @@ import { ForumThread, ThreadMessage } from '../models';
 })
 export class ForumService {
   
-  
   private httpClient = inject(HttpClient);
 
   private addTokenToHeader(): HttpHeaders {
@@ -27,7 +26,5 @@ export class ForumService {
   replyToThread(threadId: string, message: ThreadMessage): Observable<ForumThread> {
     return this.httpClient.post<ForumThread>(`/api/forum/topic/${threadId}/reply`, message,{ headers: this.addTokenToHeader()} );
   }
-
-  
 
 }

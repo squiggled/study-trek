@@ -1,6 +1,12 @@
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body, button, input, select, textarea {
+    font-family: 'sohne', sans-serif !important;
+    
+}
 
 body {
     background-color: white; /* Light mode */
@@ -16,11 +22,11 @@ body {
     content: '';
     display: block;
     width: 100%;
-    height: 2px; /* Adjust the thickness of the underline here */
+    height: 2px; 
     background-color: black;
     position: absolute;
     left: 0;
-    bottom: -4px; /* Adjust the spacing from the text to the underline here */
+    bottom: -4px; 
   }
   .profile-dropdown:hover .dropdown-content {
     display: block;
@@ -49,8 +55,14 @@ body {
 }
 
 html, body {
-    min-height: 100vh; /* This ensures at least the full height of the viewport is covered */
+    min-height: 100vh; 
+    background-color: #fff;
 }
+
+.calendar-container, .mwl-calendar-week-view {
+    background-color: inherit; /* or set a specific color */
+}
+
 @font-face {
     font-family: 'Sohne';
     src: url('/assets/fonts/Sohne-Extraleicht.otf') format('opentype');
@@ -82,3 +94,5 @@ html, body {
   
   /* Add more variations as needed (italic, light, medium, etc.) */
   
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

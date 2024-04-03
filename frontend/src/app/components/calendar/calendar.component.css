@@ -1,0 +1,80 @@
+.custom-alert {
+    position: fixed; /* fix position relative to the viewport */
+    top: 100px; 
+    right: 20px; 
+    z-index: 1000; /* make it sitabove other content */
+    border-radius: 0.25rem; 
+    padding: 0.75rem 1.25rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    width: 20%; 
+    max-width: 300px;
+  }
+
+  .calendar-container {
+    overflow: hidden;
+  }
+  
+  .calendar-wrapper {
+    overflow-x: auto;
+    max-height: 500px; 
+  }
+  
+  /* Add additional styles to ensure the horizontal header remains fixed */
+/* Add additional styles to ensure the horizontal header remains fixed */
+.mwl-calendar-week-view {
+  overflow: auto; /* Ensure horizontal scrolling if needed */
+  display: flex; /* Enable flex layout */
+  flex-direction: column; /* Arrange content in a column */
+  min-width: fit-content; /* Adjust to fit content width */
+  position: relative; /* Set relative positioning */
+}
+
+/* Optionally, you can style the horizontal header to make it visually distinct */
+.mwl-calendar-week-view .cal-day-headers {
+  /* Add styles for the day headers */
+  background-color: #f3f4f6; /* Set background color */
+  position: sticky; /* Ensure sticky positioning */
+  top: 0; /* Stick to the top */
+  z-index: 1; /* Ensure visibility above other content */
+}
+
+.mwl-calendar-week-view .cal-time-events {
+  /* Add styles for the time events */
+  position: sticky; /* Ensure sticky positioning */
+  left: 0; /* Stick to the left */
+  z-index: 1; /* Ensure visibility above other content */
+}
+.container {
+  position: relative;
+}
+
+.calendar-wrapper {
+  overflow-x: auto;
+  max-height: 500px;
+  position: relative; /* Ensure relative positioning for child elements */
+}
+
+.mwl-calendar-week-view {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: fit-content;
+  margin-top: -40px; /* Adjust the value to match the height of your header */
+  z-index: 1;
+}
+
+.cal-day-headers {
+  background-color: #f3f4f6;
+  position: sticky;
+  top: 0;
+  z-index: 0;
+}
+
+.cal-time-events {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}

@@ -46,7 +46,6 @@ export class FriendsComponent implements OnInit {
   foundFriend$ = this.userSvc.foundFriend$;
   accountDetails$!: Observable<AccountDetails>;
   userId!: string;
-  // friendId!:string;
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
@@ -58,14 +57,6 @@ export class FriendsComponent implements OnInit {
         this.userId = id;
       })
     );
-    // this.subscription.add(
-    //   this.userSvc.foundFriend$.subscribe((friendInfo) => {
-    //     if (friendInfo) {
-    //       console.log("Friend's ID:", friendInfo.userId);
-    //       this.friendId = friendInfo.userId;
-    //     }
-    //   })
-    // );
     this.friendSearchForm = this.fb.group({
       friendEmail: this.fb.control<string>('', [Validators.required]),
     });
@@ -97,9 +88,9 @@ export class FriendsComponent implements OnInit {
   addFriend(friendId: string) {
     const friendReq: FriendRequest = {
       requestId: '',
-      senderId: this.userId, // The ID of the current user sending the friend request
+      senderId: this.userId, // id of the current user sending the friend request
       receiverId: friendId,
-      status: 'PENDING', // Initial status of the friend request
+      status: 'PENDING', 
     };
     this.userSvc.addFriend(friendReq).subscribe({
       next: (response: any) => {

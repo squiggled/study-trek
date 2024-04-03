@@ -209,6 +209,17 @@ public class Queries {
                 WHERE notificationId = ?;
             """;
 
+    //user - calendar
+    public static final String SQL_USER_CALENDAR_GET_ALL = """
+                SELECT *
+                FROM calendar_events
+                WHERE userId = ?
+            """;
+    public static final String SQL_USER_CALENDAR_CREATE_NEW = """
+                INSERT into calendar_events(userId, title, text, selectedHour, date)
+                VALUES (?, ?, ?, ?, ?)
+            """;
+
     //subscription - amend user status
     public static final String SQL_SUBSCRIPTION_UPDATE_STATUS = """
                 UPDATE roles 
@@ -220,5 +231,7 @@ public class Queries {
                 INSERT INTO subscriptions (userId, subscriptionType, startDate, endDate, status, autoRenew, lastPaymentDate, nextPaymentDate) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """;
+    
+    
 }
 

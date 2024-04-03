@@ -116,5 +116,17 @@ CREATE TABLE subscriptions (
     FOREIGN KEY (userId) REFERENCES user_info(userId)
 );
 
+CREATE TABLE calendar_events (
+    calendarId INT AUTO_INCREMENT PRIMARY KEY,
+    userId VARCHAR(8),
+    title VARCHAR(255) NOT NULL,
+    text TEXT,
+    selectedHour INT,
+    date DATE,
+    CONSTRAINT fk_user
+        FOREIGN KEY (userId) 
+        REFERENCES user_info(userId)
+);
+
 grant all privileges on study_trek.* to 'newuser'@'%';
 flush privileges;

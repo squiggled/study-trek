@@ -72,7 +72,9 @@ const routes: Routes = [
   { path: 'forum/topic/:threadId', component: IndividualThreadComponent,
     canActivate: [ isLoggedIn ]
   },
-  {path: 'calendar', component:CalendarComponent},
+  {path: 'calendar', component:CalendarComponent,
+    canActivate: [ isLoggedIn ]
+  },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 

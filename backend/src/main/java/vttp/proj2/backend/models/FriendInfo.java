@@ -1,6 +1,5 @@
 package vttp.proj2.backend.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FriendInfo {

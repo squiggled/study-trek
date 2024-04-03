@@ -182,4 +182,21 @@ export interface ForumSlice{
   threads: ForumThread[]
 }
 
+export interface MyCalendarEvent{
+  calendarId?: number,
+  userId: string,
+  title: string,
+  text: string,
+  selectedHour: number,
+  date: Date
+}
+
+export interface CalenderEventsSlice{
+  events: MyCalendarEvent[]
+}
+
+export interface HourSegmentClickedEvent {
+  date: Date;
+sourceEvent: MouseEvent;
+}
 

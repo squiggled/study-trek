@@ -48,6 +48,13 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { EditPasswordComponent } from './components/user-profile/contents/edit-password.component';
 import { CourseService } from './services/course.service';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CommonModule } from '@angular/common';
+import { CalendarService } from './services/calendar.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CalendarStore } from './stores/calendar.store';
+import { CreateEventComponent } from './components/calendar/create-event.component';
 
 
 @NgModule({
@@ -77,8 +84,10 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     IndividualThreadComponent,
     EditPasswordComponent,
     CalendarComponent,
+    CreateEventComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -88,7 +97,13 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    MatTooltipModule
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -106,7 +121,9 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     FriendService,
     FriendListStore,
     SubscriptionService,
-    ForumService
+    ForumService,
+    CalendarService,
+    CalendarStore
   ],
   bootstrap: [AppComponent]
 })
