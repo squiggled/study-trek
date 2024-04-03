@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { MyCalendarEvent } from '../models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
 import { CalendarStore } from '../stores/calendar.store';
 
 @Injectable({
@@ -20,7 +19,6 @@ export class CalendarService {
       return this.httpClient.post<MyCalendarEvent>(`/api/calendar/${calEvent.userId}/new`, calEvent, { headers: this.addTokenToHeader() })
         .subscribe({
           next: (newEvent) => {
-            // Now, call ComponentStore updater or effect to update the state with the new event
             this.calendarStore.updateEvents(newEvent);
           },
           error: (error) => console.error("Error creating event", error)

@@ -1,17 +1,19 @@
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { CalendarEventTitleFormatter, CalendarEvent as AngularCalendarEvent } from 'angular-calendar';
-import { WeekViewHourSegment } from 'calendar-utils';
+import {
+  CalendarEventTitleFormatter,
+  CalendarEvent as AngularCalendarEvent,
+} from 'angular-calendar';
 import { addDays, startOfWeek } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { CreateEventComponent } from './create-event.component';
-import {  FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MyCalendarEvent, HourSegmentClickedEvent } from '../../models';
 import { CalendarService } from '../../services/calendar.service';
 import { CalendarStore } from '../../stores/calendar.store';
@@ -30,9 +32,7 @@ import { Subscription } from 'rxjs';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-
 export class CalendarComponent implements OnInit, OnDestroy {
-
   dragToCreateActive = false;
   events: AngularCalendarEvent[] = [];
   days: any[] = [];
@@ -41,34 +41,39 @@ export class CalendarComponent implements OnInit, OnDestroy {
   viewDate = new Date();
   weekStartsOn: 0 = 0;
   viewStartHour: number = 8; // set view start hour to 8 am
-  viewStart = 8
-  viewEnd = 20
+  viewStart = 8;
+  viewEnd = 20;
   calendarForm!: FormGroup;
-  
-  userId!:string
-  showAlert: boolean = true; 
-  constructor(private cdr: ChangeDetectorRef, private datePipe: DatePipe, public dialog: MatDialog) {}
-  private calendarSvc = inject(CalendarService)
-  private calendarStore = inject(CalendarStore)
+
+  userId!: string;
+  showAlert: boolean = true;
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private datePipe: DatePipe,
+    public dialog: MatDialog
+  ) {}
+  private calendarSvc = inject(CalendarService);
+  private calendarStore = inject(CalendarStore);
   private eventsSubscription!: Subscription;
   private subscription: Subscription = new Subscription();
-
 
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
     if (userId) {
       this.userId = userId;
       this.fetchAndStoreEvents();
-      this.eventsSubscription = this.calendarStore.events$.subscribe(events => {
-        console.log("Current events in the store:", events);
-        this.events = this.transformMyEventsToAngularCalendarEvents(events);
-        this.cdr.markForCheck(); 
-      });
+      this.eventsSubscription = this.calendarStore.events$.subscribe(
+        (events) => {
+          console.log('Current events in the store:', events);
+          this.events = this.transformMyEventsToAngularCalendarEvents(events);
+          this.cdr.markForCheck();
+        }
+      );
     }
-    
+
     setTimeout(() => {
       this.showAlert = false;
-      this.cdr.markForCheck(); 
+      this.cdr.markForCheck();
     }, 3000);
     this.getUserEvents();
   }
@@ -93,61 +98,53 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   getUserEvents() {}
 
-  transformMyEventsToAngularCalendarEvents(events: MyCalendarEvent[]): AngularCalendarEvent[] {
-    return events.map(event => {
+  transformMyEventsToAngularCalendarEvents(
+    events: MyCalendarEvent[]
+  ): AngularCalendarEvent[] {
+    return events.map((event) => {
       const startDate = new Date(event.date);
       const endDate = new Date(startDate.getTime());
       startDate.setHours(event.selectedHour, 0, 0, 0);
-      // const startDate = new Date(event.date.getFullYear(), event.date.getMonth(), event.date.getDate(), event.selectedHour);
-      // const endDate = new Date(startDate.getTime());
       endDate.setHours(startDate.getHours() + 2); // Set the event to end 2 hours later
-  
+
       return {
         start: startDate,
-        end: endDate, 
+        end: endDate,
         title: event.title,
         meta: {
           calendarId: event.calendarId,
           userId: event.userId,
           text: event.text,
           selectedHour: event.selectedHour,
-        }
+        },
       };
     });
   }
- 
- // To add an event
-// In your component
 
-// In your Angular component
+  onHourSegmentClicked(event: HourSegmentClickedEvent): void {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      const selectedDate = event.date;
+      const selectedHour = selectedDate.getHours();
 
-onHourSegmentClicked(event: HourSegmentClickedEvent): void {
-  const userId = localStorage.getItem('userId');
-  if (userId) {
-    const selectedDate = event.date;
-    const selectedHour = selectedDate.getHours();
+      const dialogRef = this.dialog.open(CreateEventComponent, {
+        width: '500px',
+        data: { date: selectedDate, hour: selectedHour, userId: userId },
+      });
 
-    const dialogRef = this.dialog.open(CreateEventComponent, {
-      width: '500px',
-      data: { date: selectedDate, hour: selectedHour, userId: userId }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.calendarSvc.createEvent({
-          userId: userId, 
-          title: result.title,
-          text: result.text,
-          selectedHour: result.hour, 
-          date: result.date
-        });
-      }
-    });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.calendarSvc.createEvent({
+            userId: userId,
+            title: result.title,
+            text: result.text,
+            selectedHour: result.hour,
+            date: result.date,
+          });
+        }
+      });
+    }
   }
-}
-
-
-
 
   refresh() {
     this.events = [...this.events];
@@ -188,7 +185,7 @@ onHourSegmentClicked(event: HourSegmentClickedEvent): void {
 
   ngOnDestroy(): void {
     if (this.eventsSubscription) {
-      this.eventsSubscription.unsubscribe(); 
+      this.eventsSubscription.unsubscribe();
     }
   }
 }
