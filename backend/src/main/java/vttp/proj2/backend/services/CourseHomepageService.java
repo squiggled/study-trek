@@ -9,6 +9,7 @@ import java.util.List;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -52,6 +53,7 @@ public class CourseHomepageService {
         headers.add(HttpHeaders.AUTHORIZATION, "Basic " + encodedCredentials);
     }
 
+    @Cacheable(value = "homePageCoursesCache")
     public List<CourseSearch> loadCoursesForHomepage(){
         List<CourseSearch> homepageCourses = new ArrayList<>();
         for (String category : categories){
