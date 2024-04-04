@@ -6,3 +6,17 @@
     margin-left: -50vw;
     margin-right: -50vw;
   }
+  html, body {
+    background-color: #fff; 
+    min-height: 100vh;
+    margin: 0;
+  }
+  
+  .main-content {
+    min-height: 100vh; 
+    background-color: #fff; 
+  }
+  .carousel {
+    min-height: 200px; 
+    background-color: #fff;
+  }

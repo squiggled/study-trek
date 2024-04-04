@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit{
   homepageCourses$!: Observable<CourseSearch[]>;
   userId!:string;
   isLoggedIn$!: Observable<boolean>;
-
+  isLoading: boolean = true;
 
   ngOnInit(): void {
     this.accountDetails$ = this.userSessionStore.select(state => state.accountDetails);
@@ -57,8 +57,12 @@ export class HomeComponent implements OnInit{
       next: (courses) => {
         //update store with the loaded courses
         this.homepageCourseListingStore.setHomePageCourseListing(courses);
+        this.isLoading = false;
       },
-      error: (error) => console.error('Error loading homepage courses:', error)
+      error: (error) => {
+        console.error('Error loading homepage courses:', error)
+        this.isLoading = false;
+      }
     });
   }
 

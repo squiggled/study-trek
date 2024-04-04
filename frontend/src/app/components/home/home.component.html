@@ -1,4 +1,4 @@
-<div>
+<div class="main-content">
   <!-- If user is logged in -->
   <div *ngIf="isLoggedIn$ | async; else guestView">
     <div *ngIf="accountDetails$ | async as userDetails; else guestView">
@@ -71,10 +71,15 @@
       </div>
     </div>
   </div>
-     <!-- Content for guests (not logged in) -->
+
+     <!-- banners for guests (not logged in) -->
      <ng-template #guestView>
       <div class="carousel">
-        
+        <div class="carousel-item w-full">
+          <a routerLink="/join/login">
+            <img class="w-full" src="/assets/banner-home-4.png" alt="home-banner-4" />
+          </a> 
+        </div>
         <div class="carousel-item w-full">
           <a routerLink="/join/login">
             <img class="w-full" src="/assets/banner-home-1.png" alt="home-banner-1" />
@@ -85,6 +90,11 @@
             <img class="w-full" src="/assets/banner-home-2.png" alt="home-banner-2" />
           </a> 
         </div>
+        <div class="carousel-item w-full">
+          <a routerLink="/join/login">
+            <img class="w-full" src="/assets/banner-home-3.png" alt="home-banner-3" />
+          </a> 
+        </div>
       </div>
     </ng-template>
     
@@ -93,36 +103,46 @@
   
   <!-- shown to all guests + logged in users -->
   <div class="container mx-auto px-4 py-8">
-    <h2 class="text-xl font-semibold mb-4">Learners are viewing</h2>
-    <div class="flex gap-4 mb-4 overflow-auto">
-      <button *ngFor="let category of categories" (click)="selectCategory(category)" class="btn" [class.btn-primary]="category === selectedCategory">
+    <h2 class="text-2xl font-semibold mb-4">Learners are viewing top courses in:</h2>
+    <div class="flex gap-4 mb-4 overflow-auto bg-white">
+      <span *ngFor="let category of categories" (click)="selectCategory(category)"
+            class="cursor-pointer hover:text-secondary"
+            [ngClass]="{'font-bold text-secondary': category === selectedCategory, 'text-gray-500': category !== selectedCategory}">
         {{ category }}
-      </button>
+      </span>
+    </div>
+    
+
+
+    <div *ngIf="isLoading; else courseCarousel">
+      <div class="flex justify-center items-center">
+        <div class="loading loading-spinner text-primary">Fetching course recommentations</div> <!-- Replace this with your spinner -->
+      </div>
     </div>
 
-    <!-- Carousel for selected category courses -->
-    <div *ngIf="homepageCourses$ | async as selectedCourses" class="carousel w-full">
-      <ng-container *ngFor="let course of selectedCourses">
-        <div class="carousel-item mr-2">
-          <div class="card bg-base-100 shadow-xl">
-            <figure class="px-10 pt-10">
-              <img src="{{ course.imageUrl }}" alt="Course image" class="rounded-xl">
-            </figure>
-            <div class="card-body items-center text-center">
-              <h2 class="card-title">{{ course.title }}</h2>
-              <p>{{ course.headline }}</p>
-              <div class="card-actions">
-                <!-- <a href="{{ course.urlToCourse }}" target="_blank" class="btn btn-primary">Explore Course</a> -->
+    <!-- carousel for selected category courses -->
+    <ng-template #courseCarousel>
+      <div *ngIf="homepageCourses$ | async as selectedCourses" class="carousel w-full">
+        <ng-container *ngFor="let course of selectedCourses">
+          <div class="carousel-item mr-2 flex flex-col">
+            <div class="card bg-transparent rounded-none flex flex-col max-w-xs mx-auto"> <!-- Adjusted max-width and added mx-auto for centering -->
+              <figure class="px-4 pt-4"> <!-- Reduced padding -->
+                <img src="{{ course.imageUrl }}" alt="Course image" class="rounded-none">
+              </figure>
+              <div class="text-left mt-4 px-4"> <!-- Optionally adjust padding -->
+                <h2 class="text-md font-semibold text-gray-900">{{ course.title }}</h2>
+                <p class="text-sm text-gray-700">{{ course.headline }}</p>
               </div>
             </div>
           </div>
+        </ng-container>
+      
+        <!-- navigation for carousel -->
+        <div class="flex justify-center gap-4 mt-4">
+          <!-- Dynamic indicators based on the number of courses, for simplicity, not shown here -->
         </div>
-      </ng-container>
-
-      <!-- Navigation for carousel -->
-      <div class="flex justify-center gap-4 mt-4">
-        <!-- Dynamic indicators based on the number of courses, for simplicity, not shown here -->
       </div>
-    </div>
+    </ng-template>
+    
   </div>
 </div>
