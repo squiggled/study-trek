@@ -4,8 +4,7 @@
 @tailwind utilities;
 
 body, button, input, select, textarea {
-    font-family: 'sohne', sans-serif !important;
-    
+    font-family: 'sohne', sans-serif !important; 
 }
 
 body {
@@ -13,10 +12,11 @@ body {
     color: black; /* Light mode */
 }
 
-.dark body {
-    background-color: '#27272a'; /* Dark mode */
-    color: white; /* Dark mode */
+.dark, .dark body {
+    background-color: #27272a; 
+    color: #fff;
 }
+
 
 .underline-custom::after {
     content: '';
@@ -55,21 +55,37 @@ body {
 }
 
 html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background-color: #fff; 
+    color:black;
     min-height: 100vh;
     margin: 0;
 }
 
-/* .dark html, body {
-    background-color: #18181b; 
+ .dark html, body {
+    background-color: #27272a; 
+    color:#fff;
     min-height: 100vh;
     margin: 0;
-} */
-  
+} 
+
+.dark b, .dark strong, .dark [style*="font-weight: bold"] {
+    color: #fff;
+}
+
 .main-content {
     min-height: 100vh; 
     background-color: #fff; 
 }
+
+.dark .main-content {
+    min-height: 100vh; 
+    background-color: #27272a; 
+}
+
 .carousel {
     min-height: 200px; 
     background-color: #fff;
@@ -107,8 +123,4 @@ html, body {
     font-style: bold;
 }
 
-  
-  /* Add more variations as needed (italic, light, medium, etc.) */
-  
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

@@ -13,6 +13,10 @@
     max-width: 300px;
   }
 
+  .dark .custom-alert {
+    box-shadow: 0 4px 6px rgba(255,255,255,0.1); /* Dark mode shadow */
+}
+
   .calendar-container {
     overflow: hidden;
   }
@@ -22,8 +26,6 @@
     max-height: 500px; 
   }
   
-  /* Add additional styles to ensure the horizontal header remains fixed */
-/* Add additional styles to ensure the horizontal header remains fixed */
 .mwl-calendar-week-view {
   overflow: auto; /* Ensure horizontal scrolling if needed */
   display: flex; /* Enable flex layout */
@@ -32,9 +34,7 @@
   position: relative; /* Set relative positioning */
 }
 
-/* Optionally, you can style the horizontal header to make it visually distinct */
 .mwl-calendar-week-view .cal-day-headers {
-  /* Add styles for the day headers */
   background-color: #f3f4f6; /* Set background color */
   position: sticky; /* Ensure sticky positioning */
   top: 0; /* Stick to the top */
@@ -68,13 +68,49 @@
 
 .cal-day-headers {
   background-color: #f3f4f6;
+  color: black; 
   position: sticky;
   top: 0;
   z-index: 0;
 }
 
+.dark .cal-day-headers {
+  color: black !important; /* Force text color in dark mode */
+}
+
+.dark .cal-day-headers span {
+  color: black !important; /* Force text color within span elements in dark mode */
+}
 .cal-time-events {
   position: sticky;
   left: 0;
   z-index: 1;
+}
+
+.dark .bg-white {
+  background-color: #27272a; /* Adjust the color as per your dark theme */
+}
+
+.dark .calendar-container .text-black {
+  color: #000000; /* Retain black text for the calendar */
+}
+
+.dark .calendar-container .mwl-calendar-week-view,
+.dark .calendar-container .cal-time,
+.dark .calendar-container .cal-day-headers {
+  color: #000000; 
+}
+
+.dark .custom-alert {
+  background-color: #27272a; 
+  color: #ffffff; 
+  box-shadow: 0 4px 6px rgba(255,255,255,0.1); 
+}
+
+.dark .mwl-calendar-week-view-header{
+  color: black !important;
+}
+
+html, body, .container, .calendar-container {
+  width: 100%;
 }

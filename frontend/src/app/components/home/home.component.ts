@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit{
   }
 
  
-
   loadHomepageCourses(): void {
     this.searchSvc.loadHomepageCourses().subscribe({
       next: (courses) => {

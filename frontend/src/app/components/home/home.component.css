@@ -1,22 +1,31 @@
 .full-width-image {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-  }
-  html, body {
-    background-color: #fff; 
-    min-height: 100vh;
-    margin: 0;
-  }
-  
-  .main-content {
-    min-height: 100vh; 
-    background-color: #fff; 
-  }
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+
+.light .main-content {
+  min-height: 100vh; 
+  background-color: #fff; 
+}
   .carousel {
     min-height: 200px; 
     background-color: #fff;
   }
+
+
+/* Dark mode specific adjustments */
+.dark .carousel, .dark .main-content {
+  background-color: #27272a; /* Adjust to your dark mode background color */
+}
+
+/* Ensure that the dark mode background color applies to all child elements that might have their own background settings */
+.dark .carousel-item, .dark .carousel .card, .dark .text-left {
+  background-color: #27272a; /* Adjust to your dark mode background color */
+  color: #fff; /* Ensure text is visible in dark mode */
+}
+

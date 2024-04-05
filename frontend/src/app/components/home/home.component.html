@@ -1,148 +1,164 @@
-<div class="main-content">
+<div
+  class="main-content dark:text-white text-black bg-white dark:bg-transparent"
+>
   <!-- If user is logged in -->
   <div *ngIf="isLoggedIn$ | async; else guestView">
     <div *ngIf="accountDetails$ | async as userDetails; else guestView">
       <div class="container mx-auto px-4 py-8">
-        <h2 class="text-2xl font-semibold mb-4">
+        <h2 class="dark:text-white text-black text-2xl font-semibold mb-4">
           Hi {{ userDetails.firstName }}, let's start learning.
         </h2>
-        <div class="carousel rounded-box w-full">
-          <!-- schedule card -->
-          <div class="carousel-item relative mr-2" *ngIf="showScheduleCard">
-            <div class="card bg-base-100 shadow-xl">
-              <button
-                class="btn btn-sm btn-circle absolute right-2 top-2"
-                (click)="dismissScheduleCard()"
-              >
-                ✕
-              </button>
-              <div class="card-body">
-                <h2 class="card-title text-white dark:text-white">
-                  Schedule time to learn
-                </h2>
-                <p class="text-white dark:text-white">
-                  Small progress adds up over time. Add events to your calendar.
-                </p>
-                <div class="card-actions justify-end">
-                  <a [routerLink]="['/calendar']" class="btn btn-primary">Get started</a>
-                </div>
-              </div>
+
+       <!-- New div to wrap the carousel for dark mode background -->
+       <div class="dark:bg-zinc-800">
+        <div class="carousel w-full dark:bg-zinc-800">
+          <!-- Optionally, include the schedule card based on your condition -->
+          <div class="carousel-item mr-2 dark:bg-zinc-800" *ngIf="showScheduleCard">
+            <div class="text-center mt-4 px-4 dark:bg-zinc-800">
+              <h2 class="text-md font-semibold text-gray-900 dark:text-white">Schedule time to learn</h2>
+              <p class="text-sm text-gray-700 dark:text-gray-300">
+                Small progress adds up over time. Add events to your calendar.
+              </p>
+              <a [routerLink]="['/calendar']" class="btn btn-xs btn-primary mt-2">Get started</a>
             </div>
           </div>
-          <!-- user courses -->
-          <ng-container
-            *ngFor="let course of userDetails.registeredCourses; let i = index"
-          >
-            <div class="carousel-item mr-2 max-w-xs md:max-w-md lg:max-w-lg">
-              <div class="card bg-base-100 shadow-xl">
-                <figure>
-                  <img
-                    src="{{ course.imageUrl }}"
-                    alt="Course Image"
-                    class="w-full h-48 object-cover"
-                  />
+
+          <!-- User courses -->
+          <ng-container *ngFor="let course of userDetails.registeredCourses; let i = index">
+            <div class="carousel-item mr-2 flex flex-col dark:bg-zinc-800">
+              <!-- Card  -->
+              <div class="card bg-transparent rounded-none shadow-none flex flex-col max-w-xs mx-auto dark:text-white dark:bg-zinc-800">
+                <figure class="px-4 pt-4 cursor-pointer" (click)="getCourseById(course.platformId, course.platform)">
+                  <img src="{{ course.imageUrl }}" alt="Course image" class="rounded-none">
                 </figure>
-                <div class="card-body">
-                  <h2 class="card-title text-white dark:text-white">
-                    {{ course.title }}
-                  </h2>
-                  <p class="text-white dark:text-white">{{ course.headline }}</p>
-                  <div class="card-actions justify-end">
-                    <p
-                      (click)="getCourseById(course.platformId, course.platform)"
-                      target="_blank"
-                      class="btn btn-primary"
-                    >
-                      Go to Course
-                    </p>
-                  </div>
+                <div class="text-left mt-4 px-4 dark:bg-zinc-800">
+                  <!-- Text  -->
+                  <h2 class="text-md font-semibold">{{ course.title }}</h2>
+                  <p>{{ course.headline | slice:0:80 }}<a *ngIf="course.headline.length > 80" href="/path/to/full/course/details">... </a></p>
+                  <p class="text-sm">{{ course.instructor }}</p>
                 </div>
               </div>
             </div>
           </ng-container>
         </div>
-  
-        <!-- carousel -->
-        <div class="flex justify-center gap-2 mt-4">
-          <a href="#scheduleLearning" class="btn btn-xs" *ngIf="showScheduleCard"
-            >1</a
-          >
-        </div>
       </div>
+      <!--  background wrapper for the carousel -->
+
+      </div>
+
     </div>
   </div>
 
-     <!-- banners for guests (not logged in) -->
-     <ng-template #guestView>
-      <div class="carousel">
-        <div class="carousel-item w-full">
-          <a routerLink="/join/login">
-            <img class="w-full" src="/assets/banner-home-4.png" alt="home-banner-4" />
-          </a> 
-        </div>
-        <div class="carousel-item w-full">
-          <a routerLink="/join/login">
-            <img class="w-full" src="/assets/banner-home-1.png" alt="home-banner-1" />
-          </a>  
-        </div>
-        <div class="carousel-item w-full">
-          <a routerLink="/join/login">
-            <img class="w-full" src="/assets/banner-home-2.png" alt="home-banner-2" />
-          </a> 
-        </div>
-        <div class="carousel-item w-full">
-          <a routerLink="/join/login">
-            <img class="w-full" src="/assets/banner-home-3.png" alt="home-banner-3" />
-          </a> 
-        </div>
+  <!-- banners for guests (not logged in) -->
+  <ng-template #guestView>
+    <div class="carousel">
+      <div class="carousel-item w-full">
+        <a routerLink="/join/login">
+          <img
+            class="w-full"
+            src="/assets/banner-home-4.png"
+            alt="home-banner-4"
+          />
+        </a>
       </div>
-    </ng-template>
-    
-    
+      <div class="carousel-item w-full">
+        <a routerLink="/join/login">
+          <img
+            class="w-full"
+            src="/assets/banner-home-1.png"
+            alt="home-banner-1"
+          />
+        </a>
+      </div>
+      <div class="carousel-item w-full">
+        <a routerLink="/join/login">
+          <img
+            class="w-full"
+            src="/assets/banner-home-2.png"
+            alt="home-banner-2"
+          />
+        </a>
+      </div>
+      <div class="carousel-item w-full">
+        <a routerLink="/join/login">
+          <img
+            class="w-full"
+            src="/assets/banner-home-3.png"
+            alt="home-banner-3"
+          />
+        </a>
+      </div>
+    </div>
+  </ng-template>
 
-  
   <!-- shown to all guests + logged in users -->
   <div class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-semibold mb-4">Learners are viewing top courses in:</h2>
-    <div class="flex gap-4 mb-4 overflow-auto bg-white">
-      <span *ngFor="let category of categories" (click)="selectCategory(category)"
-            class="cursor-pointer hover:text-secondary"
-            [ngClass]="{'font-bold text-secondary': category === selectedCategory, 'text-gray-500': category !== selectedCategory}">
+    <h2 class="dark:text-white text-black text-2xl font-semibold mb-4">
+      Learners are viewing top courses in:
+    </h2>
+    <div class="flex gap-4 mb-4 overflow-auto bg-white dark:bg-zinc-800">
+      <span
+        *ngFor="let category of categories"
+        (click)="selectCategory(category)"
+        class="cursor-pointer hover:text-secondary dark:bg-zinc-800"
+        [ngClass]="{
+          'font-bold text-secondary': category === selectedCategory,
+          'text-gray-500 dark:text-white': category !== selectedCategory
+        }"
+      >
         {{ category }}
       </span>
     </div>
-    
-
 
     <div *ngIf="isLoading; else courseCarousel">
       <div class="flex justify-center items-center">
-        <div class="loading loading-spinner text-primary">Fetching course recommentations</div> <!-- Replace this with your spinner -->
+        <div class="loading loading-spinner text-primary">
+          Fetching course recommentations
+        </div>
+        <!-- Replace this with your spinner -->
       </div>
     </div>
 
     <!-- carousel for selected category courses -->
     <ng-template #courseCarousel>
-      <div *ngIf="homepageCourses$ | async as selectedCourses" class="carousel w-full">
+      <div
+        *ngIf="homepageCourses$ | async as selectedCourses"
+        class="carousel w-full"
+      >
         <ng-container *ngFor="let course of selectedCourses">
           <div class="carousel-item mr-2 flex flex-col">
-            <div class="card bg-transparent rounded-none flex flex-col max-w-xs mx-auto"> <!-- Adjusted max-width and added mx-auto for centering -->
-              <figure class="px-4 pt-4"> <!-- Reduced padding -->
-                <img src="{{ course.imageUrl }}" alt="Course image" class="rounded-none">
+            <div
+              class="card bg-transparent rounded-none shadow-none flex flex-col max-w-xs mx-auto dark:bg-transparent"
+            >
+              <figure class="px-4 pt-4">
+                <img
+                  src="{{ course.imageUrl }}"
+                  alt="Course image"
+                  class="rounded-none"
+                />
               </figure>
-              <div class="text-left mt-4 px-4"> <!-- Optionally adjust padding -->
-                <h2 class="text-md font-semibold text-gray-900">{{ course.title }}</h2>
-                <p class="text-sm text-gray-700">{{ course.headline }}</p>
+              <div class="text-left mt-4 px-4">
+                <h2 class="text-md font-semibold text-gray-900">
+                  {{ course.title }}
+                </h2>
+                <p class="text-sm text-gray-700">
+                  {{ course.headline | slice : 0 : 80
+                  }}<span
+                    *ngIf="course.headline.length > 80"
+                    href="/path/to/full/course/details"
+                    >...
+                  </span>
+                </p>
               </div>
             </div>
           </div>
         </ng-container>
-      
+
         <!-- navigation for carousel -->
         <div class="flex justify-center gap-4 mt-4">
           <!-- Dynamic indicators based on the number of courses, for simplicity, not shown here -->
         </div>
       </div>
     </ng-template>
-    
   </div>
 </div>
