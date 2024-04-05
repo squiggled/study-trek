@@ -86,13 +86,18 @@ html, body {
     background-color: #27272a; 
 }
 
-.carousel {
-    min-height: 200px; 
-    background-color: #fff;
+.calendar-container, .mwl-calendar-week-view {
+    background-color: inherit; 
 }
 
-.calendar-container, .mwl-calendar-week-view {
-    background-color: inherit; /* or set a specific color */
+input, select, textarea {
+    background-color: #fff; /* Light mode background color */
+    color: #000; /* Text color */
+}
+
+.dark input, .dark select, .dark textarea {
+    background-color: #333; 
+    color: #fff; 
 }
 
 @font-face {

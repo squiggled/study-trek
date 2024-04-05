@@ -12,20 +12,17 @@
   min-height: 100vh; 
   background-color: #fff; 
 }
-  .carousel {
-    min-height: 200px; 
-    background-color: #fff;
+ 
+  .dark .carousel-container {
+    background-color: #27272a; /* Ensure this matches your dark mode's background */
   }
 
-
-/* Dark mode specific adjustments */
 .dark .carousel, .dark .main-content {
-  background-color: #27272a; /* Adjust to your dark mode background color */
+  background-color: #27272a; /
 }
 
-/* Ensure that the dark mode background color applies to all child elements that might have their own background settings */
 .dark .carousel-item, .dark .carousel .card, .dark .text-left {
-  background-color: #27272a; /* Adjust to your dark mode background color */
-  color: #fff; /* Ensure text is visible in dark mode */
+  background-color: #27272a; 
+  color: #fff; 
 }
 

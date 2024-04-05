@@ -24,7 +24,7 @@
           </div>
 
           <!-- User courses -->
-          <ng-container *ngFor="let course of userDetails.registeredCourses; let i = index">
+          <ng-container class="dark:bg-zinc-800" *ngFor="let course of userDetails.registeredCourses; let i = index">
             <div class="carousel-item mr-2 flex flex-col dark:bg-zinc-800">
               <!-- Card  -->
               <div class="card bg-transparent rounded-none shadow-none flex flex-col max-w-xs mx-auto dark:text-white dark:bg-zinc-800">
@@ -113,9 +113,8 @@
     <div *ngIf="isLoading; else courseCarousel">
       <div class="flex justify-center items-center">
         <div class="loading loading-spinner text-primary">
-          Fetching course recommentations
+          <span>Fetching course recommentations</span>
         </div>
-        <!-- Replace this with your spinner -->
       </div>
     </div>
 
@@ -138,10 +137,10 @@
                 />
               </figure>
               <div class="text-left mt-4 px-4">
-                <h2 class="text-md font-semibold text-gray-900">
+                <h2 class="text-md font-semibold text-gray-900 dark:text-white">
                   {{ course.title }}
                 </h2>
-                <p class="text-sm text-gray-700">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
                   {{ course.headline | slice : 0 : 80
                   }}<span
                     *ngIf="course.headline.length > 80"
