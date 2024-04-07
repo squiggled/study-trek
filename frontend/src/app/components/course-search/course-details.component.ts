@@ -10,6 +10,7 @@ import { UserSessionStore } from '../../stores/user.store';
 import { UserService } from '../../services/user.service';
 import { CourseService } from '../../services/course.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-details',
@@ -45,8 +46,10 @@ export class CourseDetailsComponent implements OnInit{
   private courseSvc = inject(CourseService);
 
   courseForm!:FormGroup
-  constructor (private fb:FormBuilder){}
+  constructor (private fb:FormBuilder, private titleService: Title){}
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Search');
+
     this.activatedRoute.params.pipe(
       take(1),
       switchMap(params => {

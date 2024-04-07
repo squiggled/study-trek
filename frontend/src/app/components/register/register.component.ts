@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonUtilsService } from '../../services/common.utils.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-register',
@@ -11,12 +12,13 @@ import { CommonUtilsService } from '../../services/common.utils.service';
 export class RegisterComponent implements OnInit{
 
   registerForm!:FormGroup;
-  constructor (private fb:FormBuilder){}
+  constructor (private fb:FormBuilder, private titleService: Title){}
 
   private authSvc = inject(AuthService);
   private utilsSvc = inject(CommonUtilsService);
 
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Sign Up');
     this.registerForm = this.fb.group({
       firstName: this.fb.control<string>('', [Validators.required]),
       lastName: this.fb.control<string>('', [Validators.required]),

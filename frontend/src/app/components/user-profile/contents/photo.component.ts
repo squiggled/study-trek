@@ -5,6 +5,7 @@ import { UserService } from '../../../services/user.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserSessionStore } from '../../../stores/user.store';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -21,13 +22,14 @@ export class PhotoComponent implements OnInit{
   croppedBlob: Blob | null = null;
   showSuccessNotification: boolean = false
 
-
   private userSvc = inject(UserService);
   private userSessionStore = inject(UserSessionStore)
+  constructor(private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Change Photo');
     this.userSessionStore.profilePic$.subscribe(url => {
-      this.profilePicUrl = url; // Update the local variable with the new URL
+      this.profilePicUrl = url; 
     });
   }
   

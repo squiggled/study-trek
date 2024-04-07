@@ -5,6 +5,8 @@ import { CourseSearch, Platform } from '../../models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { CommonUtilsService } from '../../services/common.utils.service';
+import { Title } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-search-results',
@@ -25,7 +27,11 @@ export class SearchResultsComponent implements OnInit {
   totalPages: number = 100;
   currentSort: string = 'Most relevant';
 
+  constructor(private titleService: Title) { }
+
+
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Search Result');
     this.courseSearchResults$ = this.searchStore.getCourseSearchResults;
     this.activatedRoute.queryParams.subscribe((params) => {
       const query = params['query'];

@@ -7,22 +7,23 @@
   margin-right: -50vw;
 }
 
-
 .light .main-content {
-  min-height: 100vh; 
-  background-color: #fff; 
-}
- 
-  .dark .carousel-container {
-    background-color: #27272a; /* Ensure this matches your dark mode's background */
-  }
-
-.dark .carousel, .dark .main-content {
-  background-color: #27272a; /
+  min-height: 100vh;
+  background-color: #fff;
 }
 
-.dark .carousel-item, .dark .carousel .card, .dark .text-left {
+.dark .carousel-container {
   background-color: #27272a; 
-  color: #fff; 
 }
 
+.dark .carousel,
+.dark .main-content {
+  background-color: #27272a;
+}
+
+.dark .carousel-item,
+.dark .carousel .card,
+.dark .text-left {
+  background-color: #27272a;
+  color: #fff;
+}

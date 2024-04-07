@@ -7,6 +7,7 @@ import { SearchService } from '../../services/search.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { HomePageCourseListingStore } from '../../stores/course-homepage.store';
 import { NotificationService } from '../../services/notification.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit{
   private router = inject(Router);
   private notificationSvc = inject(NotificationService);
   private homepageCourseListingStore = inject(HomePageCourseListingStore);
+  constructor(private titleService: Title) { }
   
   showScheduleCard = true;
   categories = ['Business', 'Coding', 'Marketing', 'Design', 'Video'];
@@ -30,6 +32,8 @@ export class HomeComponent implements OnInit{
   isLoading: boolean = true;
 
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Learn Anything Online');
+
     this.accountDetails$ = this.userSessionStore.select(state => state.accountDetails);
     this.loadHomepageCourses();
     this.homepageCourses$ = this.homepageCourseListingStore.select(state => state.homePageCourseListing);

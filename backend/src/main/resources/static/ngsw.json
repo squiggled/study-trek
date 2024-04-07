@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1712128212323,
+  "timestamp": 1712507408976,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,10 +13,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-5VNYHUQR.js",
+        "/main-7PZ73GTX.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-ZLC5N2P4.css"
+        "/styles-JEHWV4QQ.css"
       ],
       "patterns": []
     },
@@ -30,6 +30,8 @@
       "urls": [
         "/assets/banner-home-1.png",
         "/assets/banner-home-2.png",
+        "/assets/banner-home-3.png",
+        "/assets/banner-home-4.png",
         "/assets/banner-home.png",
         "/assets/banner-login.gif",
         "/assets/fonts/Sohne-Buch.otf",
@@ -59,6 +61,7 @@
         "/assets/logo-coursera.png",
         "/assets/logo-defaultuser.png",
         "/assets/logo-edX.png",
+        "/assets/logo-openai.png",
         "/assets/logo-studytrek.png",
         "/assets/logo-udemy.png"
       ],
@@ -69,6 +72,8 @@
   "hashTable": {
     "/assets/banner-home-1.png": "9f3302f460fa246d6e5f0cded43eaf5e2ef0869f",
     "/assets/banner-home-2.png": "0a2eba43b631e6eaea2315c6a37ca8f045c30ded",
+    "/assets/banner-home-3.png": "e2341ac92023db8961f1d1a98fb9aac508db2444",
+    "/assets/banner-home-4.png": "665773543c79dad1d2029a2fa294cf8571d44d72",
     "/assets/banner-home.png": "c0552585120b33bde1b6805286402c9aeb73b804",
     "/assets/banner-login.gif": "3f9414c5f5fc3ddefe6f3f597a9a0b6e1842d057",
     "/assets/fonts/Sohne-Buch.otf": "e23f6bebdfe49f5080a402dd7eba1e3d73b565f0",
@@ -98,14 +103,15 @@
     "/assets/logo-coursera.png": "44c779831222202f38afa04a38a6790a9365f9c9",
     "/assets/logo-defaultuser.png": "d83924c293318e216f8bd147994fabf517a4423b",
     "/assets/logo-edX.png": "4afa1adb23eab3385064d4b6533330cfad166695",
+    "/assets/logo-openai.png": "dcfbccc017fe6bbe64fe50ded0244c7eb37798f9",
     "/assets/logo-studytrek.png": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
     "/assets/logo-udemy.png": "81b787f40aaf1ba76a42e7dc9a84f949cfd4214b",
     "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/index.html": "6db8622a7b635abe7224a69b1682fece6f9db11e",
-    "/main-5VNYHUQR.js": "81e78090d2439dc42db985671761b05f44b84eab",
+    "/index.html": "1e2f420ad65c04470c5d86bbe6ca2d8a5162bf1b",
+    "/main-7PZ73GTX.js": "3ae745b7b262c13cb23a6572708d08fb08982edf",
     "/manifest.webmanifest": "63b272452f7323ec09705c84044faa394ce82a79",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-ZLC5N2P4.css": "cd3f52b9e7383b8a8ef3a6577a3a24f67063fac6"
+    "/styles-JEHWV4QQ.css": "3182f3e827d6acb41500d4c0732c5d55c2caec45"
   },
   "navigationUrls": [
     {

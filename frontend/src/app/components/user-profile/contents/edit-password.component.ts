@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { CommonUtilsService } from '../../../services/common.utils.service';
 import { UserSessionStore } from '../../../stores/user.store';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-password',
@@ -12,7 +13,7 @@ import { UserSessionStore } from '../../../stores/user.store';
 export class EditPasswordComponent implements OnInit{
 
   passwordForm!: FormGroup;
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private titleService: Title) {}
   private authSvc = inject(AuthService)
   private utilsSvc = inject(CommonUtilsService)
   private userSessionStore = inject(UserSessionStore)
@@ -22,10 +23,9 @@ export class EditPasswordComponent implements OnInit{
   currentPasswordVisible = false;
   newPasswordVisible = false; 
   confirmPasswordVisible = false; 
-
-
   
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Change Password');
     this.passwordForm = this.fb.group({
       currentPassword: this.fb.control<string>('', Validators.required),
       newPassword: this.fb.control<string>('', [Validators.required, this.utilsSvc.passwordValidator()]),

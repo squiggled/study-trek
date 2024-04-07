@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { UserSessionStore } from '../../../stores/user.store';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-account',
@@ -15,15 +16,16 @@ export class EditAccountComponent {
   private userSessionStore = inject(UserSessionStore)
   email!:string;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private titleService: Title) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Edit Account Details');
+
     this.profileForm = this.fb.group({
       firstName: this.fb.control<string>('', Validators.required),
       lastName: this.fb.control<string>('', Validators.required),
       interests: ['']
     });
-
     // initial profile data
     this.userSessionStore.select(state => state.accountDetails).subscribe(details => {
       this.profileForm.patchValue({

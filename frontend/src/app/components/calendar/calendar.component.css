@@ -1,5 +1,5 @@
 .custom-alert {
-    position: fixed; /* fix position relative to the viewport */
+    position: fixed;
     top: 100px; 
     right: 20px; 
     z-index: 1000; /* make it sitabove other content */
@@ -14,7 +14,15 @@
   }
 
   .dark .custom-alert {
-    box-shadow: 0 4px 6px rgba(255,255,255,0.1); /* Dark mode shadow */
+    box-shadow: 0 4px 6px rgba(255,255,255,0.1); 
+}
+
+.dark .cal-day-headers {
+  color: black !important; 
+}
+
+.dark .cal-day-headers span {
+  color: black !important; 
 }
 
   .calendar-container {
@@ -27,25 +35,24 @@
   }
   
 .mwl-calendar-week-view {
-  overflow: auto; /* Ensure horizontal scrolling if needed */
-  display: flex; /* Enable flex layout */
-  flex-direction: column; /* Arrange content in a column */
-  min-width: fit-content; /* Adjust to fit content width */
-  position: relative; /* Set relative positioning */
+  overflow: auto; 
+  display: flex; 
+  flex-direction: column;
+  min-width: fit-content; 
+  position: relative; 
 }
 
 .mwl-calendar-week-view .cal-day-headers {
-  background-color: #f3f4f6; /* Set background color */
-  position: sticky; /* Ensure sticky positioning */
-  top: 0; /* Stick to the top */
-  z-index: 1; /* Ensure visibility above other content */
+  background-color: #f3f4f6; 
+  position: sticky; 
+  top: 0; 
+  z-index: 1; 
 }
 
 .mwl-calendar-week-view .cal-time-events {
-  /* Add styles for the time events */
-  position: sticky; /* Ensure sticky positioning */
-  left: 0; /* Stick to the left */
-  z-index: 1; /* Ensure visibility above other content */
+  position: sticky; 
+  left: 0; 
+  z-index: 1; 
 }
 .container {
   position: relative;
@@ -75,11 +82,11 @@
 }
 
 .dark .cal-day-headers {
-  color: black !important; /* Force text color in dark mode */
+  color: black !important; 
 }
 
 .dark .cal-day-headers span {
-  color: black !important; /* Force text color within span elements in dark mode */
+  color: black !important; 
 }
 .cal-time-events {
   position: sticky;
@@ -88,11 +95,11 @@
 }
 
 .dark .bg-white {
-  background-color: #27272a; /* Adjust the color as per your dark theme */
+  background-color: #27272a; 
 }
 
 .dark .calendar-container .text-black {
-  color: #000000; /* Retain black text for the calendar */
+  color: #000000; 
 }
 
 .dark .calendar-container .mwl-calendar-week-view,

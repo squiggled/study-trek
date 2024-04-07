@@ -9,10 +9,10 @@
           Hi {{ userDetails.firstName }}, let's start learning.
         </h2>
 
-       <!-- New div to wrap the carousel for dark mode background -->
+       <!--  wrap the carousel for dark mode background -->
        <div class="dark:bg-zinc-800">
         <div class="carousel w-full dark:bg-zinc-800">
-          <!-- Optionally, include the schedule card based on your condition -->
+          <!--  include the schedule card if logged in -->
           <div class="carousel-item mr-2 dark:bg-zinc-800" *ngIf="showScheduleCard">
             <div class="text-center mt-4 px-4 dark:bg-zinc-800">
               <h2 class="text-md font-semibold text-gray-900 dark:text-white">Schedule time to learn</h2>
@@ -42,8 +42,6 @@
           </ng-container>
         </div>
       </div>
-      <!--  background wrapper for the carousel -->
-
       </div>
 
     </div>
@@ -155,7 +153,6 @@
 
         <!-- navigation for carousel -->
         <div class="flex justify-center gap-4 mt-4">
-          <!-- Dynamic indicators based on the number of courses, for simplicity, not shown here -->
         </div>
       </div>
     </ng-template>

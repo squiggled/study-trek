@@ -4,6 +4,7 @@ import { UserSessionStore } from '../../../stores/user.store';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-subscription',
@@ -15,6 +16,7 @@ export class SubscriptionComponent implements OnInit{
   private userSessionStore = inject(UserSessionStore);
   private authSvc = inject(AuthService);
   private router = inject(Router)
+  constructor(private titleService: Title) { }
 
   email!:string;
   private subscription: Subscription = new Subscription();
@@ -22,6 +24,7 @@ export class SubscriptionComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | My Subscription');
     this.subscription.add(
       this.userSessionStore.email$.subscribe(email => {
         this.email = email;

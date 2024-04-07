@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -10,11 +11,12 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit{
 
   loginForm!:FormGroup;
-  constructor (private fb:FormBuilder){}
+  constructor (private fb:FormBuilder, private titleService: Title){}
 
   private authSvc = inject(AuthService);
  
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Login');
     this.loginForm = this.fb.group({
       email: this.fb.control<string>('', [Validators.required, Validators.email]),
       password: this.fb.control<string>('', [Validators.required])
@@ -23,7 +25,6 @@ export class LoginComponent implements OnInit{
 
   processLogin(){
     if (this.loginForm.valid){
-      // console.log(this.loginForm.value.email, this.loginForm.value.password);
       this.authSvc.processLogin(this.loginForm.value.email, this.loginForm.value.password)
     }
     
@@ -36,6 +37,5 @@ export class LoginComponent implements OnInit{
   getLoginAttempted(): boolean {
     return this.authSvc.loginAttempted;
   }
-
 
 }

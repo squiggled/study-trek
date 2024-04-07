@@ -12,6 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AccountDetails, FriendInfo, FriendRequest } from '../../../models';
 import { UserSessionStore } from '../../../stores/user.store';
 import { FriendListStore } from '../../../stores/friends.store';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-friends',
@@ -36,7 +37,7 @@ import { FriendListStore } from '../../../stores/friends.store';
   ],
 })
 export class FriendsComponent implements OnInit {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private titleService: Title) {}
 
   private userSessionStore = inject(UserSessionStore);
   private userSvc = inject(UserService);
@@ -49,6 +50,7 @@ export class FriendsComponent implements OnInit {
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | My Friends');
     this.accountDetails$ = this.userSessionStore.select(
       (state) => state.accountDetails
     );

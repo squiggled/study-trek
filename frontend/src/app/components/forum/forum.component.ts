@@ -5,6 +5,8 @@ import { ForumStore } from '../../stores/forum.store';
 import { ForumService } from '../../services/forum.service';
 import { tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Title } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-forum',
@@ -18,11 +20,10 @@ export class ForumComponent implements OnInit{
   private router = inject(Router)
   threads$ = this.forumStore.threads$;
 
-
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private titleService: Title) {}
     
-  
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek | Forum');
     this.createThreadForm = this.fb.group({
       title: ['', Validators.required],
       content: ['', Validators.required],

@@ -18,6 +18,7 @@ import { MyCalendarEvent, HourSegmentClickedEvent } from '../../models';
 import { CalendarService } from '../../services/calendar.service';
 import { CalendarStore } from '../../stores/calendar.store';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-calendar',
@@ -47,7 +48,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   userId!: string;
   showAlert: boolean = true;
   constructor(
-    private cdr: ChangeDetectorRef,
+    private titleService: Title,    
     private datePipe: DatePipe,
     public dialog: MatDialog
   ) {}
@@ -57,6 +58,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
+    this.titleService.setTitle('Study Trek - Calendar | Plan Your Learning');
     const userId = localStorage.getItem('userId');
     if (userId) {
       this.userId = userId;
@@ -65,14 +67,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
         (events) => {
           // console.log('Current events in the store:', events);
           this.events = this.transformMyEventsToAngularCalendarEvents(events);
-          // this.cdr.markForCheck();
         }
       );
     }
 
     setTimeout(() => {
       this.showAlert = false;
-      // this.cdr.markForCheck();
     }, 3000);
     this.getUserEvents();
   }
