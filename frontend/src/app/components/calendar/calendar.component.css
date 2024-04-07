@@ -1,58 +1,58 @@
 .custom-alert {
-    position: fixed;
-    top: 100px; 
-    right: 20px; 
-    z-index: 1000; /* make it sitabove other content */
-    border-radius: 0.25rem; 
-    padding: 0.75rem 1.25rem; 
-    display: flex; 
-    align-items: center; 
-    gap: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-    width: 20%; 
-    max-width: 300px;
-  }
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 1000; /* make it sitabove other content */
+  border-radius: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 20%;
+  max-width: 300px;
+}
 
-  .dark .custom-alert {
-    box-shadow: 0 4px 6px rgba(255,255,255,0.1); 
+.dark .custom-alert {
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
 }
 
 .dark .cal-day-headers {
-  color: black !important; 
+  color: black !important;
 }
 
 .dark .cal-day-headers span {
-  color: black !important; 
+  color: black !important;
 }
 
-  .calendar-container {
-    overflow: hidden;
-  }
-  
-  .calendar-wrapper {
-    overflow-x: auto;
-    max-height: 500px; 
-  }
-  
+.calendar-container {
+  overflow: hidden;
+}
+
+.calendar-wrapper {
+  overflow-x: auto;
+  max-height: 500px;
+}
+
 .mwl-calendar-week-view {
-  overflow: auto; 
-  display: flex; 
+  overflow: auto;
+  display: flex;
   flex-direction: column;
-  min-width: fit-content; 
-  position: relative; 
+  min-width: fit-content;
+  position: relative;
 }
 
 .mwl-calendar-week-view .cal-day-headers {
-  background-color: #f3f4f6; 
-  position: sticky; 
-  top: 0; 
-  z-index: 1; 
+  background-color: #f3f4f6;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .mwl-calendar-week-view .cal-time-events {
-  position: sticky; 
-  left: 0; 
-  z-index: 1; 
+  position: sticky;
+  left: 0;
+  z-index: 1;
 }
 .container {
   position: relative;
@@ -69,25 +69,18 @@
   display: flex;
   flex-direction: column;
   min-width: fit-content;
-  margin-top: -40px; 
+  margin-top: -40px;
   z-index: 1;
 }
 
 .cal-day-headers {
   background-color: #f3f4f6;
-  color: black; 
+  color: black;
   position: sticky;
   top: 0;
   z-index: 0;
 }
 
-.dark .cal-day-headers {
-  color: black !important; 
-}
-
-.dark .cal-day-headers span {
-  color: black !important; 
-}
 .cal-time-events {
   position: sticky;
   left: 0;
@@ -95,29 +88,32 @@
 }
 
 .dark .bg-white {
-  background-color: #27272a; 
+  background-color: #27272a;
 }
 
 .dark .calendar-container .text-black {
-  color: #000000; 
+  color: #000000;
 }
 
 .dark .calendar-container .mwl-calendar-week-view,
 .dark .calendar-container .cal-time,
 .dark .calendar-container .cal-day-headers {
-  color: #000000; 
+  color: #000000;
 }
 
 .dark .custom-alert {
-  background-color: #27272a; 
-  color: #ffffff; 
-  box-shadow: 0 4px 6px rgba(255,255,255,0.1); 
+  background-color: #27272a;
+  color: #ffffff;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
 }
 
-.dark .mwl-calendar-week-view-header{
+.dark .mwl-calendar-week-view-header {
   color: black !important;
 }
 
-html, body, .container, .calendar-container {
+html,
+body,
+.container,
+.calendar-container {
   width: 100%;
 }
