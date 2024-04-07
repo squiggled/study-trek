@@ -59,7 +59,7 @@ export class CommonUtilsService {
     const linkFormattedResponse = formattedResponse.replace(courseRegex, (match, courseName) => {
       const encodedCourseName = encodeURIComponent(courseName);
       const searchUrl = `/#/courses/search?query=${encodedCourseName}&page=1`;
-      return `<a href="${searchUrl}" target="_blank" class="text-teal-500 underline">${courseName}</a>`;
+      return `<a href="${searchUrl}" target="_blank" class="text-white underline">${courseName}</a>`;
     });
     return linkFormattedResponse;
   }

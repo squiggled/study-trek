@@ -1,0 +1,12 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .chat-start {
+    align-self: flex-start;
+  }
+  
+  .chat-end {
+    align-self: flex-end;
+  }
+  
