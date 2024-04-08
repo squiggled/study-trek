@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit{
 
   loginForm!:FormGroup;
   constructor (private fb:FormBuilder, private titleService: Title){}
+  passwordVisible: boolean = false;
 
   private authSvc = inject(AuthService);
  
@@ -27,7 +28,6 @@ export class LoginComponent implements OnInit{
     if (this.loginForm.valid){
       this.authSvc.processLogin(this.loginForm.value.email, this.loginForm.value.password)
     }
-    
   }
 
   getLoginFailed(): boolean {
@@ -36,6 +36,10 @@ export class LoginComponent implements OnInit{
 
   getLoginAttempted(): boolean {
     return this.authSvc.loginAttempted;
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
   }
 
 }

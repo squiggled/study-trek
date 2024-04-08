@@ -11,15 +11,18 @@
 
        <!--  wrap the carousel for dark mode background -->
        <div class="dark:bg-zinc-800">
-        <div class="carousel w-full dark:bg-zinc-800">
+        <div class="carousel w-full ">
           <!--  include the schedule card if logged in -->
-          <div class="carousel-item mr-2 dark:bg-zinc-800" *ngIf="showScheduleCard">
+          <div class="carousel-item mr-2 relative" *ngIf="showScheduleCard" style="background-image: url('/assets/banner-schedule.png'); background-size: cover; width: 450px; background-position: center">
+            <button 
+              class="absolute top-0 right-0 p-2 text-lg font-bold text-white"
+              (click)="dismissScheduleCard()">
+              &times;
+            </button>
             <div class="text-center mt-4 px-4 dark:bg-zinc-800">
-              <h2 class="text-md font-semibold text-gray-900 dark:text-white">Schedule time to learn</h2>
-              <p class="text-sm text-gray-700 dark:text-gray-300">
-                Small progress adds up over time. Add events to your calendar.
-              </p>
-              <a [routerLink]="['/calendar']" class="btn btn-xs btn-primary mt-2">Get started</a>
+              <h2 class="text-left text-2xl absolute top-0 p-4 text-md font-semibold text-white dark:text-white">Schedule time to learn</h2>
+             
+              <a [routerLink]="['/calendar']" class="absolute bottom-0 right-0 m-4 btn btn-sm text-white btn-primary mt-2">Get started</a>
             </div>
           </div>
 

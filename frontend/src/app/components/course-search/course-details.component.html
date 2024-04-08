@@ -1,105 +1,106 @@
-<div *ngIf="courseDetails$ | async as courseDetails" class="container mx-auto px-16 py-8">
-  <div class="flex gap-4">
-    <!-- Left column -->
-    <div class="flex-grow w-2/3">
-      <div class="text-4xl font-bold" [ngClass]="{'show-title': isScrolled, 'course-title-placeholder': !isScrolled}">
-        {{ courseDetails.title }}
-      </div>
-      <h2 class="text-2xl">{{ courseDetails.headline }}</h2>
-      <div class="flex justify-between items-center mt-4">
-        <p class="text-lg">Instructor: {{ courseDetails.instructor }}</p>
-        <img [src]="'assets/' + getPlatformLogo(courseDetails.platform)" alt="{{ courseDetails.platform }}" class="max-h-8 mr-8" />
-      </div>
-
-      <!-- Curriculum Table -->
-      <div class="mt-4">
-        <h3 class="text-xl font-semibold">Curriculum</h3>
-        <div class="overflow-auto max-h-[450px]">
-          <table class="table w-full mt-2">
-            <!-- Head -->
-            <thead>
-              <tr>
-                <th></th>
-                <th class="text-black text-lg">Section</th>
-                <th class="text-black text-lg">Description</th>
-                <th class="text-black text-lg text-center">Completed</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Rows for each curriculum item -->
-              <tr *ngFor="let item of courseDetails.curriculum">
-                <td>
-                  <label>
-                    <input type="checkbox" class="checkbox checkbox-secondary" />
-                  </label>
-                </td>
-                <td>{{ item.lectureNumber }}</td>
-                <td>{{ item.title }}</td>
-                <td class="text-center">
-                  <div *ngIf="item.completed; else notCompleted">Yes</div>
-                  <ng-template #notCompleted>No</ng-template>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+<div class="main-content">
+  <div *ngIf="courseDetails$ | async as courseDetails" class="container mx-auto px-16 py-8">
+    <div class="flex gap-4">
+      <!-- Left column -->
+      <div class="flex-grow w-2/3">
+        <div class="text-4xl font-bold text-black dark:text-white" [ngClass]="{'show-title': isScrolled, 'course-title-placeholder': !isScrolled}">
+          {{ courseDetails.title }}
+        </div>
+        <h2 class="text-2xl text-black dark:text-white">{{ courseDetails.headline }}</h2>
+        <div class="flex justify-between items-center mt-4">
+          <p class="text-lg text-black dark:text-white">Instructor: {{ courseDetails.instructor }}</p>
+          <img [src]="'assets/' + getPlatformLogo(courseDetails.platform)" alt="{{ courseDetails.platform }}" class="max-h-8 mr-8" />
+        </div>
+  
+        <!-- Curriculum Table -->
+        <div class="mt-4">
+          <h3 class="text-xl font-semibold text-black dark:text-white">Curriculum</h3>
+          <div class="overflow-auto max-h-[450px]">
+            <table class="table w-full mt-2">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class=" text-lg text-black dark:text-white">Section</th>
+                  <th class="text-lg text-black dark:text-white">Description</th>
+                  <th class=" text-lg text-center text-black dark:text-white">Completed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of courseDetails.curriculum">
+                  <td>
+                    <label>
+                      <input type="checkbox" class="checkbox checkbox-secondary" />
+                    </label>
+                  </td>
+                  <td class="text-black dark:text-white">{{ item.lectureNumber }}</td>
+                  <td class="text-black dark:text-white">{{ item.title }}</td>
+                  <td class="text-center text-black dark:text-white">
+                    <div *ngIf="item.completed; else notCompleted">Yes</div>
+                    <ng-template #notCompleted>No</ng-template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Course notes, shown if the user is logged in and enrolled -->
+        <div *ngIf="isLoggedIn && isUserEnrolledLS" class="mt-6">
+          <h3 class="text-xl font-semibold">Course Notes</h3>
+          <form [formGroup]="courseForm" (ngSubmit)="saveNote()">
+            <textarea formControlName="newNote" class="w-full p-2 border h-32 md:h-48 dark:focus:bg-zinc-900  focus:border-green-300" placeholder="Add a note..."></textarea>
+            <button type="submit" class="btn btn-primary mt-2">Save Note</button>
+          </form>
         </div>
       </div>
-      
-      <!-- Course notes, shown if the user is logged in and enrolled -->
-      <div *ngIf="isLoggedIn && isUserEnrolledLS" class="mt-6">
-        <h3 class="text-xl font-semibold">Course Notes</h3>
-        <form [formGroup]="courseForm" (ngSubmit)="saveNote()">
-          <textarea formControlName="newNote" class="w-full p-2 border h-32 md:h-48" placeholder="Add a note..."></textarea>
-          <button type="submit" class="btn btn-primary mt-2">Save Note</button>
-        </form>
+  
+      <!-- Right column -->
+      <div class="w-1/3 sticky-column top-0">
+        <img [src]="courseDetails.imageUrl" alt="Course Image" class="w-auto max-h-64" />
+        
+        <!-- Enrollment status or action button, shown based on isLoggedIn -->
+        <ng-container *ngIf="isLoggedIn">
+          <ng-container *ngIf="isUserEnrolledLS else notEnrolled">
+            <div class="mt-4 w-full bg-green-100 text-green-800 py-2 rounded-md text-bold text-center">
+              Enrolled
+            </div>
+          </ng-container>
+          <ng-template #notEnrolled>
+            <button (click)="addCourseToList(courseDetails)" class="mt-4 w-full btn btn-accent text-base-100 py-2 rounded-md">
+              Add to Course List
+            </button>
+          </ng-template>
+        </ng-container>
+        
+        <a [href]="courseDetails.urlToCourse" target="_blank" rel="noopener noreferrer" class="mt-4 w-full inline-block text-center btn btn-secondary text-white py-2 rounded-md" style="padding-top: 15px; padding-bottom: 10px">
+          View on {{ displayPlatformName(courseDetails.platform) }}
+        </a>
       </div>
     </div>
-
-    <!-- Right column -->
-    <div class="w-1/3 sticky-column top-0">
-      <img [src]="courseDetails.imageUrl" alt="Course Image" class="w-auto max-h-64" />
-      
-      <!-- Enrollment status or action button, shown based on isLoggedIn -->
-      <ng-container *ngIf="isLoggedIn">
-        <ng-container *ngIf="isUserEnrolledLS else notEnrolled">
-          <div class="mt-4 w-full bg-green-100 text-green-800 py-2 rounded-md text-bold text-center">
-            Enrolled
-          </div>
-        </ng-container>
-        <ng-template #notEnrolled>
-          <button (click)="addCourseToList(courseDetails)" class="mt-4 w-full btn btn-accent text-base-100 py-2 rounded-md">
-            Add to Course List
-          </button>
-        </ng-template>
-      </ng-container>
-      
-      <a [href]="courseDetails.urlToCourse" target="_blank" rel="noopener noreferrer" class="mt-4 w-full inline-block text-center btn btn-secondary text-white py-2 rounded-md" style="padding-top: 15px; padding-bottom: 10px">
-        View on {{ displayPlatformName(courseDetails.platform) }}
-      </a>
+  </div>
+  
+  <div *ngIf="showSuccessAddCourseNotification" role="alert" class="alert alert-success">
+    <div class="toast toast-top toast-center">
+      <div class="alert alert-success">
+        <span>Successfully added to list</span>
+      </div>
     </div>
   </div>
-</div>
-
-<div *ngIf="showSuccessAddCourseNotification" role="alert" class="alert alert-success">
-  <div class="toast toast-top toast-center">
-    <div class="alert alert-success">
-      <span>Successfully added to list</span>
+  
+  <div *ngIf="showSuccessSaveNoteNotification" role="alert" class="alert alert-success">
+    <div class="toast toast-top toast-center">
+      <div class="alert alert-success">
+        <span>Successfully saved course notes</span>
+      </div>
     </div>
   </div>
-</div>
-
-<div *ngIf="showSuccessSaveNoteNotification" role="alert" class="alert alert-success">
-  <div class="toast toast-top toast-center">
-    <div class="alert alert-success">
-      <span>Successfully saved course notes</span>
+  
+  <div *ngIf="showAddFailNotification" role="alert" class="alert alert-info">
+    <div class="toast toast-top toast-center">
+      <div class="alert alert-info">
+        <span>Action failed. Try again?</span>
+      </div>
     </div>
   </div>
-</div>
-
-<div *ngIf="showAddFailNotification" role="alert" class="alert alert-info">
-  <div class="toast toast-top toast-center">
-    <div class="alert alert-info">
-      <span>Action failed. Try again?</span>
-    </div>
-  </div>
+  
 </div>

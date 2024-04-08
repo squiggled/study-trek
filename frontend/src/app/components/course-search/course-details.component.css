@@ -21,8 +21,12 @@
 .course-title.scrolled {
     top: 10; 
 }
-
 .show-title {
+    @apply visible opacity-100 fixed top-0 left-0 w-full z-10 px-12 py-4 bg-white dark:bg-zinc-800;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+/* .show-title {
     visibility: visible;
     opacity: 1;
     opacity: 1;
@@ -33,4 +37,5 @@
     width: 100%;
     background-color: #FFF; 
     z-index: 100; 
-}
+} */
+

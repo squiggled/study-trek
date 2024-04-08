@@ -1,32 +1,35 @@
-<div class="container mx-auto px-4 py-8">
-  <!-- banner -->
-  <div class="bg-gray-700 text-white w-full">
-    <div class="px-4 py-4">
-      <h2 class="text-3xl mb-2 font-bold">My Learning</h2>
-      <div class="relative">
-        <h3 class="text-lg pb-2">All Courses</h3>
-        <div class="absolute bottom-0 left-0 w-1/6 border-b-2 border-white"></div>
+<div class="main-content">
+  <div class="container mx-auto px-4 py-8 dark:text-white">
+    <!-- banner -->
+    <div class="bg-gray-700 text-white w-full">
+      <div class="px-4 py-4">
+        <h2 class="text-3xl mb-2 font-bold">My Learning</h2>
+        <div class="relative">
+          <h3 class="text-lg pb-2">All Courses</h3>
+          <div class="absolute bottom-0 left-0 w-1/6 border-b-2 border-white"></div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- Courses Carousel -->
-  <div *ngIf="(accountDetails$ | async) as accountDetails" class="px-4 py-8">
-    <div *ngIf="accountDetails.registeredCourses.length > 0; else noCourses">
-      <div tabindex="0" class="carousel w-full" aria-label="My Learning Courses">
-        <div *ngFor="let course of accountDetails.registeredCourses; let i = index" class="carousel-item space-x-4">
-          <div class="group relative cursor-pointer mr-2" (click)="getCourseById(course.platformId, course.platform)">
-            <img [src]="course.imageUrl" alt="Course Image" class="w-full  h-60 object-cover mb-2">
-            <div class="text-black  p-4">
-              <h3 class="text-lg text-black">{{ course.title }}</h3>
-              <p class="text-sm">Instructor: {{ course.instructor }}</p>
+  
+    <!-- Courses Carousel -->
+    <div *ngIf="(accountDetails$ | async) as accountDetails" class="px-4 py-8">
+      <div *ngIf="accountDetails.registeredCourses.length > 0; else noCourses">
+        <div tabindex="0" class="carousel w-full" aria-label="My Learning Courses">
+          <div *ngFor="let course of accountDetails.registeredCourses; let i = index" class="carousel-item space-x-4">
+            <div class="group relative cursor-pointer mr-2" (click)="getCourseById(course.platformId, course.platform)">
+              <img [src]="course.imageUrl" alt="Course Image" class="w-full  h-60 object-cover mb-2">
+              <div class="text-black  p-4">
+                <h3 class="text-lg text-black dark:text-white">{{ course.title }}</h3>
+                <p class="text-sm text-gray-800 dark:text-gray-200">Instructor: {{ course.instructor }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      </div>
+      <ng-template #noCourses>
+        <p class="text-center mt-4">No saved courses yet.</p>
+      </ng-template>
     </div>
-    </div>
-    <ng-template #noCourses>
-      <p class="text-center mt-4">No saved courses yet.</p>
-    </ng-template>
-  </div>
+  
+</div>
