@@ -1,24 +1,25 @@
-<div class="text-xl font-bold text-center mt-6">Profile information</div>
+<div class="main-content">
+  <div class="text-xl font-bold text-center mt-6">Profile information</div>
 <div class="text-center mt-1">Edit your details</div>
 
 <div class="max-w-xl mx-auto mt-4">
-  <label class="label-text text-black">Email:</label>
-  <div class="p-2 bg-gray-200 rounded">{{email}}</div> 
+  <label class="label-text text-black  dark:text-white">Email:</label>
+  <div class="p-2 bg-gray-200 text-black rounded">{{email}}</div> 
 </div>
 
 <!--change details form -->
-<form (ngSubmit)="onSubmit()" [formGroup]="profileForm" class="max-w-xl mx-auto mt-6">
+<form (ngSubmit)="onSubmit()" [formGroup]="profileForm" class="max-w-xl mx-auto mt-6 ">
     <div class="mb-4">
-        <label for="firstName" class="label-text text-black">First name:</label>
-        <input type="text" id="firstName" formControlName="firstName" class="border border-black w-full px-3 py-2">
+        <label for="firstName" class="label-text text-black dark:text-white">First name:</label>
+        <input type="text" id="firstName" formControlName="firstName" class="border border-black dark:border-white w-full px-3 py-2 dark:focus:bg-zinc-900 dark:text-white  focus:border-green-300">
     </div>
     <div class="mb-4">
-        <label for="lastName" class="label-text text-black">Last name:</label>
-        <input type="text" id="lastName" formControlName="lastName" class="border border-black w-full px-3 py-2">
+        <label for="lastName" class="label-text text-black  dark:text-white">Last name:</label>
+        <input type="text" id="lastName" formControlName="lastName" class="border border-black dark:border-white w-full px-3 py-2 dark:focus:bg-zinc-900 dark:text-white focus:border-green-300">
     </div>
     <div class="mb-4">
-        <label for="interests" class="label-text text-black">Interests (comma separated):</label>
-        <input type="text" id="interests" formControlName="interests" class="border border-black w-full px-3 py-2">
+        <label for="interests" class="label-text text-black  dark:text-white">Interests (comma separated):</label>
+        <input type="text" id="interests" formControlName="interests" class="border border-black dark:border-white w-full px-3 py-2 dark:focus:bg-zinc-900 dark:text-white focus:border-green-300">
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
@@ -31,3 +32,5 @@
       </div>
     </div>
   </div>
+
+</div>
