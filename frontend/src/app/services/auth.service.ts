@@ -111,6 +111,7 @@ export class AuthService {
     localStorage.removeItem('userId');
     localStorage.removeItem('accountDetails');
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('enrolledCourses');
     this.isLoggedInSubject.next(false);
     this.userSessionStore.resetState();
   }

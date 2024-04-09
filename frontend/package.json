@@ -28,6 +28,7 @@
     "date-fns": "^3.6.0",
     "jwt-decode": "^4.0.0",
     "ngx-image-cropper": "^7.2.1",
+    "ngx-infinite-scroll": "^17.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

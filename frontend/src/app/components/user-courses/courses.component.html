@@ -17,8 +17,8 @@
         <div tabindex="0" class="carousel w-full" aria-label="My Learning Courses">
           <div *ngFor="let course of accountDetails.registeredCourses; let i = index" class="carousel-item space-x-4">
             <div class="group relative cursor-pointer mr-2" (click)="getCourseById(course.platformId, course.platform)">
-              <img [src]="course.imageUrl" alt="Course Image" class="w-full  h-60 object-cover mb-2">
-              <div class="text-black  p-4">
+              <img [src]="course.imageUrl" alt="Course Image" class="w-full h-60 object-cover mb-2">
+              <div class="text-black p-4">
                 <h3 class="text-lg text-black dark:text-white">{{ course.title }}</h3>
                 <p class="text-sm text-gray-800 dark:text-gray-200">Instructor: {{ course.instructor }}</p>
               </div>
