@@ -25,7 +25,6 @@
               <p>I'm learning:</p>
               <!--friend courses carousel-->
               <div class="carousel w-full">
-                  <div class="carousel-inner">
                     <div *ngFor="let course of friend.registeredCourses; let j = index" class="carousel-item space-x-4" >
                       <div class="group relative cursor-pointer mr-2">
                         <div class="text-black p-4 dark:text-white">
@@ -36,9 +35,7 @@
                       <img [src]="course.imageUrl" alt="Course image" class="w-full h-60 object-cover mb-2">
                       
                     </div>
-                  </div>
               </div>
-              <p>Interests: {{ friend.interests.join(', ') }}</p>
             </div>
             <div *ngIf="friend.interests.length > 0 else noCourses">
               <p>Interests: {{ friend.interests.join(', ') }}</p>
