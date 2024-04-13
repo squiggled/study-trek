@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1712507408976,
+  "timestamp": 1712999319475,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,10 +13,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-7PZ73GTX.js",
+        "/main-ZDTLMDOW.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-JEHWV4QQ.css"
+        "/styles-NFJ6PXGC.css"
       ],
       "patterns": []
     },
@@ -34,6 +34,7 @@
         "/assets/banner-home-4.png",
         "/assets/banner-home.png",
         "/assets/banner-login.gif",
+        "/assets/banner-schedule.png",
         "/assets/fonts/Sohne-Buch.otf",
         "/assets/fonts/Sohne-BuchKursiv.otf",
         "/assets/fonts/Sohne-Dreiviertelfett.otf",
@@ -76,6 +77,7 @@
     "/assets/banner-home-4.png": "665773543c79dad1d2029a2fa294cf8571d44d72",
     "/assets/banner-home.png": "c0552585120b33bde1b6805286402c9aeb73b804",
     "/assets/banner-login.gif": "3f9414c5f5fc3ddefe6f3f597a9a0b6e1842d057",
+    "/assets/banner-schedule.png": "3c474c9f601352ab9c594703804c0dbd6bb8c987",
     "/assets/fonts/Sohne-Buch.otf": "e23f6bebdfe49f5080a402dd7eba1e3d73b565f0",
     "/assets/fonts/Sohne-BuchKursiv.otf": "048e06d8a86f394e42971e6f93d993e3520633dd",
     "/assets/fonts/Sohne-Dreiviertelfett.otf": "75061a817d0b021369e4eb32d245e96e7364fd6e",
@@ -107,11 +109,11 @@
     "/assets/logo-studytrek.png": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
     "/assets/logo-udemy.png": "81b787f40aaf1ba76a42e7dc9a84f949cfd4214b",
     "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/index.html": "1e2f420ad65c04470c5d86bbe6ca2d8a5162bf1b",
-    "/main-7PZ73GTX.js": "3ae745b7b262c13cb23a6572708d08fb08982edf",
+    "/index.html": "0c60bf163a431d4ca2e237c33c9f3b88d606b975",
+    "/main-ZDTLMDOW.js": "93612eb29c03e70a98e5ea41a12d561325fac5a8",
     "/manifest.webmanifest": "63b272452f7323ec09705c84044faa394ce82a79",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-JEHWV4QQ.css": "3182f3e827d6acb41500d4c0732c5d55c2caec45"
+    "/styles-NFJ6PXGC.css": "96cc959584843b8ddb0ff9a13804087bbec72363"
   },
   "navigationUrls": [
     {
