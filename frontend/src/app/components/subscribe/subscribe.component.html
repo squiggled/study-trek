@@ -1,35 +1,34 @@
-<div class="flex min-h-screen items-center" style="margin-top: -8rem">
+<div class="flex min-h-screen items-start bg-cover bg-center bg-no-repeat pt-32" 
+  style="background-image: url('assets/background-subscribe.png')">
   <div *ngIf="isSubscriber; else notSubscriberContent">
     <p>PREMIUM SUBSCRIBER</p>
   </div>
 
   <ng-template #notSubscriberContent>
-    <div class="w-1/2 flex flex-col justify-center px-12 text-gray-700">
+    <div class="w-1/2 flex flex-col justify-center -mt-8 px-12  dark:text-white">
       <h1 class="text-4xl font-bold mb-4">Enhance Your Learning Experience</h1>
       <p class="text-lg">
         Join our community of learners and get access to premium features that
-        will take your learning to the next level. Our Course Navigator, lecture
-        tracker, and lecture notes features are designed to enhance your
+        will take your learning to the next level. Our Course Navigator and Study Buddy features are designed to enhance your
         educational journey.
       </p>
     </div>
 
-    <div class="w-1/2 flex justify-center items-center">
+    <div class="w-1/2 px-2 flex justify-center items-center -mt-8">
       <div
         class="bg-white border border-gray-200 p-8 rounded-lg shadow-lg text-center"
       >
-        <h2 class="text-2xl font-bold mb-4">PREMIUM PLAN</h2>
-        <p class="mb-8">
-          For $5 a month, gain access to Course Navigator, lecture tracker, and
-          lecture notes features.
+        <h2 class="text-2xl font-bold mb-4 text-black">PREMIUM PLAN</h2>
+        <p class="mb-8 text-black">
+          For $5 a month, gain access to Course Navigator and Study Buddy.
         </p>
         <button
           (click)="subscribe()" class="btn btn-secondary rounded-full px-8 py-3 text-white font-bold mb-4 w-full"
         >
           START YOUR PREMIUM SUBSCRIPTION
         </button>
-        <p class="text-sm">
-          Digital Subscription. Billed monthly. Renews automatically each month.
+        <p class="text-sm text-black">
+          Digital Subscription. Billed monthly. Renews automatically.
           Cancel at any time.
         </p>
       </div>

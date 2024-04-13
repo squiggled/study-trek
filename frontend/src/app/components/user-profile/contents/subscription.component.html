@@ -1,21 +1,35 @@
-<div class="container mx-auto mt-10">
-    <div *ngIf="isSubscriber; else subscribeContent">
-      <div class="flex justify-center items-center">
-        <div class="bg-green-500 text-white p-4 rounded-lg shadow-lg">
-          <p class="text-xl font-semibold">Premium Subscriber</p>
-        </div>
-      </div>
+<div class="container mx-auto mt-10 relative min-h-screen">
+  <div *ngIf="isSubscriber; else subscribeContent">
+    <div class="flex justify-center items-center">
+      <h2 class="text-4xl mb-2">Welcome to your Study Trek subscription!
+      </h2>
+      <ul class="text-gray-700 dark:text-white text-lg mb-8 list-disc pl-4">
+        <li>
+          <span><a [routerLink]="['/course-navigator']" class="text-pink-500 underline">Course Navigator</a> - Get your personalized course recommendations</span>
+        </li>        
+        <li>Study Buddy - Your very own Telegram buddy for reminders and recommendations</li>
+      </ul>
     </div>
+  </div>
   
     <ng-template #subscribeContent>
       <div class="flex flex-col items-center justify-center">
-        <p class="text-gray-700 text-lg mb-4">
-          Join our community and unlock premium features to enhance your learning experience.
-        </p>
-        <button (click)="goToSubscriptionPage()" class="btn btn-primary rounded px-8 py-3 font-bold text-white">
+        <h2 class="text-4xl mb-2">Become a Study Trek member!</h2>
+          <p class="text-gray-700 dark:text-white text-lg mb-4">
+            Join our community and unlock premium features such as:
+          </p>
+          <ul class="text-gray-700 dark:text-white text-lg mb-4 list-disc pl-4">
+            <li>Course Navigator - Get personalized AI-recommended courses</li>
+            <li>Study Buddy - Your very own Telegram buddy for reminders and recommendations</li>
+          </ul>
+        <button (click)="goToSubscriptionPage()" class="btn btn-primary rounded px-8 font-bold text-white mb-8">
           Subscribe Now
         </button>
       </div>
     </ng-template>
+   
+  <div class="inset-x-0  bottom-0 flex justify-center mb-1">
+    <img src="assets/image-community.png" alt="Descriptive Text" class="max-w-xs">
+  </div>
   </div>
   
