@@ -10,7 +10,7 @@
         </h2>
 
        <!--  wrap the carousel for dark mode background -->
-       <div class="dark:bg-zinc-800">
+       <div class="dark:bg-zinc-900">
         <div class="carousel w-full ">
           <!--  include the schedule card if logged in -->
           <div class="carousel-item mr-2 relative" *ngIf="showScheduleCard" style="background-image: url('/assets/banner-schedule.png'); background-size: cover; width: 450px; background-position: center">
@@ -19,7 +19,7 @@
               (click)="dismissScheduleCard()">
               &times;
             </button>
-            <div class="text-center mt-4 px-4 dark:bg-zinc-800">
+            <div class="text-center mt-4 px-4 dark:bg-zinc-900">
               <h2 class="text-left text-2xl absolute top-0 p-4 text-md font-semibold text-white dark:text-white">Schedule time to learn</h2>
              
               <a [routerLink]="['/calendar']" class="absolute bottom-0 right-0 m-4 btn btn-sm text-white btn-primary mt-2">Get started</a>
@@ -27,14 +27,14 @@
           </div>
 
           <!-- User courses -->
-          <ng-container class="dark:bg-zinc-800" *ngFor="let course of userDetails.registeredCourses; let i = index">
-            <div class="carousel-item mr-2 flex flex-col dark:bg-zinc-800">
+          <ng-container class="dark:bg-zinc-900" *ngFor="let course of userDetails.registeredCourses; let i = index">
+            <div class="carousel-item mr-2 flex flex-col dark:bg-zinc-900">
               <!-- Card  -->
-              <div class="card bg-transparent rounded-none shadow-none flex flex-col max-w-xs mx-auto dark:text-white dark:bg-zinc-800">
+              <div class="card bg-transparent rounded-none shadow-none flex flex-col max-w-xs mx-auto dark:text-white dark:bg-zinc-900">
                 <figure class="px-4 pt-4 cursor-pointer" (click)="getCourseById(course.platformId, course.platform)">
                   <img src="{{ course.imageUrl }}" alt="Course image" class="rounded-none">
                 </figure>
-                <div class="text-left mt-4 px-4 dark:bg-zinc-800">
+                <div class="text-left mt-4 px-4 dark:bg-zinc-900">
                   <!-- Text  -->
                   <h2 class="text-md font-semibold">{{ course.title }}</h2>
                   <p>{{ course.headline | slice:0:80 }}<a *ngIf="course.headline.length > 80" href="/path/to/full/course/details">... </a></p>
@@ -97,11 +97,11 @@
     <h2 class="dark:text-white text-black text-2xl font-semibold mb-4">
       Learners are viewing top courses in:
     </h2>
-    <div class="flex gap-4 mb-4 overflow-auto bg-white dark:bg-zinc-800">
+    <div class="flex gap-4 mb-4 overflow-auto bg-white dark:bg-zinc-900">
       <span
         *ngFor="let category of categories"
         (click)="selectCategory(category)"
-        class="cursor-pointer hover:text-secondary dark:bg-zinc-800"
+        class="cursor-pointer hover:text-secondary dark:bg-zinc-900"
         [ngClass]="{
           'font-bold text-secondary': category === selectedCategory,
           'text-gray-500 dark:text-white': category !== selectedCategory

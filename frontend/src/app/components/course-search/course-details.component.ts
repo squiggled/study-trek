@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
-import { Observable, EMPTY, of, from, forkJoin } from 'rxjs';
-import { map, take, switchMap, catchError, tap } from 'rxjs/operators';
-import { CourseDetails, CourseNote, Platform, defaultCourseDetails } from '../../models';
+import { Observable, of, from, combineLatest } from 'rxjs';
+import { map, take, switchMap, catchError, tap, finalize } from 'rxjs/operators';
+import { CourseDetails, CourseNote, Curriculum, Platform, defaultCourseDetails } from '../../models';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 import { CourseDetailsStore } from '../../stores/course-details.store';
@@ -11,6 +11,8 @@ import { UserService } from '../../services/user.service';
 import { CourseService } from '../../services/course.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { ThemeService } from '../../services/theme.service';
+import { CurriculumStore } from '../../stores/curriculum.store';
 
 @Component({
   selector: 'app-course-details',
@@ -25,29 +27,42 @@ export class CourseDetailsComponent implements OnInit{
   newNote: string = '';
   selectedNoteId = 0;
   platform!:string;
+  isLoading :boolean = true;
 
   showSuccessSaveNoteNotification:boolean = false;
   showSuccessAddCourseNotification:boolean=false
   showAddFailNotification:boolean = false;
   isScrolled = false;
   isLoggedIn: boolean = localStorage.getItem('isLoggedIn') === 'true';
+  isUserEnrolledLS!:boolean;
+  isDarkMode: boolean = false;
 
   isUserEnrolled$!: Observable<boolean>;
   courseDetails$!: Observable<CourseDetails>;
   courseNote$!: Observable<CourseNote | undefined>;
-  isUserEnrolledLS!:boolean;
+  curriculumItems$!: Observable<Curriculum[]>;
+  curriculumDisplayItems$!: Observable<any[]>;
 
+
+  //services
   private activatedRoute = inject(ActivatedRoute);
   private searchSvc =  inject(SearchService);
-  private courseDetailsStore =  inject(CourseDetailsStore);
+  private themeSvc =  inject(ThemeService);
   private utilsSvc = inject(CommonUtilsService)
-  private userSessionStore = inject(UserSessionStore)
   private userSvc = inject(UserService);
   private courseSvc = inject(CourseService);
 
+  //stores
+  private courseDetailsStore =  inject(CourseDetailsStore);
+  private userSessionStore = inject(UserSessionStore)
+  private curriculumStore = inject(CurriculumStore)
+  
   courseForm!:FormGroup
+
   constructor (private fb:FormBuilder, private titleService: Title){}
+
   ngOnInit(): void {
+    this.isDarkMode = this.themeSvc.isDarkMode();
     this.titleService.setTitle('Study Trek | Search');
 
     this.activatedRoute.params.pipe(
@@ -58,46 +73,67 @@ export class CourseDetailsComponent implements OnInit{
         this.platform = platform;
         console.log("this.platformId ", platformId);
         
+        
         this.platformId = platformId;
         this.initialiseForm(this.platformId);
   
-        // Check if user is logged in by checking local storage
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Or check for accountDetails existence
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; 
 
-        
         if (isLoggedIn) {
-          // Try to fetch account details from local storage
           this.isLoggedIn=isLoggedIn;
           console.log("islogged in ", isLoggedIn);
           
           const accountDetails = JSON.parse(localStorage.getItem('accountDetails') || '{}');
+          this.userId=accountDetails.userId;
+          console.log("UserId in component ", this.userId);
           
-          // Find the course in registeredCourses by platformId
+          
+          // find the course in registeredCourses by platformId
           const course = accountDetails.registeredCourses?.find((c:any) => c.platformId === platformId);
           this.isUserEnrolledLS = this.isUserEnrolled(platformId);
           console.log('isUserEnrolled:', this.isUserEnrolledLS);
-  
           if (course) {
             this.courseId = course.courseId;
-            console.log("courseId HERE", this.courseId);
-            
-            // Populate course notes if they exist for this course
+            // console.log("courseId HERE", this.courseId);
+            // populate course notes if they exist for this course
             this.courseNote$ = of(course.notes);
             return of(course);
           } else {
-            // If course is not found in local storage, fetch from backend
             return this.fetchCourseDetailsFromBackend(platformId, platform);
           }
         } else {
-          // User is not logged in, fetch course details from backend
+          // if user is not logged in, fetch course details from backend
           return this.fetchCourseDetailsFromBackend(platformId, platform);
         }
+      }),
+      //for curr
+      tap(course => {
+        if (course) {
+          this.courseId = course.courseId;
+          // console.log(`Initializing curriculum data load for course ID: ${this.courseId}`);
+          this.curriculumStore.loadCurriculum(this.courseId, this.userId);
+        }
+      }),
+      finalize(() => {
+        this.isLoading = false;
+        // console.log('After finalize, isLoading should be false:', this.isLoading); //should log false
       })
     ).subscribe(courseDetails => {
       this.courseDetails$ = of(courseDetails);
       this.refreshFormData(this.courseId);
-
     });
+    this.curriculumDisplayItems$ = combineLatest([
+      this.curriculumStore.curriculumItems,
+      this.courseDetails$ 
+    ]).pipe(
+      map(([curriculumItems, courseDetails]) => {
+        return curriculumItems.map(item => ({
+          ...item,
+          name: courseDetails.curriculum.find(detail => detail.curriculumId === item.curriculumId)?.title || 'Unknown',
+          lectureNumber: item.lectureNumber
+        }));
+      })
+    );
   }
   
   refreshFormData(courseId:number): void {
@@ -113,17 +149,15 @@ export class CourseDetailsComponent implements OnInit{
       }
     }, error => {
       console.error('Failed to fetch the latest course note', error);
-      // Handle error state appropriately
     });
   }
   
-  // Helper method to encapsulate backend fetching logic.
   private fetchCourseDetailsFromBackend(platformId: string, platform:string) {
     return from(this.searchSvc.getCourseById(platformId, this.utilsSvc.toPlatformEnum(platform.toUpperCase()))).pipe(
       map(courseDetailsFromBackend => courseDetailsFromBackend ?? defaultCourseDetails),
       catchError(error => {
         console.error('Error fetching course details from backend:', error);
-        return of(defaultCourseDetails); // Fallback on error.
+        return of(defaultCourseDetails); 
       })
     );
   }
@@ -189,8 +223,8 @@ export class CourseDetailsComponent implements OnInit{
   }
 
   isUserEnrolled(platformId: string): boolean {
-    const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
-    return enrolledCourses.includes(platformId);
+    const enrolledCourses: { platformId: string }[] = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+    return enrolledCourses.some(course => course.platformId === platformId);
   }
 
   updateEnrollmentStatus(): void {
@@ -226,6 +260,22 @@ export class CourseDetailsComponent implements OnInit{
     }
   }
 
+  //for curr toggling
+  toggleCompletion(curriculumId: number, completed: boolean): void {
+    // this.curriculumStore.updateCurriculumItem(this.userId, curriculumId, !completed);
+    this.curriculumStore.updateCurriculumItemOptimistic(this.userId, curriculumId, !completed);
+
+  // Perform the actual backend request
+  this.curriculumStore.updateCurriculumItem(this.userId, curriculumId, !completed).subscribe({
+    error: (error: any) => {
+      // Revert to the original state in case of an error
+      console.error('Failed to update curriculum item, reverting changes', error);
+      this.curriculumStore.updateCurriculumItemOptimistic(this.userId, curriculumId, completed);
+    }
+  });
+  }
+
+
   //success - save note
   showSuccessSaveNoteNotificationMethod() {
     this.showSuccessSaveNoteNotification = true;
@@ -249,13 +299,10 @@ export class CourseDetailsComponent implements OnInit{
     }, 3000);
   }
 
-
-
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     const threshold = 100;
     this.isScrolled = window.scrollY > threshold;
     console.log("is scrolled " + this.isScrolled);
-    
   }
 }

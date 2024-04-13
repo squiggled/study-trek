@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchComponent } from './components/navbar/search.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchService } from './services/search.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SearchResultsComponent } from './components/course-search/search-results.component';
@@ -55,7 +55,8 @@ import { CalendarService } from './services/calendar.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CalendarStore } from './stores/calendar.store';
 import { CreateEventComponent } from './components/calendar/create-event.component';
-
+import { CurriculumService } from './services/curriculum.service';
+import { CurriculumStore } from './stores/curriculum.store';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { CreateEventComponent } from './components/calendar/create-event.compone
     HttpClientModule,
     ReactiveFormsModule,
     ImageCropperModule,
+    FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
@@ -123,7 +125,9 @@ import { CreateEventComponent } from './components/calendar/create-event.compone
     SubscriptionService,
     ForumService,
     CalendarService,
-    CalendarStore
+    CalendarStore,
+    CurriculumService,
+    CurriculumStore
   ],
   bootstrap: [AppComponent]
 })

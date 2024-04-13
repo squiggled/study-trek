@@ -1,4 +1,4 @@
-<div class="main-content bg-white dark:bg-zinc-800">
+<div class="main-content bg-white dark:bg-zinc-900">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <div class="flex justify-between items-center dark:mt-4">
             <button (click)="goBack()" class="btn btn-accent btn-outline">Back</button>
@@ -8,11 +8,11 @@
         <div class="text-center">
             <form [formGroup]="createThreadForm" (ngSubmit)="createThread()" class="mt-2 inline-block text-left w-full">
                 <div class="mb-4">
-                    <input type="text" placeholder="What is the topic about in one brief sentence?" formControlName="title" class="input input-bordered w-full bg-white dark:bg-zinc-800 dark:focus:bg-zinc-900 text-black dark:text-white focus:border-green-300">
+                    <input type="text" placeholder="What is the topic about in one brief sentence?" formControlName="title" class="input input-bordered w-full bg-white dark:bg-zinc-900 dark:focus:bg-zinc-950 text-black dark:text-white focus:border-green-300">
                 </div>
                 
                 <div class="mb-4">
-                    <textarea placeholder="Type here" formControlName="content" class="textarea textarea-bordered w-full bg-white dark:bg-zinc-800 dark:focus:bg-zinc-900 text-black dark:text-white focus:border-green-300" style="min-height: 150px;"></textarea>
+                    <textarea placeholder="Type here" formControlName="content" class="textarea textarea-bordered w-full bg-white dark:bg-zinc-900 dark:focus:bg-zinc-950 text-black dark:text-white focus:border-green-300" style="min-height: 150px;"></textarea>
                 </div>
                 
                 <div class="flex justify-start space-x-4">

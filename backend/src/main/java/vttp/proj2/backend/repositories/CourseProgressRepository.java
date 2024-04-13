@@ -1,11 +1,16 @@
 package vttp.proj2.backend.repositories;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import vttp.proj2.backend.models.CourseNote;
+import vttp.proj2.backend.models.Curriculum;
+import vttp.proj2.backend.models.UserProgress;
 import vttp.proj2.backend.utils.Utils;
 
 @Repository
@@ -46,6 +51,44 @@ public class CourseProgressRepository {
             return Utils.mapRowToCourseNote(rs);
         }
         return null;
+    }
+
+    //get all curr progress for a user and a course
+    public List<UserProgress> findByCourseIdAndUserId(String courseId, String userId) {
+        List<UserProgress> progresses = new ArrayList<>();
+        SqlRowSet rs = template.queryForRowSet(Queries.SQL_USER_CURR_GET_ALL_CURR_PROGRESS, courseId, userId);
+        while (rs.next()){
+            UserProgress progress = new UserProgress();
+            progress.setProgressId(rs.getInt("progressId"));
+            progress.setUserId(rs.getString("userId"));
+            progress.setCurriculumId(rs.getInt("curriculumId"));
+            progress.setCompleted(rs.getBoolean("completed"));
+            progresses.add(progress);
+        }
+        return progresses;
+    }
+
+    public UserProgress toggleCompletion(String userId, Integer curriculumId) {
+        //toggle completion
+        String sqlUpdate = "UPDATE user_progress SET completed = NOT completed WHERE userId = ? AND curriculumId = ?";
+        int updated = template.update(sqlUpdate, userId, curriculumId);
+        if (updated == 0) {
+            return null; // No rows updated, possibly no such entry
+        }
+
+        // Fetch the updated progress
+        UserProgress updatedProg = new UserProgress();
+        SqlRowSet rs = template.queryForRowSet(Queries.SQL_USER_CURR_GET_PROGRESS, userId, curriculumId);
+        if (rs.next()){
+            updatedProg.setCompleted(rs.getBoolean("completed"));
+            updatedProg.setCurriculumId(rs.getInt("curriculumId"));
+            updatedProg.setProgressId(rs.getInt("progressId"));
+            updatedProg.setUserId(rs.getString("userId"));
+        } else {
+            return null;
+        }
+        return updatedProg;
+      
     }
 
     

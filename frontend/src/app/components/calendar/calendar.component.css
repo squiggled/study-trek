@@ -88,7 +88,7 @@
 }
 
 .dark .bg-white {
-  background-color: #27272a;
+  background-color: #18181b;
 }
 
 .dark .calendar-container .text-black {
@@ -102,7 +102,7 @@
 }
 
 .dark .custom-alert {
-  background-color: #27272a;
+  background-color: #18181b;
   color: #ffffff;
   box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
 }

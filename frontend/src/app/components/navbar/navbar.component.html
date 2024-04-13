@@ -1,4 +1,4 @@
-<nav class="bg-white dark:bg-zinc-800 text-black dark:text-white p-4 shadow-md">
+<nav class="bg-white dark:bg-zinc-900 text-black dark:text-white p-4 shadow-md">
   <div class="container mx-auto flex justify-between items-center">
     <!-- Logo-->
     <div class="flex items-center space-x-4">
@@ -35,7 +35,7 @@
     <label class="swap swap-rotate">
       <input type="checkbox" (click)="themeSvc.toggleTheme()" />
       <svg
-        class="bg-transparent dark:bg-zinc-800 swap-on fill-current w-6 h-6"
+        class="bg-transparent dark:bg-zinc-900 swap-on fill-current w-6 h-6"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -44,7 +44,7 @@
         />
       </svg>
       <svg
-        class="bg-transparent swap-off fill-current w-6 h-6 dark:bg-zinc-800"
+        class="bg-transparent swap-off fill-current w-6 h-6 dark:bg-zinc-900"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -154,27 +154,19 @@
     </div>
 
     <!-- User Profile Picture -->
-    <div *ngIf="isLoggedIn$ | async" class="relative profile-dropdown">
-      <div
-        *ngIf="userProfilePicUrl$ | async as userProfilePicUrl"
-        class="avatar"
-      >
-        <div class="w-8 rounded-full">
-          <img [src]="userProfilePicUrl" (click)="toggleDropdown()" />
+    <div *ngIf="isLoggedIn$ | async" class="dropdown dropdown-bottom dropdown-end dropdown-hover ">
+      <div tabindex="0" class="avatar cursor-pointer">
+        <div *ngIf="userProfilePicUrl$ | async as userProfilePicUrl" class="w-8 rounded-full">
+          <img [src]="userProfilePicUrl" />
         </div>
       </div>
-      <div
-        class="dropdown-content"
-        [class.hidden]="!isDropdownVisible"
-        class="absolute right-0 bg-white text-black mt-1 p-2 shadow-lg"
-      >
-        <a [routerLink]="['/home/profile']" class="block p-2">{{
-          firstName$ | async
-        }}</a>
-        <a [routerLink]="['/home/my-courses']" class="block p-2">My Courses</a>
-        <a [routerLink]="['/forum']" class="block p-2">Study Hub</a>
-        <a (click)="logout()" class="block p-2">Log Out</a>
-      </div>
+      <ul tabindex="0" class="dropdown-content bg-white text-black dark:bg-zinc-700 dark:text-white z-[1] menu p-2 shadow rounded-box w-40">
+        <li><a [routerLink]="['/home/profile']">{{ firstName$ | async }}</a></li>
+        <li><a [routerLink]="['/home/my-courses']">My Courses</a></li>
+        <li><a [routerLink]="['/forum']">Study Hub</a></li>
+        <li><a (click)="logout()">Log Out</a></li>
+      </ul>
     </div>
+    
   </div>
 </nav>

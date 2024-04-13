@@ -13,17 +13,17 @@
 }
 
 .dark .carousel-container {
-  background-color: #27272a; 
+  background-color: #18181b; 
 }
 
 .dark .carousel,
 .dark .main-content {
-  background-color: #27272a;
+  background-color: #18181b;
 }
 
 .dark .carousel-item,
 .dark .carousel .card,
 .dark .text-left {
-  background-color: #27272a;
+  background-color: #18181b;
   color: #fff;
 }

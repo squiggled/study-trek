@@ -145,6 +145,18 @@ public class Queries {
                 ORDER BY noteId DESC LIMIT 1;
             """;
 
+    //user - indiv curr progress
+    public static final String SQL_USER_CURR_GET_ALL_CURR_PROGRESS = """
+                SELECT up.* 
+                FROM user_progress up 
+                JOIN curriculum c 
+                ON up.curriculumId = c.curriculumId 
+                WHERE c.courseId = ? AND up.userId = ?
+            """;
+    public static final String SQL_USER_CURR_GET_PROGRESS="""
+                SELECT * FROM user_progress 
+                WHERE userId = ? AND curriculumId = ?
+            """;
     //finding friends
     public static final String SQL_FIND_FRIENDS_BY_EMAIL = """
                 SELECT *

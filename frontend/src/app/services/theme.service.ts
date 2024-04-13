@@ -37,4 +37,8 @@ export class ThemeService {
       document.body.classList.toggle('dark', storedTheme === 'dark');
     }
   }
+
+  isDarkMode(): boolean {
+    return document.body.classList.contains('dark');
+  }
 }

@@ -48,7 +48,10 @@ export class AuthService {
           this.loginAttempted = false;
           localStorage.setItem('jwtToken', response.token); //store jwt token
           localStorage.setItem('userId', response.user.userId);
-          localStorage.setItem('accountDetails', JSON.stringify(response.user));
+          localStorage.setItem('accountDetails', JSON.stringify(response.user));          
+          localStorage.setItem('enrolledCourses', JSON.stringify(response.user.registeredCourses));
+          console.log("registered courses " + JSON.stringify(response.user.registeredCourses));
+          
           localStorage.setItem('isLoggedIn', 'true');
           this.isLoggedInSubject.next(true);
 

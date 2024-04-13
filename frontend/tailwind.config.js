@@ -11,7 +11,7 @@ module.exports = {
         'custom-pink': {
           light: '#ff7ce5',
           DEFAULT: '#ff49db',
-          dark: '#27272a',
+          dark: '#18181b',
         },
       },
       fontFamily: {

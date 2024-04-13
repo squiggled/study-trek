@@ -21,10 +21,20 @@
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent or solid, based on your preference */
+    color:black;
     z-index: 10; /* Ensure it overlays content */
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Optional: Add shadow for better visibility */
+  }
+  .dark .search-pop-up {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color:white;
+    z-index: 10; 
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
   }
   
   

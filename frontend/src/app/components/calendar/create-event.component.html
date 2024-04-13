@@ -1,27 +1,28 @@
-<div class="container mx-8 my-8 max-w-full max-h-full overflow-auto" style="margin: 32px; max-width: calc(100% - 64px); max-height: calc(100vh - 64px); overflow: auto;">
-    <h2 class="text-xl font-bold mb-4">Create New Event</h2>
+<div class=" bg-white dark:bg-zinc-900 ">
+  <div class="container bg-white dark:bg-zinc-900 mx-8 my-8 max-w-full max-h-full overflow-auto" style="margin: 32px; max-width: calc(100% - 64px); max-height: calc(100vh - 64px); overflow: auto;">
+    <h2 class="text-xl font-bold mb-4 text-black dark:text-white">Create New Event</h2>
     <form [formGroup]="calendarForm" (ngSubmit)="submitForm()">
   
-      <div class="mb-4">
-        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-        <input type="text" id="title" formControlName="title" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm" required>
+      <div class="mb-4 ">
+        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-white">Title</label>
+        <input type="text" id="title" formControlName="title" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm dark:focus:bg-zinc-950 dark:text-white" required>
         <div *ngIf="calendarForm.get('title')?.touched && calendarForm.get('title')?.errors?.['required']" class="text-red-500 text-xs mt-1">Title is required.</div>
       </div>
   
       <div class="mb-4">
-        <label for="text" class="block text-sm font-medium text-gray-700">Description</label>
-        <textarea id="text" formControlName="text" rows="4" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm" required></textarea>
-        <div *ngIf="calendarForm.get('text')?.touched && calendarForm.get('text')?.errors?.['required']" class="text-red-500 text-xs mt-1">Description is required.</div>
+        <label for="text" class="block text-sm font-medium text-gray-700 dark:text-white">Description</label>
+        <textarea id="text" formControlName="text" rows="4" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm dark:focus:bg-zinc-950 dark:text-white" required></textarea>
+        <div *ngIf="calendarForm.get('text')?.touched && calendarForm.get('text')?.errors?.['required']" class="text-red-500 text-xs mt-1 ">Description is required.</div>
       </div>
   
       <div class="mb-4">
-        <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
-        <input type="text" id="date" [value]="data.date | date:'EEE dd MMM yyyy'" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm" required disabled>
+        <label for="date" class="block text-sm font-medium text-gray-700 dark:text-white">Date</label>
+        <input type="text" id="date" [value]="data.date | date:'EEE dd MMM yyyy'" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm dark:focus:bg-zinc-950 dark:text-white" required disabled>
       </div>
   
       <div class="mb-4">
-        <label for="hour" class="block text-sm font-medium text-gray-700">Time</label>
-        <input type="text" id="hour" formControlName="hour" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm" required >
+        <label for="hour" class="block text-sm font-medium text-gray-700 dark:text-white">Time</label>
+        <input type="text" id="hour" formControlName="hour" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm dark:focus:bg-zinc-950 dark:text-white" required >
       </div>
   
       <div class="flex items-center justify-end ">
@@ -32,3 +33,4 @@
     </form>
   </div>
   
+</div>

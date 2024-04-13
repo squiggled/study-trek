@@ -13,7 +13,7 @@ body {
 }
 
 .dark, .dark body {
-    background-color: #27272a; 
+    background-color: #18181b; 
     color: #fff;
 }
 
@@ -66,7 +66,7 @@ html, body {
 }
 
  .dark html, body {
-    background-color: #27272a; 
+    background-color: #18181b; 
     color:#fff;
     min-height: 100vh;
     margin: 0;
@@ -83,7 +83,7 @@ html, body {
 
 .dark .main-content {
     min-height: 100vh; 
-    background-color: #27272a; 
+    background-color: #18181b; 
 }
 
 .calendar-container, .mwl-calendar-week-view {
@@ -126,6 +126,32 @@ input, select, textarea {
     src: url('/assets/fonts/Sohne-Halbfett.otf') format('opentype');
     font-weight: 600; /* Bold */
     font-style: bold;
+}
+
+:root {
+    --background-color: #fff; 
+    --text-color: #000;
+}
+
+.dark {
+    --background-color: #18181b;
+    --text-color: #fff;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'sohne', sans-serif !important;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+input, select, textarea, button {
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 

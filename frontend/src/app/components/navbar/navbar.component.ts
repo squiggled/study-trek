@@ -118,10 +118,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   onNotificationClick(): void {}
 
-  toggleDropdown() {
-    this.isDropdownVisible = !this.isDropdownVisible;
-  }
-
   @HostListener('document:click', ['$event'])
   clickout(event: MouseEvent) {
     const target = event.target as Element;

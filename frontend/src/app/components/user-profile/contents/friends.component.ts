@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import {
@@ -37,7 +37,13 @@ import { Title } from '@angular/platform-browser';
   ],
 })
 export class FriendsComponent implements OnInit {
-  constructor(private fb: FormBuilder, private titleService: Title) {}
+  constructor(
+    private fb: FormBuilder, 
+    private titleService: Title,
+    private elementRef: ElementRef, 
+    private renderer: Renderer2
+    ) {}
+  private outsideClickListener!: Function;
 
   private userSessionStore = inject(UserSessionStore);
   private userSvc = inject(UserService);
@@ -67,16 +73,21 @@ export class FriendsComponent implements OnInit {
         this.friendStore.loadFriends(userId);
     } else {
         console.error('No userId found in localStorage');
-  }
+    }
+
   }
 
-  // ngOnDestroy(): void {
-  //   this.subscription.unsubscribe();
-  // }
+  ngOnDestroy(): void {
+    this.outsideClickListener();
+  }
 
-  toggleSearchPopUp(): void {
-    this.showSearchPopUp = !this.showSearchPopUp;
-    this.friendSearchForm.reset(['']);
+  toggleSearchPopUp(open?: boolean): void {
+    if (open !== undefined) {
+      this.showSearchPopUp = open;
+    } else {
+      this.showSearchPopUp = !this.showSearchPopUp;
+    }
+    this.friendSearchForm.reset();
   }
 
   search(event: Event): void {
@@ -103,5 +114,19 @@ export class FriendsComponent implements OnInit {
         console.error('Error making friend request', error);
       },
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleDocumentClick(event: MouseEvent): void {
+    const clickedInsidePopup = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInsidePopup && this.showSearchPopUp) {
+      this.closeSearchPopUp();
+    }
+  }
+  closeSearchPopUp(): void {
+    this.showSearchPopUp = false;
+  }
+  preventClickPropagation(event: Event): void {
+    event.stopPropagation();
   }
 }
