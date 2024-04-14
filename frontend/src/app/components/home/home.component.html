@@ -29,13 +29,13 @@
           <!-- User courses -->
           <ng-container class="dark:bg-zinc-900" *ngFor="let course of userDetails.registeredCourses; let i = index">
             <div class="carousel-item mr-2 flex flex-col dark:bg-zinc-900">
-              <!-- Card  -->
+              <!-- card  -->
               <div class="card bg-transparent rounded-none shadow-none flex flex-col max-w-xs mx-auto dark:text-white dark:bg-zinc-900">
                 <figure class="px-4 pt-4 cursor-pointer" (click)="getCourseById(course.platformId, course.platform)">
                   <img src="{{ course.imageUrl }}" alt="Course image" class="rounded-none">
                 </figure>
                 <div class="text-left mt-4 px-4 dark:bg-zinc-900">
-                  <!-- Text  -->
+                  <!-- text -->
                   <h2 class="text-md font-semibold">{{ course.title }}</h2>
                   <p>{{ course.headline | slice:0:80 }}<a *ngIf="course.headline.length > 80" href="/path/to/full/course/details">... </a></p>
                   <p class="text-sm">{{ course.instructor }}</p>

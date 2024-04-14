@@ -57,6 +57,8 @@ import { CalendarStore } from './stores/calendar.store';
 import { CreateEventComponent } from './components/calendar/create-event.component';
 import { CurriculumService } from './services/curriculum.service';
 import { CurriculumStore } from './stores/curriculum.store';
+import { TelegramService } from './services/telegram.service';
+import { TelegramComponent } from './components/telegram/telegram.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +88,7 @@ import { CurriculumStore } from './stores/curriculum.store';
     EditPasswordComponent,
     CalendarComponent,
     CreateEventComponent,
+    TelegramComponent,
   ],
   imports: [
     CommonModule,
@@ -127,7 +130,8 @@ import { CurriculumStore } from './stores/curriculum.store';
     CalendarService,
     CalendarStore,
     CurriculumService,
-    CurriculumStore
+    CurriculumStore,
+    TelegramService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,3 @@
-// theme.service.ts
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -24,16 +23,15 @@ export class ThemeService {
   }
 
   private loadTheme(): void {
-    // Try to load the theme from localStorage
+    //load the theme from localStorage
     const storedTheme = localStorage.getItem(this.themeKey);
     
-    // If no theme is stored, use system preference
+    //if no theme is stored use system pref
     if (storedTheme === null) {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       document.body.classList.toggle('dark', prefersDark);
       localStorage.setItem(this.themeKey, prefersDark ? 'dark' : 'light');
     } else {
-      // Apply the stored theme
       document.body.classList.toggle('dark', storedTheme === 'dark');
     }
   }

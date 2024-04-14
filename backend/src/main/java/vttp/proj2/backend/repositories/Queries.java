@@ -157,6 +157,7 @@ public class Queries {
                 SELECT * FROM user_progress 
                 WHERE userId = ? AND curriculumId = ?
             """;
+
     //finding friends
     public static final String SQL_FIND_FRIENDS_BY_EMAIL = """
                 SELECT *
@@ -238,12 +239,53 @@ public class Queries {
                 SET role = ? 
                 WHERE userId = ?
             """;
-    //ADD SUBSCRIPTION
+    //add subscription
     public static final String SQL_SUBSCRIPTION_INSERT = """
                 INSERT INTO subscriptions (userId, subscriptionType, startDate, endDate, status, autoRenew, lastPaymentDate, nextPaymentDate) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """;
+    //subscription - find all active premium users
+    public static final String SQL_SUBSCRIPTION_GET_ACTIVE_PREMIUM = """
+                SELECT s.userId, t.chatId
+                FROM subscriptions s
+                JOIN telegram_chats t ON s.userId = t.userId
+                WHERE s.subscriptionType = 'PREMIUM' AND s.status = 'ACTIVE'
+            """;
     
-    
+    //telegram chats 
+    //insert - new tele chatId
+    public static final String SQL_TELEGRAM_FIND_CHATID_BY_USERID = """
+                SELECT chatId 
+                FROM telegram_chats 
+                WHERE userId = ?
+            """;
+    public static final String SQL_TELEGRAM_CREATE_NEW_ID= """
+                INSERT INTO telegram_chats (userId, chatId) 
+                VALUES (?, ?)
+            """;
+    public static final String SQL_TELEGRAM_UPDATE_ID = """
+                UPDATE telegram_chats SET chatId = ? 
+                WHERE userId = ?
+            """;
+    public static final String SQL_TELEGRAM_SET_LINKCODE = """
+                UPDATE user_info
+                SET linkCode = ? 
+                WHERE userId = ?
+            """;
+    public static final String SQL_TELEGRAM_VERIFY_LINKCODE = """
+                SELECT userId, email, telegram_user_id 
+                FROM user_info 
+                WHERE email = ? AND linkCode = ?
+            """;
+    public static final String SQL_TELEGRAM_FIND_USERID_BY_CHATID = """
+                SELECT userId 
+                FROM telegram_chats 
+                WHERE chatId = ?
+            """;
+    public static final String SQL_TELEGRAM_GET_COURSES = """
+                SELECT title 
+                FROM registered_courses 
+                WHERE userId = ?
+            """;
 }
 

@@ -21,6 +21,7 @@ import { CreateThreadComponent } from './components/forum/contents/create-thread
 import { IndividualThreadComponent } from './components/forum/contents/individual-thread.component';
 import { EditPasswordComponent } from './components/user-profile/contents/edit-password.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { TelegramComponent } from './components/telegram/telegram.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -74,6 +75,9 @@ const routes: Routes = [
   },
   {path: 'calendar', component:CalendarComponent,
     canActivate: [ isLoggedIn ]
+  },
+  {path: 'telegram', component:TelegramComponent,
+    canActivate: [ isSubscriber ]
   },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];

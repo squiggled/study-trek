@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vttp.proj2.backend.models.CourseNote;
-import vttp.proj2.backend.models.Curriculum;
 import vttp.proj2.backend.models.UserProgress;
 import vttp.proj2.backend.services.CourseProgressService;
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.NonNull;
 import vttp.proj2.backend.dtos.UserAmendDetailsDTO;
 import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.exceptions.UserAddFriendException;
@@ -161,6 +162,6 @@ public class UserService {
         }
         return dto;
     }
-    
+
 
 }

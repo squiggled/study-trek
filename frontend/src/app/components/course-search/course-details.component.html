@@ -28,7 +28,7 @@
                   <th class=" text-lg text-center text-black dark:text-white border-b border-gray-200 dark:border-gray-600">Completed</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngIf="(curriculumDisplayItems$ | async)?.length; else noLectures">
                 <tr *ngFor="let item of curriculumDisplayItems$ | async ; let i = index">
                   <td class="border-b border-gray-200 dark:border-gray-600">
                     <label>
@@ -47,6 +47,11 @@
                 </tr>
               </tbody>
             </table>
+            <ng-template #noLectures>
+              <div class="text-center text-lg text-black dark:text-white py-4">
+                No Lectures Available
+              </div>
+            </ng-template>
           </div>
         </div>
         
@@ -73,7 +78,7 @@
         <!-- enrollment status or action button-->
         <ng-container *ngIf="isLoggedIn">
           <ng-container *ngIf="isUserEnrolledLS else notEnrolled">
-            <div class="mt-4 w-full bg-green-100 text-green-800 py-2 rounded-md text-bold text-center">
+            <div class="mt-4 w-full bg-teal-300 text-black py-2 rounded-md text-bold text-center">
               Enrolled
             </div>
           </ng-container>
@@ -83,7 +88,6 @@
             </button>
           </ng-template>
         </ng-container>
-        
         <a [href]="courseDetails.urlToCourse" target="_blank" rel="noopener noreferrer" class="mt-4 w-full inline-block text-center btn btn-secondary text-white py-2 rounded-md" style="padding-top: 15px; padding-bottom: 10px">
           View on {{ displayPlatformName(courseDetails.platform) }}
         </a>

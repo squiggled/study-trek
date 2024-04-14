@@ -1,5 +1,8 @@
 package vttp.proj2.backend.services;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,10 @@ public class SubscriptionService {
         }
 
         return true;
+    }
+
+    public List<Map<String, Object>> getActivePremiumUserDetails() {
+        return subscriptionRepo.findActivePremiumUserDetails();
     }
     
 }

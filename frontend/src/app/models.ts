@@ -73,6 +73,8 @@ export interface AccountDetails {
   lastName: string;
   profilePicUrl: string;
 
+  telegramChatId?:number;
+
   interests: string[];
   courseNotes: string[];
   registeredCourses: CourseDetails[];

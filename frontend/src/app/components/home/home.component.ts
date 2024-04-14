@@ -98,5 +98,8 @@ export class HomeComponent implements OnInit{
   resetFilters(): void {
     this.homepageCourseListingStore.resetFilter();
   }
+  testClick() {
+    console.log('Click event triggered');
+  }
 
 }

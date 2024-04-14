@@ -115,7 +115,7 @@ export class UserService {
     
     return this.httpClient.put<UserPartialUpdate>(`/api/user/${userId}/profile`, updatedDetails, { headers: this.addTokenToHeader() })
       .pipe(
-        map(response => response as UserPartialUpdate), // Cast the response to UserPartialUpdate
+        map(response => response as UserPartialUpdate), 
         tap((response: UserPartialUpdate) => {
           this.userSessionStore.updateUserPartialDetails(response);
         })

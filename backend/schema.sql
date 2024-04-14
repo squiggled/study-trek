@@ -110,7 +110,7 @@ CREATE TABLE subscriptions (
     startDate DATE,
     endDate DATE,
     status ENUM('ACTIVE', 'CANCELLED', 'EXPIRED') NOT NULL,
-    autoRenew BOOLEAN DEFAULT TRUE, -- Indicates whether the subscription auto-renews
+    autoRenew BOOLEAN DEFAULT TRUE, 
     lastPaymentDate TIMESTAMP,
     nextPaymentDate TIMESTAMP,
     FOREIGN KEY (userId) REFERENCES user_info(userId)
@@ -127,6 +127,19 @@ CREATE TABLE calendar_events (
         FOREIGN KEY (userId) 
         REFERENCES user_info(userId)
 );
+
+CREATE TABLE telegram_chats (
+    userId VARCHAR(8) PRIMARY KEY,        
+    chatId BIGINT NOT NULL,           
+    last_interaction TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES user_info(userId)
+);
+
+ALTER TABLE user_info
+ADD COLUMN telegram_user_id BIGINT;
+
+ALTER TABLE user_info
+ADD COLUMN linkCode VARCHAR(255);
 
 grant all privileges on study_trek.* to 'newuser'@'%';
 flush privileges;

@@ -15,23 +15,25 @@ public class AccountInfo {
     private String firstName;
     private String lastName;
     private String profilePicUrl;
-    
+
+    private Long telegramChatId;
+
     private List<String> interests;
     private List<CourseDetails> registeredCourses;
     private List<String> friendIds = new ArrayList<>();
     private List<Notification> notifications = new ArrayList<>();
-    
+
     private String role;
 
     public AccountInfo() {
         UUID uuid = UUID.randomUUID();
-        this.userId = uuid.toString().substring(0, 8);       
+        this.userId = uuid.toString().substring(0, 8);
     }
 
     public String getUserId() {
         return userId;
     }
-    
+
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -122,6 +124,14 @@ public class AccountInfo {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public Long getTelegramChatId() {
+        return telegramChatId;
+    }
+
+    public void setTelegramChatId(Long telegramChatId) {
+        this.telegramChatId = telegramChatId;
     }
 
 }

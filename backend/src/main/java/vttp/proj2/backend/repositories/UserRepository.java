@@ -3,13 +3,16 @@ package vttp.proj2.backend.repositories;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import vttp.proj2.backend.dtos.AccountInfoDTO;
 import vttp.proj2.backend.dtos.UserAmendDetailsDTO;
 import vttp.proj2.backend.exceptions.UserAddCourseException;
 import vttp.proj2.backend.exceptions.UserAddFriendException;
@@ -458,6 +461,15 @@ public class UserRepository {
         curr.setLectureNumber(rs.getInt("lectureNumber"));
         curr.setTitle(rs.getString("title"));
         return curr;
+    }
+
+    public Optional<String> findUserIdByChatId(Long chatId) {
+        SqlRowSet rs = template.queryForRowSet(Queries.SQL_TELEGRAM_FIND_USERID_BY_CHATID, chatId);
+        if (rs.next()){
+            String userId = rs.getString("userId");
+            return Optional.ofNullable(userId);
+        }
+        return Optional.empty();  
     }
 
 }

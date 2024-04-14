@@ -35,7 +35,7 @@ export class SubscriptionService {
           email:email,
           successUrl: this.sucessUrl,
           cancelUrl: this.cancelUrl,
-          // priceId: "price_1OyGWhRovknRUrZ7YpWqQpuK", // Your Stripe price ID
+          // priceId: "price_1OyGWhRovknRUrZ7YpWqQpuK", // stripe price ID
         },
         {
           headers: this.addTokenToHeader(),
