@@ -86,7 +86,7 @@ public void onUpdateReceived(Update update) {
 
     //parse commands
     private void sendStartMessage(Long chatId) {
-        String welcomeText = "Welcome! Please log in at <a href=\"http://localhost:4200/#/telegram\">http://localhost:4200/#/telegram</a> and enter the code provided to link your Telegram account.";
+        String welcomeText = "Welcome! Please log in at <a href=\"https://study-trek.up.railway.app/#/telegram\">https://study-trek.up.railway.app/#/telegram</a> and enter the code provided to link your Telegram account.";
         sendMessage(chatId, welcomeText);
     }
 

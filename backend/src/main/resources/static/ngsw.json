@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1712999319475,
+  "timestamp": 1713117726061,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,10 +13,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-ZDTLMDOW.js",
+        "/main-TCOH7W77.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-NFJ6PXGC.css"
+        "/styles-KTFI2PVG.css"
       ],
       "patterns": []
     },
@@ -28,6 +28,7 @@
         "ignoreVary": true
       },
       "urls": [
+        "/assets/background-subscribe.png",
         "/assets/banner-home-1.png",
         "/assets/banner-home-2.png",
         "/assets/banner-home-3.png",
@@ -59,6 +60,9 @@
         "/assets/icons/icon-512x512.png",
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
+        "/assets/image-chatbot.png",
+        "/assets/image-community.png",
+        "/assets/image-computer.png",
         "/assets/logo-coursera.png",
         "/assets/logo-defaultuser.png",
         "/assets/logo-edX.png",
@@ -71,10 +75,11 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/assets/banner-home-1.png": "9f3302f460fa246d6e5f0cded43eaf5e2ef0869f",
-    "/assets/banner-home-2.png": "0a2eba43b631e6eaea2315c6a37ca8f045c30ded",
-    "/assets/banner-home-3.png": "e2341ac92023db8961f1d1a98fb9aac508db2444",
-    "/assets/banner-home-4.png": "665773543c79dad1d2029a2fa294cf8571d44d72",
+    "/assets/background-subscribe.png": "b81747c4b04a742eee382bc32f620d8d6dfc0429",
+    "/assets/banner-home-1.png": "37a51997e1aafbed9aa2a8c71171b259877912f0",
+    "/assets/banner-home-2.png": "b748e2384bf6e1134e2b5aa3899f97646d71ded1",
+    "/assets/banner-home-3.png": "53ce3f68d04d755365ffff00de7b533238ec9676",
+    "/assets/banner-home-4.png": "406b4e39a62f2535678f1669f82112587750dbae",
     "/assets/banner-home.png": "c0552585120b33bde1b6805286402c9aeb73b804",
     "/assets/banner-login.gif": "3f9414c5f5fc3ddefe6f3f597a9a0b6e1842d057",
     "/assets/banner-schedule.png": "3c474c9f601352ab9c594703804c0dbd6bb8c987",
@@ -102,18 +107,21 @@
     "/assets/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/assets/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/assets/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/assets/image-chatbot.png": "c61736a03a3e558ead9b09889c325184ea02c863",
+    "/assets/image-community.png": "6b8a2a8a400809c4cd7c6dfe239ad763defdf29d",
+    "/assets/image-computer.png": "0c2a6fb2df78cb79847c4b3e5b2ff7ed56c2f8ab",
     "/assets/logo-coursera.png": "44c779831222202f38afa04a38a6790a9365f9c9",
     "/assets/logo-defaultuser.png": "d83924c293318e216f8bd147994fabf517a4423b",
     "/assets/logo-edX.png": "4afa1adb23eab3385064d4b6533330cfad166695",
     "/assets/logo-openai.png": "dcfbccc017fe6bbe64fe50ded0244c7eb37798f9",
     "/assets/logo-studytrek.png": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
     "/assets/logo-udemy.png": "81b787f40aaf1ba76a42e7dc9a84f949cfd4214b",
-    "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/index.html": "0c60bf163a431d4ca2e237c33c9f3b88d606b975",
-    "/main-ZDTLMDOW.js": "93612eb29c03e70a98e5ea41a12d561325fac5a8",
+    "/favicon.ico": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
+    "/index.html": "faa03dfbdac1fbdeb5e40419d597895f9406f589",
+    "/main-TCOH7W77.js": "fa0828a78a04a6628db7494ae8cedf1e9e09297c",
     "/manifest.webmanifest": "63b272452f7323ec09705c84044faa394ce82a79",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-NFJ6PXGC.css": "96cc959584843b8ddb0ff9a13804087bbec72363"
+    "/styles-KTFI2PVG.css": "9cd0de35a0b28df5bfd62451bfa6a0fee75dedf6"
   },
   "navigationUrls": [
     {

@@ -1,8 +1,26 @@
-<h2>Your Telegram Linking Code</h2>
-  <p>Here is your unique code to link your Telegram account:</p>
-  <div class="code-box">
-    {{ linkCode }}
+<div class="main-content">
+  <div class="min-h-screen flex items-center justify-center -mt-12">
+    <div class="flex flex-wrap w-full lg:max-w-4xl shadow-lg rounded-lg overflow-hidden">
+      <!-- Text Container -->
+      <div class="w-full md:w-1/2 p-6 flex flex-col justify-center bg-white dark:bg-zinc-900">
+        <div class="p-4">
+          <h2 class="text-2xl font-semibold text-sky-500">Your Telegram Link Code</h2>
+          <p class="mt-2 text-gray-800 dark:text-white">Here is your unique code to link your Telegram account:</p>
+          <div class="p-3 mt-3 bg-gray-100 rounded text-lg font-semibold font-mono text-center text-indigo-600">
+            {{ linkCode }}
+          </div>
+          <p class="mt-4 text-gray-800 dark:text-white">Access the bot here: <a href="https://t.me/studytrekbot" class="text-indigo-600 hover:text-blue-600">https://t.me/studytrekbot</a></p>
+          <p class="mt-2 text-gray-800 dark:text-white">Open your Telegram app and login using the /link command in this format:</p>
+          <div class="bg-gray-50 p-2 rounded mt-2">
+            <p class="text-center font-mono text-indigo-600">/link code email</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Image Container -->
+      <div class="w-full md:w-1/2 h-96 bg-cover bg-center" style="background-image: url('assets/image-computer.png');">
+      </div>
+    </div>
   </div>
-  <p>Open your Telegram app and send this code to the bot using the <strong>/link</strong> command in this format:</p>
-  <p> <strong>/link</strong> your-link-code your-email</p>
-
+  
+</div>

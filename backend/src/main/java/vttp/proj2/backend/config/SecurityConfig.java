@@ -45,10 +45,10 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        // auth.requestMatchers("/**").permitAll()
-                        //         .anyRequest().authenticated()
-                        auth.requestMatchers("/api/auth/login", "/api/auth/register", "/api/courses/**", "/api/course/**").permitAll()
+                        auth.requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated()
+                        // auth.requestMatchers("/", "/api/auth/login", "/api/auth/register", "/api/courses/**", "/api/course/**").permitAll()
+                        //         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsSvc)
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
