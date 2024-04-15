@@ -55,6 +55,7 @@ public class CourseProgressController {
 
     @GetMapping("/courses/{courseId}/notes/latest")
     public ResponseEntity<CourseNote> getLatestNoteForCourse(@PathVariable String courseId) {
+        System.out.println("CourseProgressController: Retrieving latest note for courseId " + courseId );
         CourseNote latestNote = courseProgressSvc.getLatest(courseId);
         if (latestNote != null) {
             return ResponseEntity.ok(latestNote);

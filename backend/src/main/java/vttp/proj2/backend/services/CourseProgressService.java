@@ -31,6 +31,7 @@ public class CourseProgressService {
     }
 
     public CourseNote getLatest(String courseId){
+        System.out.println("CourseProgressService: Endpoint reached, retrieving latest note");
         CourseNote lastNote = courseProgressRepo.getLatest(courseId);
         if (lastNote==null) return null;
         return lastNote;
