@@ -1,5 +1,7 @@
 # Study Trek
 
+![Study Trek Logo](frontend/src/assets/logo-studytrek.png)
+
 Study Trek is an educational platform designed to help users navigate their learning journey efficiently. Built with Angular for the frontend and Spring Boot for the backend, we offer a robust solution for managing courses across various education platforms and study materials. We foster a community-centric approach, allowing users to add friends and engage in discussions via a forum, promoting collaborative learning.
 
 ## Table of Contents
