@@ -69,8 +69,10 @@ public class SubscriptionRepository {
             user.setEmail(rs.getString("email"));
             user.setTelegramId(rs.getLong("telegram_user_id"));
             user.setUserId(rs.getString("userId"));
+            System.out.println("Link code verified for user: " + user.getUserId());
             return Optional.of(user);
         }
+        System.out.println("No matching record found for link code: " + linkCode + " and email: " + email);
         return Optional.empty();
     }
 

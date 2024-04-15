@@ -149,7 +149,7 @@ body {
     min-height: 100vh;
 }
 
-input, select, textarea, button {
+input, select, textarea, .main-content, button {
     background-color: var(--background-color);
     color: var(--text-color);
 }

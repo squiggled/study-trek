@@ -1,15 +1,14 @@
 <div class="main-content">
-  <div class="pt-20 dark:bg-zinc-900 bg-white">
-    <div class="chat-container mx-auto max-w-md px-2 py-2 dark:bg-zinc-900 bg-white shadow-lg rounded-lg">
-      <!-- Chat header-->
+  <div class="pt-10 dark:bg-zinc-900 bg-white">
+    <div class="chat-container mx-auto max-w-md px-2 py-2 dark:bg-zinc-900 bg-white shadow-lg rounded-lg" style="max-width: 80%; width: 768px;">
+      <!-- header-->
       <div class="chat-header text-center text-2xl font-bold mb-2 text-black dark:text-white">
         Study Trek Course Navigator
         <hr class="mt-2">
       </div>
       
-      <!-- Chat body -->
+      <!-- body -->
       <div class="chat-body overflow-auto max-h-96 mb-4">
-        <!-- Dynamic chat bubbles for both user and system messages -->
         <div *ngFor="let message of messages" [ngClass]="{
           'chat chat-start ': !message.user, 'chat chat-end': message.user
         }" class="mb-2">
@@ -27,13 +26,17 @@
   
       <!-- Chat form -->
       <form [formGroup]="openAIForm" (ngSubmit)="processSubmit()" class="chat-form">
-        <div class="mb-2 text-black dark:text-white">
-          I am looking for 
-          <input type="number" formControlName="number" placeholder="Enter a number" class="form-input rounded-md shadow-sm">
-          course(s) on:
+        <div class="flex flex-wrap items-center mb-2">
+          <label class="flex-grow mr-2">
+            I am looking for
+            <input type="number" formControlName="number" placeholder="Enter a number" class="form-input w-full rounded-md shadow-sm">
+          </label>
+          <label class="flex-grow mr-2">
+            course(s) on:
+            <input type="text" formControlName="query" placeholder="I want to learn about..." class="form-input w-full rounded-md shadow-sm">
+          </label>
         </div>
-        <input type="text" formControlName="query" placeholder="I want to learn about..." class="form-input rounded-md shadow-sm mb-2">
-        <button type="submit" class="w-full btn btn-primary">
+        <button type="submit" class="w-full btn btn-primary mt-2">
           Get recommendations
         </button>
       </form>
@@ -42,3 +45,29 @@
   </div>
   
 </div>
+<footer class="footer bg-zinc-800 text-neutral-content">
+  <div class="flex flex-col md:flex-row justify-between items-center w-full p-10">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+      <a href="/" class="mb-6 md:mb-0 flex items-center">
+        <img src="/assets/logo-studytrek.png" alt="Study Trek Logo" class="h-8">
+      </a>
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+        <nav>
+          <h6 class="footer-title">Member quick links</h6> 
+          <a [routerLink]="['/home/profile']" class="link link-hover block">My Account</a>
+          <a [routerLink]="['/home/my-courses']" class="link link-hover block">My Courses</a>
+          <a [routerLink]="['/calendar']" class="link link-hover block">Calendar</a>
+          <a [routerLink]="['/forum']" class="link link-hover block">Forum</a>
+        </nav> 
+        <nav>
+          <h6 class="footer-title">Premium subscribers</h6> 
+          <a [routerLink]="['/course-navigator']" class="link link-hover block">Course Navigator</a>
+          <a [routerLink]="['/telegram']" class="link link-hover block">Study Trek Telegram Bot</a>
+        </nav>
+      </div>
+    </div>
+    <div class="text-sm">
+      &copy; <script>document.write(new Date().getFullYear())</script> Study Trek, Inc.
+    </div>
+  </div>
+</footer>

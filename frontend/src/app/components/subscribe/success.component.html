@@ -1,36 +1,43 @@
-<div class="flex min-h-screen items-center" style="margin-top: -8rem">
-  <ng-container *ngIf="isSubscriber; else notSubscriberContent">
-    <div class="w-full flex flex-col justify-center items-center px-12 text-gray-700">
-      <h1 class="text-4xl font-bold mb-4">Welcome to Premium!</h1>
-      <p class="text-lg">
-        Congratulations on upgrading to the Premium Plan! You now have full access to all premium features including Course Navigator, lecture tracker, and lecture notes. Start exploring and enhance your learning experience.
-      </p>
-      <button (click)="exploreCourses()" class="btn btn-primary rounded-full px-8 py-3 text-white font-bold mb-4">Explore Courses</button>
-    </div>
-  </ng-container>
+<div class="flex min-h-screen items-center" style="margin-top: -2rem">
+  <!--text -->
+  <div class="w-2/3 flex flex-col justify-center items-center px-32 py-12 text-gray-700">
+    <h1 class="text-4xl font-bold mb-4 dark:text-white">Welcome to Premium!</h1>
+    <p class="text-lg dark:text-white mb-4">
+      Congratulations on upgrading to the Premium Plan! You now have full access to all premium features including Course Navigator and Study Buddy!
+    </p>
+    <button (click)="exploreCourses()" class="btn btn-secondary rounded-full px-8 py-3 justify-start text-white font-bold mb-4">
+      Explore Courses
+    </button>
+  </div>
 
-  <ng-template #notSubscriberContent>
-    <div class="w-1/2 flex flex-col justify-center px-12 text-gray-700">
-      <h1 class="text-4xl font-bold mb-4">Enhance Your Learning Experience</h1>
-      <p class="text-lg">
-        Join our community of learners and get access to premium features that will take your learning to the next level. Our Course Navigator, lecture tracker, and lecture notes features are designed to enhance your educational journey.
-      </p>
-    </div>
-
-    <div class="w-1/2 flex justify-center items-center">
-      <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-lg text-center">
-        <h2 class="text-2xl font-bold mb-4">PREMIUM PLAN</h2>
-        <p class="mb-8">
-          For $5 a month, gain access to Course Navigator, lecture tracker, and lecture notes features.
-        </p>
-        <button (click)="subscribe()" class="btn btn-secondary rounded-full px-8 py-3 text-white font-bold mb-4 w-full">
-          START YOUR PREMIUM SUBSCRIPTION
-        </button>
-        <p class="text-sm">
-          Digital Subscription. Billed monthly. Renews automatically each month. Cancel at any time.
-        </p>
+  <!-- image -->
+  <div class="w-1/3 flex justify-center items-center px-4 py-12">
+    <img src="/assets/image-sub-suc.png" alt="Premium Features" class="max-w-full ">
+  </div>
+</div>
+<footer class="footer bg-zinc-800 text-neutral-content">
+  <div class="flex flex-col md:flex-row justify-between items-center w-full p-10">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+      <a href="/" class="mb-6 md:mb-0 flex items-center">
+        <img src="/assets/logo-studytrek.png" alt="Study Trek Logo" class="h-8">
+      </a>
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+        <nav>
+          <h6 class="footer-title">Member quick links</h6> 
+          <a [routerLink]="['/home/profile']" class="link link-hover block">My Account</a>
+          <a [routerLink]="['/home/my-courses']" class="link link-hover block">My Courses</a>
+          <a [routerLink]="['/calendar']" class="link link-hover block">Calendar</a>
+          <a [routerLink]="['/forum']" class="link link-hover block">Forum</a>
+        </nav> 
+        <nav>
+          <h6 class="footer-title">Premium subscribers</h6> 
+          <a [routerLink]="['/course-navigator']" class="link link-hover block">Course Navigator</a>
+          <a [routerLink]="['/telegram']" class="link link-hover block">Study Trek Telegram Bot</a>
+        </nav>
       </div>
     </div>
-  </ng-template>
-</div>
-
+    <div class="text-sm">
+      &copy; <script>document.write(new Date().getFullYear())</script> Study Trek, Inc.
+    </div>
+  </div>
+</footer>

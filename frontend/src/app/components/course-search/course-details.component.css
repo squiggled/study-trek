@@ -24,6 +24,13 @@
 .show-title {
     @apply visible opacity-100 fixed top-0 left-0 w-full z-10 px-12 py-4 bg-white dark:bg-zinc-900;
     transition: opacity 0.3s ease-in-out;
-  }
+}
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    width: 100vw; 
+}
 
 

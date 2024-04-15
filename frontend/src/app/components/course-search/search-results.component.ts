@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CourseSearchStore } from '../../stores/search.store';
-import { Observable } from 'rxjs';
+import { Observable, finalize } from 'rxjs';
 import { CourseSearch, Platform } from '../../models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../../services/search.service';
@@ -26,6 +26,7 @@ export class SearchResultsComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 100;
   currentSort: string = 'Most relevant';
+  isLoading:boolean = false;
 
   constructor(private titleService: Title) { }
 
@@ -52,8 +53,12 @@ export class SearchResultsComponent implements OnInit {
     platform?: Platform,
     byRating?: string
   ): void {
+    this.isLoading = true;
     this.currentPage = page;
     this.searchSvc.querySearch(query, this.currentPage, platform, byRating);
+    setTimeout(() => {
+      this.isLoading = false; 
+    }, 1000);
   }
 
   filterBy(sortCriteria?: string) {

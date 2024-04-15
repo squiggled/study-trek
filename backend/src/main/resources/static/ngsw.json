@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1713117726061,
+  "timestamp": 1713170855259,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,10 +13,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-TCOH7W77.js",
+        "/main-VR46YAZL.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-KTFI2PVG.css"
+        "/styles-LQLGI3VH.css"
       ],
       "patterns": []
     },
@@ -63,6 +63,7 @@
         "/assets/image-chatbot.png",
         "/assets/image-community.png",
         "/assets/image-computer.png",
+        "/assets/image-sub-suc.png",
         "/assets/logo-coursera.png",
         "/assets/logo-defaultuser.png",
         "/assets/logo-edX.png",
@@ -110,6 +111,7 @@
     "/assets/image-chatbot.png": "c61736a03a3e558ead9b09889c325184ea02c863",
     "/assets/image-community.png": "6b8a2a8a400809c4cd7c6dfe239ad763defdf29d",
     "/assets/image-computer.png": "0c2a6fb2df78cb79847c4b3e5b2ff7ed56c2f8ab",
+    "/assets/image-sub-suc.png": "804e1f27b0c84fa55c062925ed0e13a4ac0e125d",
     "/assets/logo-coursera.png": "44c779831222202f38afa04a38a6790a9365f9c9",
     "/assets/logo-defaultuser.png": "d83924c293318e216f8bd147994fabf517a4423b",
     "/assets/logo-edX.png": "4afa1adb23eab3385064d4b6533330cfad166695",
@@ -117,11 +119,11 @@
     "/assets/logo-studytrek.png": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
     "/assets/logo-udemy.png": "81b787f40aaf1ba76a42e7dc9a84f949cfd4214b",
     "/favicon.ico": "d58c71dd08738691328bca6c2b9cd91f86c303c0",
-    "/index.html": "faa03dfbdac1fbdeb5e40419d597895f9406f589",
-    "/main-TCOH7W77.js": "fa0828a78a04a6628db7494ae8cedf1e9e09297c",
+    "/index.html": "682e7ac2cf82fe682686731e3cb43f3d12d8ab48",
+    "/main-VR46YAZL.js": "af882d01cecd946d09f9e9ccf4d4c8fec91c6405",
     "/manifest.webmanifest": "63b272452f7323ec09705c84044faa394ce82a79",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-KTFI2PVG.css": "9cd0de35a0b28df5bfd62451bfa6a0fee75dedf6"
+    "/styles-LQLGI3VH.css": "1af4033c98e2de01ffdd670e4aca128b758e9fcb"
   },
   "navigationUrls": [
     {

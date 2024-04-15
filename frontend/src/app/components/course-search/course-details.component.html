@@ -1,99 +1,106 @@
 <div class="main-content">
-  <div *ngIf="courseDetails$ | async as courseDetails" class="container mx-auto px-16 py-8">
-    <div class="flex gap-4">
-      <!-- left column -->
-      <div class="flex-grow w-2/3">
-        <div class="text-4xl font-bold text-black dark:text-white" [ngClass]="{'show-title': isScrolled, 'course-title-placeholder': !isScrolled}">
-          {{ courseDetails.title }}
-        </div>
-        <h2 class="text-2xl text-black dark:text-white">{{ courseDetails.headline }}</h2>
-        <div class="flex justify-between items-center mt-4">
-          <p class="text-lg text-black dark:text-white">Instructor: {{ courseDetails.instructor }}</p>
-          <img [src]="'assets/' + getPlatformLogo(courseDetails.platform)" 
-              alt="{{ courseDetails.platform }}" 
-              [class.bg-white]="isDarkMode"
-              class="max-h-8 mr-8"/>
-        </div>
-  
-        <!-- curriculum table -->
-        <div class="mt-4 border border-gray-200 dark:border-gray-300 dark:bg-zinc-900 rounded-lg p-4">
-          <h3 class="text-xl font-semibold text-black dark:text-white">Course Content</h3>
-          <div class="overflow-auto max-h-[450px]">
-            <table class="table w-full mt-2">
-              <thead>
-                <tr class="border-b border-gray-200 dark:border-gray-600">
-                  <th></th>
-                  <th class=" text-lg text-black dark:text-white border-b border-gray-200 dark:border-gray-600">Section</th>
-                  <th class="text-lg text-black dark:text-white border-b border-gray-200 dark:border-gray-600">Description</th>
-                  <th class=" text-lg text-center text-black dark:text-white border-b border-gray-200 dark:border-gray-600">Completed</th>
-                </tr>
-              </thead>
-              <tbody *ngIf="(curriculumDisplayItems$ | async)?.length; else noLectures">
-                <tr *ngFor="let item of curriculumDisplayItems$ | async ; let i = index">
-                  <td class="border-b border-gray-200 dark:border-gray-600">
-                    <label>
-                      <input type="checkbox" class="checkbox checkbox-secondary"
-                             [checked]="item.completed"
-                             (change)="toggleCompletion(item.curriculumId, !item.completed)">
-                    </label>
-                  </td>
-                  <td class="text-black dark:text-white border-b border-gray-200 dark:border-gray-600">{{ i + 1 }}</td> 
-                  <!-- <td class="text-black dark:text-white border-b border-gray-200 dark:border-gray-600">{{ item.lectureNumber }}</td> -->
-                  <td class="text-black dark:text-white border-b border-gray-200 dark:border-gray-600">{{ item.name }}</td>
-                  <td class="text-center text-black dark:text-white border-b border-gray-200 dark:border-gray-600">
-                    <div *ngIf="item.completed; else notCompleted">Yes</div>
-                    <ng-template #notCompleted>No</ng-template>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <ng-template #noLectures>
-              <div class="text-center text-lg text-black dark:text-white py-4">
-                No Lectures Available
-              </div>
-            </ng-template>
+  <div *ngIf="isLoading; else loadedContent" class="loading-indicator ">
+    <span class="loading text-secondary loading-spinner loading-lg mr-2"></span>
+    <h2 class="text-2xl dark:text-white">Fetching content...</h2>
+  </div>
+  <ng-template #loadedContent>
+    <div *ngIf="courseDetails$ | async as courseDetails" class="container mx-auto px-16 py-8">
+      <div class="flex gap-4">
+        <!-- left column -->
+        <div class="flex-grow w-2/3">
+          <div class="text-4xl font-bold text-black dark:text-white" [ngClass]="{'show-title': isScrolled, 'course-title-placeholder': !isScrolled}">
+            {{ courseDetails.title }}
+          </div>
+          <h2 class="text-2xl text-black dark:text-white">{{ courseDetails.headline }}</h2>
+          <div class="flex justify-between items-center mt-4">
+            <p class="text-lg text-black dark:text-white">Instructor: {{ courseDetails.instructor }}</p>
+            <img [src]="'assets/' + getPlatformLogo(courseDetails.platform)" 
+                alt="{{ courseDetails.platform }}" 
+                [class.bg-white]="isDarkMode"
+                class="max-h-8 mr-8"/>
+          </div>
+    
+          <!-- curriculum table -->
+          <div class="mt-4 border border-gray-200 dark:border-gray-300 dark:bg-zinc-900 rounded-lg p-4">
+            <h3 class="text-xl font-semibold text-black dark:text-white">Course Content</h3>
+            <div class="overflow-auto max-h-[450px]">
+              <table class="table w-full mt-2">
+                <thead>
+                  <tr class="border-b border-gray-200 dark:border-gray-600">
+                    <th></th>
+                    <th class=" text-lg text-black dark:text-white border-b border-gray-200 dark:border-gray-600">Section</th>
+                    <th class="text-lg text-black dark:text-white border-b border-gray-200 dark:border-gray-600">Description</th>
+                    <th class=" text-lg text-center text-black dark:text-white border-b border-gray-200 dark:border-gray-600">Completed</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="(curriculumDisplayItems$ | async)?.length; else noLectures">
+                  <tr *ngFor="let item of curriculumDisplayItems$ | async ; let i = index">
+                    <td class="border-b border-gray-200 dark:border-gray-600">
+                      <label>
+                        <input type="checkbox" class="checkbox checkbox-secondary"
+                               [checked]="item.completed"
+                               (change)="toggleCompletion(item.curriculumId, !item.completed)">
+                      </label>
+                    </td>
+                    <td class="text-black dark:text-white border-b border-gray-200 dark:border-gray-600">{{ i + 1 }}</td> 
+                    <!-- <td class="text-black dark:text-white border-b border-gray-200 dark:border-gray-600">{{ item.lectureNumber }}</td> -->
+                    <td class="text-black dark:text-white border-b border-gray-200 dark:border-gray-600">{{ item.name }}</td>
+                    <td class="text-center text-black dark:text-white border-b border-gray-200 dark:border-gray-600">
+                      <div *ngIf="item.completed; else notCompleted">Yes</div>
+                      <ng-template #notCompleted>No</ng-template>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <ng-template #noLectures>
+                <div class="text-center text-lg text-black dark:text-white py-4">
+                  No Lectures Available
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          
+          <!-- course notes shown if the user is logged in + enrolled -->
+          <div *ngIf="isLoggedIn && isUserEnrolledLS" class="mt-6">
+            <h3 class="text-xl font-semibold">Course Notes</h3>
+            <form [formGroup]="courseForm" (ngSubmit)="saveNote()">
+              <textarea formControlName="newNote" class="w-full p-2 border h-32 md:h-48 dark:focus:bg-zinc-950  focus:border-green-300" placeholder="Add a note..."></textarea>
+              <button type="submit" class="btn btn-primary mt-2">Save Note</button>
+            </form>
           </div>
         </div>
-        
-        <!-- course notes shown if the user is logged in + enrolled -->
-        <div *ngIf="isLoggedIn && isUserEnrolledLS" class="mt-6">
-          <h3 class="text-xl font-semibold">Course Notes</h3>
-          <form [formGroup]="courseForm" (ngSubmit)="saveNote()">
-            <textarea formControlName="newNote" class="w-full p-2 border h-32 md:h-48 dark:focus:bg-zinc-950  focus:border-green-300" placeholder="Add a note..."></textarea>
-            <button type="submit" class="btn btn-primary mt-2">Save Note</button>
-          </form>
-        </div>
-      </div>
+    
+        <!-- right column -->
+        <div class="w-1/3 sticky-column top-0 shadow-lg p-4" style="height: 50vh;">
+          <div *ngIf="isLoading else imageLoaded">
+            <div class="skeleton h-32 w-full"></div>
+          </div>
+          <ng-template #imageLoaded>
+            <img [src]="courseDetails.imageUrl" alt="Course Image" class="w-auto max-h-64 mb-2" />
   
-      <!-- right column -->
-      <div class="w-1/3 sticky-column top-0 shadow-lg" style="height: 66vh;">
-        <div *ngIf="isLoading else imageLoaded">
-          <div class="skeleton h-32 w-full"></div>
-        </div>
-        <ng-template #imageLoaded>
-          <img [src]="courseDetails.imageUrl" alt="Course Image" class="w-auto max-h-64 mb-2" />
-
-        </ng-template>
-        
-        <!-- enrollment status or action button-->
-        <ng-container *ngIf="isLoggedIn">
-          <ng-container *ngIf="isUserEnrolledLS else notEnrolled">
-            <div class="mt-4 w-full bg-teal-300 text-black py-2 rounded-md text-bold text-center">
-              Enrolled
-            </div>
-          </ng-container>
-          <ng-template #notEnrolled>
-            <button (click)="addCourseToList(courseDetails)" class="mt-4 w-full btn btn-accent text-base-100 py-2 rounded-md">
-              Add to Course List
-            </button>
           </ng-template>
-        </ng-container>
-        <a [href]="courseDetails.urlToCourse" target="_blank" rel="noopener noreferrer" class="mt-4 w-full inline-block text-center btn btn-secondary text-white py-2 rounded-md" style="padding-top: 15px; padding-bottom: 10px">
-          View on {{ displayPlatformName(courseDetails.platform) }}
-        </a>
+          
+          <!-- enrollment status or action button-->
+          <ng-container *ngIf="isLoggedIn">
+            <ng-container *ngIf="isUserEnrolledLS else notEnrolled">
+              <div class="mt-4 w-full bg-teal-300 text-black py-2 rounded-md text-bold text-center">
+                Enrolled
+              </div>
+            </ng-container>
+            <ng-template #notEnrolled>
+              <button (click)="addCourseToList(courseDetails)" class="mt-4 w-full btn btn-accent text-base-100 py-2 rounded-md">
+                Add to Course List
+              </button>
+            </ng-template>
+          </ng-container>
+          <a [href]="courseDetails.urlToCourse" target="_blank" rel="noopener noreferrer" class="mt-4 w-full inline-block text-center btn btn-secondary text-white py-2 rounded-md" style="padding-top: 15px; padding-bottom: 10px">
+            View on {{ displayPlatformName(courseDetails.platform) }}
+          </a>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-template>
+  
   
   <div *ngIf="showSuccessAddCourseNotification" role="alert" class="alert alert-success">
     <div class="toast toast-top toast-center">
@@ -120,3 +127,29 @@
   </div>
   
 </div>
+<footer class="footer bg-zinc-800 text-neutral-content">
+  <div class="flex flex-col md:flex-row justify-between items-center w-full p-10">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+      <a href="/" class="mb-6 md:mb-0 flex items-center">
+        <img src="/assets/logo-studytrek.png" alt="Study Trek Logo" class="h-8">
+      </a>
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+        <nav>
+          <h6 class="footer-title">Member quick links</h6> 
+          <a [routerLink]="['/home/profile']" class="link link-hover block">My Account</a>
+          <a [routerLink]="['/home/my-courses']" class="link link-hover block">My Courses</a>
+          <a [routerLink]="['/calendar']" class="link link-hover block">Calendar</a>
+          <a [routerLink]="['/forum']" class="link link-hover block">Forum</a>
+        </nav> 
+        <nav>
+          <h6 class="footer-title">Premium subscribers</h6> 
+          <a [routerLink]="['/course-navigator']" class="link link-hover block">Course Navigator</a>
+          <a [routerLink]="['/telegram']" class="link link-hover block">Study Trek Telegram Bot</a>
+        </nav>
+      </div>
+    </div>
+    <div class="text-sm">
+      &copy; <script>document.write(new Date().getFullYear())</script> Study Trek, Inc.
+    </div>
+  </div>
+</footer>

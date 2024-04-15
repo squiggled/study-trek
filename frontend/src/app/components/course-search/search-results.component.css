@@ -1,0 +1,6 @@
+a {
+    cursor: pointer;
+}
+.button, .clickable, [role="button"], div[onclick] {
+    cursor: pointer;
+}

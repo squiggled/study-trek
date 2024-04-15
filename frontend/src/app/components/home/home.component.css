@@ -27,3 +27,10 @@
   background-color: #18181b;
   color: #fff;
 }
+
+a {
+  cursor: pointer;
+}
+.button, .clickable, [role="button"], div[onclick] {
+  cursor: pointer;
+}
