@@ -17,7 +17,6 @@ public class CourseDetails {
     private CourseNote courseNotes;
     private List<Curriculum> curriculum;
     private boolean isEnrolled = false;
-    
 
     public CourseDetails() {
     }
@@ -134,4 +133,12 @@ public class CourseDetails {
         this.courseNotes = courseNotes;
     }
 
+    // @Override
+    // public String toString() {
+    //     return "CourseDetails{" +
+    //             "courseId=" + courseId +
+    //             ", title='" + title + '\'' +
+    //             ", platformId='" + platformId + '\'' +
+    //             '}';
+    // }
 }

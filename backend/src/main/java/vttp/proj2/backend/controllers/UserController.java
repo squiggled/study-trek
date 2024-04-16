@@ -47,10 +47,11 @@ public class UserController {
     @PostMapping("/{userId}/courses")
     public ResponseEntity<?> addCourse(@PathVariable String userId, @RequestBody CourseDetails courseDetails) {
         System.out.println(userId);
+        System.out.println("UserController " + courseDetails);
         try {
             CourseDetails addedCourseDetails = userSvc.addCourseAndInitializeProgress(userId, courseDetails,
                     courseDetails.getCurriculum());
-                    System.out.println("course details added " + courseDetails);
+                    System.out.println("course details added " + addedCourseDetails);
             return ResponseEntity.ok(addedCourseDetails);
         } catch (UserAddCourseException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

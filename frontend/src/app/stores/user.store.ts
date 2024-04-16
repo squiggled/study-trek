@@ -58,8 +58,6 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
     })
   );
 
- 
-
   resetState(): void {
     this.setState({
       accountDetails: defaultAccountDetails,
@@ -91,16 +89,16 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
   
   //adding courses
   readonly addCourseToUser = this.updater((state, newCourse: CourseDetails) => {
-    return {
+    const newState = {
       ...state,
       accountDetails: {
         ...state.accountDetails,
-        registeredCourses: [
-          ...state.accountDetails.registeredCourses,
-          newCourse,
-        ],
+        registeredCourses: [...state.accountDetails.registeredCourses, newCourse],
       },
     };
+    localStorage.setItem('enrolledCourses', JSON.stringify(newState.accountDetails.registeredCourses))
+    localStorage.setItem('accountDetails', JSON.stringify(newState.accountDetails));
+    return newState;
   });
 
   //checking if course exists
@@ -153,6 +151,5 @@ export class UserSessionStore extends ComponentStore<UserSessionSlice> {
       }
     }) as Observable<number>;
   };
-  
   
 }

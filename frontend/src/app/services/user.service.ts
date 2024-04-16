@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { ElementRef, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, tap, throwError, map} from 'rxjs';
 import { UserSessionStore } from '../stores/user.store';
 import { AccountDetails, CourseDetails, FriendInfo, FriendRequest, Notification, UserPartialUpdate } from '../models';
@@ -44,7 +44,13 @@ export class UserService {
   }
 
   addRegisteredCourseToUser(userId: string, courseDetails: CourseDetails): Observable<any> {
-    return this.httpClient.post(`/api/user/${userId}/courses`, courseDetails, { headers: this.addTokenToHeader() });
+    return this.httpClient.post<CourseDetails>(`/api/user/${userId}/courses`, courseDetails, { headers: this.addTokenToHeader() })
+    .pipe(
+      tap(response => console.log("Response from backend: ", response)),
+      catchError(error => {
+          console.error("Error adding course: ", error);
+          return throwError(() => new Error('Failed to add course'));
+      }));
   }
 
   //friends

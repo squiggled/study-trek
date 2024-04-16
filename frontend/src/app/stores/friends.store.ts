@@ -45,7 +45,7 @@ export class FriendListStore extends ComponentStore<FriendListSlice> {
           error => console.error('Error loading friends:', error)
       );
   }
-    // Selector to get the friend list from the state
+    //selector to get the friend list from the state
     readonly friendList$: Observable<FriendInfo[]> = this.select(state => state.friendList);
 }
 

@@ -15,22 +15,23 @@ Study Trek is an educational platform designed to help users navigate their lear
 - [Image Credits](#image-credits)
 
 ## Main Features
-- **🔎 Course Search**: Gain access to 50,000+ courses across Udemy and Coursera, all in one place. 
+- **🔎 Course Search**: Gain access to 50,000+ courses from Udemy and Coursera in tech, design, and business, all in one place. 
 - **💻 Study Hub Forum**: Engage in discussions with a community of learners.
-- **👭 Find Your Friends**: Add friends to see what courses they're learning.
+- **👭 Find Your Friends**: If you want to go far, go together; add friends to see what they're learning.
 - **💯 Progress Tracker**: Check off lectures to track course progress.
 - **📝 Note Taker**: Add personalised notes for all courses taken.
 - **🗓️ Interactive Calendar**: Plan and schedule study sessions and course deadlines efficiently.
-- **🌚 Dark Mode Toggle**: Alleviating eye strain 👀. Also, it looks better.
-- **💳 Stripe Integration**: To handle premium subscriptions. 
+- **🌚 Dark Mode Toggle**: Alleviating eye strain 👀. Also, it just looks better.
+- **💳 Stripe Integration**: Make payments safely and securely using Stripe API. 
 
-## Premium Membership Features
+## Premium Features
 - **🤖 AI Course Navigator**: Get personalised course recommendations powered by OpenAI.
 - **💬 Study Buddy Telegram Bot**: A bot to send reminders and for accessing Course Navigator at your fingertips.
 
-## Security Features
+## Security and Performance Features
 - **Authentication and Authorization**: Utilizes JWT for secure authentication and authorization to protect user sessions and sensitive data.
 - **Data Encryption**: Sensitive user data is encrypted using hashing to ensure privacy and security.
+- **Caffine Cache**: High-performance caching library to reduce calls to external APIs, improving loading times and app performance.
 
 ## Usage 
 

@@ -28,13 +28,13 @@ import { Curriculum } from "../models";
             let items = this._curriculumItems.getValue();
             let index = items.findIndex(item => item.curriculumId === curriculumId);
             if (index !== -1) {
-              items[index].completed = !items[index].completed; // Optimistic toggle
+              items[index].completed = !items[index].completed; 
               this._curriculumItems.next([...items]);
             }
           }),
           catchError(error => {
             console.error('Could not update curriculum completion.', error);
-            throw error; // Rethrow or handle accordingly if you want to notify the component of the error
+            throw error; 
           })
         );
       }

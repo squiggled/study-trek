@@ -53,15 +53,19 @@
                 </tbody>
               </table>
               <ng-template #noLectures>
-                <div class="text-center text-lg text-black dark:text-white py-4">
-                  No Lectures Available
-                </div>
+                <tr>
+                  <td colspan="4" class="text-center text-lg text-black dark:text-white py-4">
+                    Save the course to see course content.
+                  </td>
+                </tr>
               </ng-template>
+              
             </div>
           </div>
           
           <!-- course notes shown if the user is logged in + enrolled -->
-          <div *ngIf="isLoggedIn && isUserEnrolledLS" class="mt-6">
+          <!-- <div *ngIf="isLoggedIn && isUserEnrolledLS" class="mt-6"> -->
+            <div *ngIf="isLoggedIn && (isUserEnrolled$ | async)" class="mt-6">
             <h3 class="text-xl font-semibold">Course Notes</h3>
             <form [formGroup]="courseForm" (ngSubmit)="saveNote()">
               <textarea formControlName="newNote" class="w-full p-2 border h-32 md:h-48 dark:focus:bg-zinc-950  focus:border-green-300" placeholder="Add a note..."></textarea>
@@ -82,7 +86,9 @@
           
           <!-- enrollment status or action button-->
           <ng-container *ngIf="isLoggedIn">
-            <ng-container *ngIf="isUserEnrolledLS else notEnrolled">
+            <!-- <ng-container *ngIf="isUserEnrolledLS else notEnrolled"> -->
+              <ng-container *ngIf="(isUserEnrolled$ | async) else notEnrolled">
+
               <div class="mt-4 w-full bg-teal-300 text-black py-2 rounded-md text-bold text-center">
                 Enrolled
               </div>
@@ -102,15 +108,15 @@
   </ng-template>
   
   
-  <div *ngIf="showSuccessAddCourseNotification" role="alert" class="alert alert-success">
+  <div *ngIf="showSuccessAddCourseNotification">
     <div class="toast toast-top toast-center">
       <div class="alert alert-success">
-        <span>Successfully added to list</span>
+        <span>Successfully added course. Hit refresh to start saving notes!</span>
       </div>
     </div>
   </div>
   
-  <div *ngIf="showSuccessSaveNoteNotification" role="alert" class="alert alert-success">
+  <div *ngIf="showSuccessSaveNoteNotification" >
     <div class="toast toast-top toast-center">
       <div class="alert alert-success">
         <span>Successfully saved course notes</span>
@@ -149,7 +155,7 @@
       </div>
     </div>
     <div class="text-sm">
-      &copy; <script>document.write(new Date().getFullYear())</script> Study Trek, Inc.
+      &copy; {{year}} Study Trek, Inc.
     </div>
   </div>
 </footer>

@@ -53,7 +53,7 @@ public class SubscriptionRepository {
                 int updated = template.update(Queries.SQL_TELEGRAM_UPDATE_ID, newChatId, userId);
                 return updated > 0;  //true if the update was successful.
             }
-            return false; 
+            return true; 
         } else {
             // if no chatID exists, insert new one
             int inserted = template.update(Queries.SQL_TELEGRAM_CREATE_NEW_ID, userId, newChatId);

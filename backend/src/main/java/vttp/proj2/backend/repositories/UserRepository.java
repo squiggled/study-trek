@@ -204,7 +204,7 @@ public class UserRepository {
     @Transactional(rollbackFor = UserAddCourseException.class)
     public CourseDetails addCourseAndInitializeProgress(String userId, CourseDetails courseDetails,
             List<Curriculum> curriculumList) throws UserAddCourseException {
-        System.out.println("platform " + courseDetails.getPlatform().toString());
+        System.out.println("courseDetails " + courseDetails);
         template.update(Queries.SQL_USER_ADD_REGISTERED_COURSE, userId, courseDetails.getPlatform().toString(),
                 courseDetails.getPlatformId(), courseDetails.getTitle(),
                 courseDetails.getHeadline(), courseDetails.getImageUrl(), courseDetails.getUrlToCourse(),
@@ -225,6 +225,7 @@ public class UserRepository {
         SqlRowSet rs = template.queryForRowSet(Queries.SQL_USER_GET_NEW_REGISTERED_COURSE, userId);
         if (rs.next()) {
             CourseDetails newCourse = mapRowToCourseDetails(rs);
+            System.out.println("new course added "+ newCourse);
             return newCourse;
         } else {
             return null;

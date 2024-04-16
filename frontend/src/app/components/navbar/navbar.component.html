@@ -57,12 +57,11 @@
       </svg>
     </label>
 
-    <!-- Bell Icon -->
+    <!-- bell icon -->
     <div
       *ngIf="isLoggedIn$ | async"
       class="relative profile-dropdown flex items-center -ml-2 space-x-2"
     >
-      <!-- bell -->
       <div class="dropdown dropdown-hover">
         <button class="btn btn-square btn-ghost">
           <svg
@@ -158,7 +157,7 @@
       </button>
     </div>
 
-    <!-- User Profile Picture -->
+    <!-- user pix -->
     <div *ngIf="isLoggedIn$ | async" class="dropdown dropdown-bottom dropdown-end dropdown-hover ">
       <div tabindex="0" class="avatar cursor-pointer">
         <div *ngIf="userProfilePicUrl$ | async as userProfilePicUrl" class="w-8 rounded-full">

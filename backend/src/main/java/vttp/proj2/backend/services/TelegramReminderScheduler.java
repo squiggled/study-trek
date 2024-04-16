@@ -13,7 +13,7 @@ public class TelegramReminderScheduler {
     @Autowired
     private TelegramBotService telegramBotSvc;
 
-    @Scheduled(cron = "0 0 3 * * ?")  //daily at 11am
+    @Scheduled(cron = "0 0 6 * * ?") 
     public void sendDailyReminders() {
         subscriptionSvc.getActivePremiumUserDetails().forEach(userDetails -> {
             Long chatId = (Long) userDetails.get("chatId");
