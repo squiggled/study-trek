@@ -1,11 +1,11 @@
 <div class="main-content">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Back button -->
+    <!-- back button -->
     <div class="flex justify-between items-center dark:mt-6">
       <button (click)="goBack()" class="btn btn-accent btn-outline font-sohne text-light">Back</button>
     </div>
   
-    <!-- Thread title  -->
+    <!-- title  -->
     <div *ngIf="thread$ | async as thread; else notFound">
       <div class="flex items-center gap-2 mt-6">
         <svg
@@ -27,7 +27,7 @@
   
       <div class="divider"></div>
   
-      <!-- Thread content and user details -->
+      <!-- content and user details -->
       <div class="bg-white dark:bg-zinc-900 text-black dark:text-white p-6 mt-4">
         <div class="flex">
           <img
@@ -46,7 +46,7 @@
           </div>
         </div>
   
-        <!-- Reply button  -->
+        <!-- reply button  -->
         <div class="flex justify-end mt-4 ">
           <button class="btn btn-accent btn-outline" (click)="toggleReplyForm()">
             <svg
@@ -69,7 +69,7 @@
         <div class="divider"></div>
       </div>
   
-      <!-- Messages -->
+      <!-- msgs -->
       <div class="mt-2" *ngFor="let message of thread.messages">
         <div class="p-4 rounded-lg">
           <div class="flex">
@@ -95,7 +95,7 @@
       </div>
     </div>
   
-    <!-- Reply Form  -->
+    <!-- replyform  -->
     <div *ngIf="isReplyFormVisible" class="reply-modal px-4 sm:px-6 lg:px-8 dark:bg-zinc-700 bg-white shadow-lg dark:shadow-gray-700/50 border-t-lime-200">
       <div *ngIf="thread$ | async as thread; else notFound">
         <div class="flex items-center gap-2 text-black dark:text-white dark:bg-zinc-700 bg-white ">

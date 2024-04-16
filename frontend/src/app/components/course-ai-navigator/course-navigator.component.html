@@ -30,10 +30,22 @@
           <label class="flex-grow mr-2">
             I am looking for
             <input type="number" formControlName="number" placeholder="Enter a number" class="form-input w-full rounded-md shadow-sm">
+            <div *ngIf="openAIForm.get('number')?.errors && openAIForm.get('number')?.touched">
+              <small class="text-red-500">
+                <span *ngIf="openAIForm.get('number')?.errors?.['required']">Enter a minimum number of courses.</span>
+                <span *ngIf="openAIForm.get('number')?.errors?.['min']">Number must be at least 1.</span>
+                <span *ngIf="openAIForm.get('number')?.errors?.['max']">Number must not exceed 10.</span>
+              </small>
+            </div>
           </label>
           <label class="flex-grow mr-2">
             course(s) on:
             <input type="text" formControlName="query" placeholder="I want to learn about..." class="form-input w-full rounded-md shadow-sm">
+            <div *ngIf="openAIForm.get('query')?.errors && openAIForm.get('query')?.touched">
+              <small class="text-red-500">
+                <span *ngIf="openAIForm.get('query')?.errors?.['required']">Please enter a query.</span>
+              </small>
+            </div>
           </label>
         </div>
         <button type="submit" class="w-full btn btn-primary mt-2">
