@@ -39,6 +39,9 @@ Study Trek is an educational platform designed to help users navigate their lear
   <img src="frontend/src/assets/screenshot-home.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
 </p>
 <p align="left">
+  <img src="frontend/src/assets/screenshot-home2.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
+</p>
+<p align="left">
   <img src="frontend/src/assets/screenshot-1.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
 </p>
 <p align="left">
@@ -49,6 +52,15 @@ Study Trek is an educational platform designed to help users navigate their lear
 </p>
 <p align="left">
   <img src="frontend/src/assets/screenshot-4.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
+</p>
+<p align="left">
+  <img src="frontend/src/assets/screenshot-5.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
+</p>
+<p align="left">
+  <img src="frontend/src/assets/screenshot-6.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
+</p>
+<p align="left">
+  <img src="frontend/src/assets/screenshot-7.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
 </p>
 
 ## Usage 
