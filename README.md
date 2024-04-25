@@ -33,20 +33,22 @@ Study Trek is an educational platform designed to help users navigate their lear
 - **Data Encryption**: Sensitive user data is encrypted using hashing to ensure privacy and security.
 - **Caffine Cache**: High-performance caching library to reduce calls to external APIs, improving loading times and app performance.
 
+
+## Screenshots
 <p align="left">
-  <img src="frontend/src/assets/screenshot-home.png" alt="Study Trek Logo" width="200" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-home.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
 </p>
 <p align="left">
-  <img src="frontend/src/assets/screenshot-1.png" alt="Study Trek Logo" width="200" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-1.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
 </p>
 <p align="left">
-  <img src="frontend/src/assets/screenshot-2.png" alt="Study Trek Logo" width="200" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-2.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
 </p>
 <p align="left">
-  <img src="frontend/src/assets/screenshot-3.png" alt="Study Trek Logo" width="200" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-3.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
 </p>
 <p align="left">
-  <img src="frontend/src/assets/screenshot-4.png" alt="Study Trek Logo" width="200" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-4.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
 </p>
 
 ## Usage 
