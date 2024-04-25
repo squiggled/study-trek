@@ -36,19 +36,19 @@ Study Trek is an educational platform designed to help users navigate their lear
 
 ## Screenshots
 <p align="left">
-  <img src="frontend/src/assets/screenshot-home.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-home.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
 </p>
 <p align="left">
-  <img src="frontend/src/assets/screenshot-1.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-1.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
 </p>
 <p align="left">
-  <img src="frontend/src/assets/screenshot-2.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-2.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
 </p>
 <p align="left">
-  <img src="frontend/src/assets/screenshot-3.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-3.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
 </p>
 <p align="left">
-  <img src="frontend/src/assets/screenshot-4.png" alt="Study Trek Logo" width="500" style="vertical-align:middle;">
+  <img src="frontend/src/assets/screenshot-4.png" alt="Study Trek Logo" width="700" style="vertical-align:middle;">
 </p>
 
 ## Usage 
